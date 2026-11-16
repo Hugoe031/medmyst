@@ -1,4 +1,4 @@
-const CACHE = "medmyst-v3";
+const CACHE = "medmyst-v4";
 const ASSETS = [
   "./",
   "./index.html",
@@ -7,7 +7,6 @@ const ASSETS = [
   "./assets/icon-192.png",
   "./assets/icon-512.png",
   "./assets/apple-touch-icon.png",
-  "./assets/splash-logo.png",
   "./src/main.js",
   "./src/data/questions.js",
   "./src/data/wordhunt.js",
@@ -59,3 +58,4 @@ self.addEventListener("fetch", (event) => {
       .catch(() => caches.match(event.request).then((cached) => cached ?? caches.match("./index.html")))
   );
 });
+

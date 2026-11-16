@@ -30,24 +30,32 @@ export function getDailyMissions(seedDate) {
 
 export function updateMissionProgress(profile, type, amount = 1) {
   const today = dayKey(new Date());
-  if (!profile.missions || profile.missions.day !== today) {
-    profile.missions = {
+  let missions = profile.missions;
+  if (!missions || missions.day !== today) {
+    missions = {
       day: today,
       list: getDailyMissions(new Date())
     };
   }
 
   let changed = false;
-  profile.missions.list.forEach(m => {
+  let xpBonus = 0;
+  const list = missions.list.map(m => {
     if (m.type === type && !m.completed) {
-      m.progress = Math.min(m.target, m.progress + amount);
-      if (m.progress >= m.target) {
-        m.completed = true;
-        profile.xp += 50; // Reward for mission completion
-        changed = true;
-      }
+      const progress = Math.min(m.target, m.progress + amount);
+      const completed = progress >= m.target;
+      if (completed !== m.completed || progress !== m.progress) changed = true;
+      if (completed) xpBonus = 50;
+      return { ...m, progress, completed };
     }
+    return m;
   });
 
-  return { profile, changed };
+  const updatedProfile = {
+    ...profile,
+    missions: { ...missions, list },
+    xp: (profile.xp ?? 0) + xpBonus
+  };
+
+  return { profile: updatedProfile, changed, completed: xpBonus > 0 };
 }

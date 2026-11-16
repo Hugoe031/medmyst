@@ -15,6 +15,8 @@ import {
   writeProfile
 } from "../src/core/storage.js";
 import { buildShareText } from "../src/core/share.js";
+import { getDailyMissions, updateMissionProgress } from "../src/core/missions.js";
+import { dayKey } from "../src/core/scheduler.js";
 import { questions } from "../src/data/questions.js";
 
 test("buildPractice is deterministic for a given seed", () => {
@@ -222,6 +224,49 @@ test("readProfile fills in hunt and stats defaults for older saves", () => {
   });
   assert.deepEqual(profile.badges, []);
   assert.deepEqual(profile.mystery, { solved: 0 });
+});
+
+test("getDailyMissions is deterministic and picks 3 unique missions", () => {
+  const missions = getDailyMissions(new Date());
+  assert.equal(missions.length, 3);
+  assert.equal(new Set(missions.map((m) => m.id)).size, 3);
+  missions.forEach((m) => {
+    assert.equal(m.progress, 0);
+    assert.equal(m.completed, false);
+    assert.ok(m.target >= 1);
+    assert.ok(typeof m.label === "string" && m.label.length > 0);
+  });
+  const again = getDailyMissions(new Date());
+  assert.deepEqual(missions, again);
+});
+
+test("updateMissionProgress accumulates and pays 50 XP on completion", () => {
+  const fresh = emptyProfile();
+  const day = dayKey(new Date());
+  const list = getDailyMissions(new Date());
+  const target = list[0];
+  const result = updateMissionProgress({ ...fresh, missions: { day, list } }, target.type, target.target);
+  const updated = result.profile.missions.list.find((m) => m.type === target.type);
+  assert.equal(updated.completed, true);
+  assert.equal(result.completed, true);
+  assert.equal(result.profile.xp, fresh.xp + 50);
+});
+
+test("updateMissionProgress keeps the profile immutable and persists progress", () => {
+  const fresh = emptyProfile();
+  const target = getDailyMissions(new Date())[0];
+  const first = updateMissionProgress(fresh, target.type, 1);
+  assert.notEqual(first.profile, fresh);
+  const saved = first.profile.missions.list.find((m) => m.type === target.type);
+  assert.equal(saved.progress, 1);
+
+  const storage = {
+    getItem: () => JSON.stringify(first.profile),
+    setItem: () => {}
+  };
+  const restored = readProfile(storage);
+  const restoredMission = restored.missions.list.find((m) => m.type === target.type);
+  assert.equal(restoredMission.progress, 1);
 });
 
 

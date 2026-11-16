@@ -1,18 +1,24 @@
 export const REWARDED_PROD_UNIT = "ca-app-pub-9621993493673737/3973696068";
 
+// Google's always-valid test unit. AdMob rejects a production unit ID in a
+// debug build ("Publisher misconfiguration"), which currently breaks every
+// rewarded hint. Use TEST_UNIT in debug builds and switch to
+// REWARDED_PROD_UNIT only after the app is live in the store.
+export const REWARDED_TEST_UNIT = "ca-app-pub-3940256099942544/6300978116";
+
 export async function initializeAdMob() {
   const ads = globalThis.Capacitor?.Plugins?.AdMob;
   if (!ads) return;
 
   try {
     await ads.initialize();
-    
+
     // Request Consent (UMP)
     let consentInfo = await ads.requestConsentInfo();
     if (consentInfo.isConsentFormAvailable && consentInfo.status === "REQUIRED") {
       await ads.showConsentForm();
     }
-    
+
     // iOS Tracking Authorization
     if (typeof ads.trackingAuthorizationStatus === 'function') {
       const trackingInfo = await ads.trackingAuthorizationStatus();
@@ -21,6 +27,7 @@ export async function initializeAdMob() {
       }
     }
   } catch (e) {
+    // Don't crash the app; rewarded hints fall back to the offline placeholder.
     console.error("AdMob Init Failed", e);
   }
 }

@@ -1,6 +1,6 @@
 # Privacy Policy for MedMyst
 
-**Effective Date:** November 16, 2026
+**Effective Date:** November 16, 2026 — last updated for the v1.0 Android release.
 
 MedMyst ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we handle information when you use the MedMyst mobile application.
 
@@ -17,7 +17,10 @@ We use **Google AdMob** to display rewarded advertisements, which allow you to e
 *   You can manage your ad personalization preferences through your device's Google Settings.
 *   For more information, please visit [Google's Privacy & Terms](https://policies.google.com/technologies/ads).
 
-## 3. Children's Privacy
+## 3. App Tracking Transparency (iOS)
+If you use the iOS build, MedMyst asks for permission to track your activity across other companies' apps and websites for advertising purposes. You can decline, and you can change the decision at any time in iOS Settings → Privacy & Security → Tracking.
+
+## 4. Children's Privacy
 MedMyst is intended for educational use by medical students and professionals. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.
 
 ## 4. Data Security

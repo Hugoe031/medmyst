@@ -8,7 +8,11 @@ export function adsAvailable() {
 
 export async function requestRewardedHint() {
   if (hasNativeRewarded()) {
-    return showNativeRewarded();
+    const earned = await showNativeRewarded();
+    if (earned) return true;
+    // AdMob rejected the unit or failed to load an ad - offer the offline
+    // placeholder instead of leaving the hint button stuck at "Loading".
+    return showFallbackAd();
   }
   return showFallbackAd();
 }

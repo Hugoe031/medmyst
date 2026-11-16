@@ -418,7 +418,9 @@ const ui = {
   headAvatar: byId("head-avatar"),
   headName: byId("head-name"),
   currentAvatar: byId("current-avatar"),
-  nicknameInput: byId("nickname-input")
+  nicknameInput: byId("nickname-input"),
+  missionsList: byId("missions-list"),
+  missionsCount: byId("missions-count")
 };
 
 function toast(icon, title, note) {
@@ -490,10 +492,10 @@ function showXpFloat(target, text) {
 
 function trackMission(type, amount = 1) {
   const result = updateMissionProgress(profile, type, amount);
-  if (result.changed) {
+  if (result.completed) {
     toast("✨", "Mission Complete", "+50 XP earned!");
-    commitProfile(result.profile);
   }
+  commitProfile(result.profile);
 }
 
 function commitProfile(next) {
@@ -596,6 +598,39 @@ function celebrateStreak(streak) {
   burst(24);
 }
 
+function todaysMissions() {
+  const template = getDailyMissions(new Date());
+  const saved = profile.missions;
+  if (saved?.day === today && Array.isArray(saved.list) && saved.list.length === template.length) {
+    return saved.list;
+  }
+  return template;
+}
+
+function renderMissions() {
+  if (!ui.missionsList) return;
+  const list = todaysMissions();
+  const completed = list.filter((m) => m.completed).length;
+  if (ui.missionsCount) ui.missionsCount.textContent = `${completed} / ${list.length}`;
+  ui.missionsList.replaceChildren();
+  list.forEach((m) => {
+    const item = document.createElement("li");
+    item.className = `missions-item${m.completed ? " is-done" : ""}`;
+    const check = document.createElement("span");
+    check.className = "mission-check";
+    check.setAttribute("aria-hidden", "true");
+    check.textContent = m.completed ? "✓" : "";
+    const label = document.createElement("span");
+    label.className = "mission-label";
+    label.textContent = m.label;
+    const progress = document.createElement("span");
+    progress.className = "mission-progress";
+    progress.textContent = `${m.progress ?? 0}/${m.target}`;
+    item.append(check, label, progress);
+    ui.missionsList.append(item);
+  });
+}
+
 function renderHome() {
   const dateLabel = now.toLocaleDateString(undefined, {
     weekday: "long",
@@ -640,6 +675,7 @@ function renderHome() {
 
   // Celebrate streak milestones
   celebrateStreak(profile.streak);
+  renderMissions();
   applySettings();
 }
 
@@ -1942,6 +1978,17 @@ if (App) {
         lastBackPress = now;
         toast("👋", "Press back again to exit", "Tap twice to close MedMyst");
       }
+    } else if (activeScreen === 'play') {
+      // Play is mid-round; require a double press instead of silently killing it
+      const now = Date.now();
+      if (now - lastBackPress < 2000) {
+        clearSession(storage);
+        renderHome();
+        showScreen('home');
+      } else {
+        lastBackPress = now;
+        toast("↩️", "Quit this round?", "Press back again to exit the round");
+      }
     } else if (activeScreen === 'hunt') {
       ui.huntQuit.click();
     } else if (activeScreen === 'time-attack') {
@@ -1977,38 +2024,27 @@ setInterval(() => {
   }
 }, 30000);
 
-const SPLASH_MS = 2500;
+const SPLASH_MIN_MS = 400;
+let splashShownAt = performance.now();
 
 function hideSplash() {
   const splash = document.getElementById("splash");
-  const capacitorSplash = window.Capacitor?.Plugins?.SplashScreen;
-
-  // On native, hide the native splash quickly so we can show the un-clipped web version
-  if (window.Capacitor?.isNativePlatform?.()) {
-    setTimeout(() => {
-      if (capacitorSplash) {
-        capacitorSplash.hide().catch(() => {});
-      }
-    }, 400); // Small delay to let web splash render
+  if (!splash) {
+    showLoading(false);
+    return;
   }
 
-  const performHide = () => {
-    if (splash) {
-      splash.classList.add("is-hidden");
-      setTimeout(() => {
-        splash.remove();
-        showLoading(false);
-      }, 450);
-    } else {
+  // Hide as soon as the home screen has painted, but never faster than
+  // SPLASH_MIN_MS so the splash doesn't flash on cold starts.
+  const elapsed = performance.now() - splashShownAt;
+  const delay = Math.max(0, SPLASH_MIN_MS - elapsed);
+  setTimeout(() => {
+    splash.classList.add("is-hidden");
+    setTimeout(() => {
+      splash.remove();
       showLoading(false);
-      // Fallback for native if not hidden yet
-      if (capacitorSplash) {
-        capacitorSplash.hide().catch(() => {});
-      }
-    }
-  };
-
-  setTimeout(performHide, SPLASH_MS);
+    }, 450);
+  }, delay);
 }
 
 hideSplash();
