@@ -16,6 +16,7 @@ import {
 } from "../src/core/storage.js";
 import { buildShareText } from "../src/core/share.js";
 import { getDailyMissions, updateMissionProgress } from "../src/core/missions.js";
+import { isBadgeEarned } from "../src/core/progress.js";
 import { dayKey } from "../src/core/scheduler.js";
 import { questions } from "../src/data/questions.js";
 
@@ -169,6 +170,7 @@ test("recordHunt accumulates experience, hunt totals, and stats", () => {
 
   assert.equal(profile.xp, 130);
   assert.deepEqual(profile.hunt, { rounds: 2, solved: 9, cases: 10, best: 5 });
+  assert.deepEqual(profile.mystery, { solved: 9 });
   assert.equal(profile.stats.rounds, 2);
   assert.equal(profile.stats.perfect, 1);
   assert.equal(profile.stats.flawless, 1);
@@ -185,8 +187,16 @@ test("recordHunt accumulates experience, hunt totals, and stats", () => {
   assert.equal(restored.xp, 130);
   assert.equal(restored.hunt.rounds, 2);
   assert.equal(restored.hunt.best, 5);
+  assert.equal(restored.mystery.solved, 9);
   assert.equal(restored.stats.answered, 10);
   assert.equal(restored.stats.fastestMs, null);
+});
+
+test("word hunts earn the Detective badge", () => {
+  let profile = emptyProfile();
+  assert.equal(isBadgeEarned(profile, "detective"), false);
+  profile = recordHunt(profile, { score: 100, solved: 1, cases: 5 });
+  assert.equal(isBadgeEarned(profile, "detective"), true);
 });
 
 test("recordQuiz awards experience and round stats", () => {

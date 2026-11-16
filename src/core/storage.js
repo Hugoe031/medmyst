@@ -175,6 +175,7 @@ export function recordHunt(profile, { score = 0, solved = 0, cases = 0, flawless
   const hunt = profile.hunt ?? { rounds: 0, solved: 0, cases: 0, best: 0 };
   const stats = profile.stats ?? emptyStats();
   const clean = cases > 0 && solved === cases;
+  const mystery = profile.mystery ?? { solved: 0 };
   
   const xpGained = calculateXp({ mode: "hunt", points: score });
 
@@ -196,6 +197,9 @@ export function recordHunt(profile, { score = 0, solved = 0, cases = 0, flawless
       solved: hunt.solved + solved,
       cases: hunt.cases + cases,
       best: Math.max(hunt.best, solved)
+    },
+    mystery: {
+      solved: (mystery.solved ?? 0) + Math.max(0, solved)
     }
   };
 
