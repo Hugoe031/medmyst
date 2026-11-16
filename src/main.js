@@ -231,6 +231,8 @@ let questionShownAt = 0;
 let fastestThisRound = null;
 let timer = null;
 let lastSpecialty = null;
+let timerEndsAt = 0;     // absolute ms timestamp when the question runs out
+let timerPausedMs = 0;   // ms remaining when the timer was paused
 
 function showScreen(name) {
   if (name === "home") {
@@ -275,8 +277,32 @@ function showScreen(name) {
   }, 280);
 }
 
+function freezeTimerBar() {
+  const computed = window.getComputedStyle(ui.timerBar);
+  const matrix = new (window.DOMMatrix || window.WebKitCSSMatrix)(computed.transform);
+  ui.timerBar.style.transition = "none";
+  ui.timerBar.style.transform = `scaleX(${matrix.a})`;
+}
+
+function tickTimer() {
+  if (timerEndsAt <= 0) return;
+  const remainingMs = timerEndsAt - Date.now();
+  if (remainingMs <= 5000) {
+    ui.timerBar.classList.add("is-low");
+  }
+  if (remainingMs <= 0) {
+    clearInterval(timer);
+    timer = null;
+    timerEndsAt = 0;
+    freezeTimerBar();
+    handleTimeout();
+  }
+}
+
 function startTimer() {
   stopTimer();
+  timerEndsAt = Date.now() + QUESTION_SECONDS * 1000;
+  timerPausedMs = 0;
   ui.timerBar.style.transition = "none";
   ui.timerBar.style.transform = "scaleX(1)";
   ui.timerBar.classList.remove("is-low");
@@ -289,17 +315,7 @@ function startTimer() {
     });
   });
 
-  let remaining = QUESTION_SECONDS;
-  timer = setInterval(() => {
-    remaining--;
-    if (remaining <= 5) {
-      ui.timerBar.classList.add("is-low");
-    }
-    if (remaining <= 0) {
-      stopTimer();
-      handleTimeout();
-    }
-  }, 1000);
+  timer = setInterval(tickTimer, 200);
 }
 
 function stopTimer() {
@@ -307,11 +323,47 @@ function stopTimer() {
     clearInterval(timer);
     timer = null;
   }
-  const computed = window.getComputedStyle(ui.timerBar);
-  const matrix = new (window.DOMMatrix || window.WebKitCSSMatrix)(computed.transform);
-  ui.timerBar.style.transition = "none";
-  ui.timerBar.style.transform = `scaleX(${matrix.a})`;
+  timerEndsAt = 0;
+  timerPausedMs = 0;
+  freezeTimerBar();
 }
+
+function pauseTimer() {
+  if (!timer || timerEndsAt <= 0) {
+    return;
+  }
+  clearInterval(timer);
+  timer = null;
+  timerPausedMs = Math.max(0, timerEndsAt - Date.now());
+  freezeTimerBar();
+}
+
+function resumeTimer() {
+  if (timerPausedMs <= 0 || timer) {
+    return;
+  }
+  const remaining = Math.max(0, timerPausedMs);
+  timerEndsAt = Date.now() + remaining;
+  timerPausedMs = 0;
+  freezeTimerBar(); // re-bases the bar at the frozen position
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      ui.timerBar.style.transition = `transform ${remaining}ms linear`;
+      ui.timerBar.style.transform = "scaleX(0)";
+    });
+  });
+  timer = setInterval(tickTimer, 200);
+}
+
+function handleVisibilityChange() {
+  if (document.hidden) {
+    pauseTimer();
+  } else {
+    resumeTimer();
+  }
+}
+
+document.addEventListener("visibilitychange", handleVisibilityChange);
 
 const byId = (id) => document.getElementById(id);
 
@@ -1967,6 +2019,14 @@ try {
 
 let lastBackPress = 0;
 if (App) {
+  App.addListener('appStateChange', ({ isActive }) => {
+    // Pausing freezes the question timer so background time never burns a heart
+    if (isActive) {
+      resumeTimer();
+    } else {
+      pauseTimer();
+    }
+  });
   App.addListener('backButton', () => {
     const activeScreen = screens.find(s => !byId(`screen-${s}`).hidden);
     
