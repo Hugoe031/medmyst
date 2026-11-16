@@ -11,3 +11,6 @@ android/*.keystore
 *.log
 .DS_Store
 Thumbs.db
+
+# AI editor share artifacts
+.trae-html-share-packages/

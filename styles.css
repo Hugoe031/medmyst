@@ -183,6 +183,17 @@ body {
   }
 }
 
+/* Pause ambient orb motion while the app/tab is hidden (saves battery + GPU) */
+body.is-hidden .orb {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none;
+  }
+}
+
 .app {
   position: relative;
   z-index: 1;

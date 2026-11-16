@@ -1,4 +1,4 @@
-const CACHE = "medmyst-v4";
+const CACHE = "medmyst-v5";
 const ASSETS = [
   "./",
   "./index.html",
@@ -58,4 +58,5 @@ self.addEventListener("fetch", (event) => {
       .catch(() => caches.match(event.request).then((cached) => cached ?? caches.match("./index.html")))
   );
 });
+
 

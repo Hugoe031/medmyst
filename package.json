@@ -13,8 +13,8 @@
         "check": "node scripts/validate-deck.mjs && node scripts/build-wordhunt.mjs --check && node --test",
         "build:web": "node scripts/build-web.mjs",
         "android:sync": "node scripts/build-web.mjs && npx cap sync android",
-        "android:apk": "node scripts/build-web.mjs && npx cap sync android && cd android && .\\gradlew.bat assembleDebug",
-        "android:release": "node scripts/build-web.mjs && npx cap sync android && cd android && .\\gradlew.bat bundleRelease",
+        "android:apk": "node scripts/build-android.mjs debug",
+        "android:release": "node scripts/build-android.mjs release",
         "build:wordhunt": "node scripts/build-wordhunt.mjs"
     },
     "devDependencies": {
@@ -28,3 +28,5 @@
         "@capacitor/haptics": "^7.0.5"
     }
 }
+
+

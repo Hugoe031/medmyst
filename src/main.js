@@ -356,6 +356,7 @@ function resumeTimer() {
 }
 
 function handleVisibilityChange() {
+  document.body.classList.toggle("is-hidden", document.hidden);
   if (document.hidden) {
     pauseTimer();
   } else {
@@ -2021,6 +2022,7 @@ let lastBackPress = 0;
 if (App) {
   App.addListener('appStateChange', ({ isActive }) => {
     // Pausing freezes the question timer so background time never burns a heart
+    document.body.classList.toggle("is-hidden", !isActive);
     if (isActive) {
       resumeTimer();
     } else {
