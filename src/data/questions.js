@@ -7,8 +7,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which blood vessel carries oxygenated blood from the lungs to the left atrium?",
     "options": [
-      "Pulmonary artery",
       "Pulmonary vein",
+      "Pulmonary artery",
       "Superior vena cava",
       "Aorta"
     ],
@@ -21,8 +21,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which valve separates the left atrium from the left ventricle?",
     "options": [
-      "Mitral (bicuspid) valve",
       "Tricuspid valve",
+      "Mitral (bicuspid) valve",
       "Aortic valve",
       "Pulmonary valve"
     ],
@@ -35,9 +35,9 @@ export const questions = [
     "difficulty": 1,
     "question": "Which nerve supplies the diaphragm?",
     "options": [
-      "Phrenic nerve",
-      "Vagus nerve",
       "Sciatic nerve",
+      "Vagus nerve",
+      "Phrenic nerve",
       "Trigeminal nerve"
     ],
     "answer": "Phrenic nerve",
@@ -50,9 +50,9 @@ export const questions = [
     "question": "Where does most nutrient absorption take place?",
     "options": [
       "Duodenum",
-      "Jejunum",
+      "Stomach",
       "Ileum",
-      "Stomach"
+      "Jejunum"
     ],
     "answer": "Jejunum",
     "explanation": "The jejunum absorbs the majority of nutrients. The ileum specializes in vitamin B12 and bile salt reabsorption."
@@ -77,8 +77,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which pancreatic cells produce insulin?",
     "options": [
-      "Beta cells",
       "Alpha cells",
+      "Beta cells",
       "Acinar cells",
       "Delta cells"
     ],
@@ -91,9 +91,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which brain structure regulates body temperature?",
     "options": [
-      "Hypothalamus",
-      "Cerebellum",
       "Medulla oblongata",
+      "Cerebellum",
+      "Hypothalamus",
       "Pons"
     ],
     "answer": "Hypothalamus",
@@ -105,10 +105,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which immunoglobulin crosses the placenta?",
     "options": [
-      "IgG",
+      "IgE",
       "IgA",
       "IgM",
-      "IgE"
+      "IgG"
     ],
     "answer": "IgG",
     "explanation": "IgG crosses the placenta and gives the newborn passive immunity. IgM is too large to cross."
@@ -133,8 +133,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which structure filters blood in the kidney?",
     "options": [
-      "Glomerulus",
       "Loop of Henle",
+      "Glomerulus",
       "Collecting duct",
       "Ureter"
     ],
@@ -147,9 +147,9 @@ export const questions = [
     "difficulty": 1,
     "question": "What does the suffix -ectomy mean?",
     "options": [
-      "Surgical removal",
-      "Inflammation",
       "Enlargement",
+      "Inflammation",
+      "Surgical removal",
       "Surgical incision"
     ],
     "answer": "Surgical removal",
@@ -161,10 +161,10 @@ export const questions = [
     "difficulty": 1,
     "question": "What does the prefix tachy- mean?",
     "options": [
-      "Fast",
+      "Absent",
       "Slow",
       "Normal",
-      "Absent"
+      "Fast"
     ],
     "answer": "Fast",
     "explanation": "Tachy- means fast, as in tachycardia. Brady- is its opposite."
@@ -189,8 +189,8 @@ export const questions = [
     "difficulty": 1,
     "question": "What does the suffix -itis mean?",
     "options": [
-      "Inflammation",
       "Tumor",
+      "Inflammation",
       "Pain",
       "Bleeding"
     ],
@@ -203,9 +203,9 @@ export const questions = [
     "difficulty": 2,
     "question": "The combining form hepat- refers to which organ?",
     "options": [
-      "Liver",
-      "Kidney",
       "Spleen",
+      "Kidney",
+      "Liver",
       "Lung"
     ],
     "answer": "Liver",
@@ -217,10 +217,10 @@ export const questions = [
     "difficulty": 2,
     "question": "The combining form nephr- refers to which organ?",
     "options": [
-      "Kidney",
+      "Ureter",
       "Liver",
       "Bladder",
-      "Ureter"
+      "Kidney"
     ],
     "answer": "Kidney",
     "explanation": "Nephr- refers to the kidney. The nephron is the kidney's functional unit."
@@ -245,8 +245,8 @@ export const questions = [
     "difficulty": 2,
     "question": "What does cyanosis describe?",
     "options": [
-      "Bluish discoloration from poor oxygenation",
       "Yellowing of the skin",
+      "Bluish discoloration from poor oxygenation",
       "Redness from inflammation",
       "Bruising after trauma"
     ],
@@ -259,9 +259,9 @@ export const questions = [
     "difficulty": 1,
     "question": "What does the suffix -pnea refer to?",
     "options": [
-      "Breathing",
-      "Pain",
       "Eating",
+      "Pain",
+      "Breathing",
       "Blood"
     ],
     "answer": "Breathing",
@@ -273,10 +273,10 @@ export const questions = [
     "difficulty": 1,
     "question": "What does the prefix hyper- mean?",
     "options": [
-      "Above normal or excessive",
+      "Absent",
       "Below normal",
       "Rapid",
-      "Absent"
+      "Above normal or excessive"
     ],
     "answer": "Above normal or excessive",
     "explanation": "Hyper- means above normal or excessive, as in hyperglycemia. Hypo- means below normal."
@@ -301,8 +301,8 @@ export const questions = [
     "difficulty": 1,
     "question": "What is the normal adult respiratory rate at rest?",
     "options": [
-      "12 to 20 breaths per minute",
       "6 to 10 breaths per minute",
+      "12 to 20 breaths per minute",
       "20 to 28 breaths per minute",
       "24 to 32 breaths per minute"
     ],
@@ -315,9 +315,9 @@ export const questions = [
     "difficulty": 1,
     "question": "What SpO2 range is expected for a healthy adult on room air?",
     "options": [
-      "95% to 100%",
-      "85% to 90%",
       "90% to 94%",
+      "85% to 90%",
+      "95% to 100%",
       "Exactly 100%"
     ],
     "answer": "95% to 100%",
@@ -329,10 +329,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which adult temperature is within the normal oral range?",
     "options": [
-      "37.0 °C (98.6 °F)",
+      "40.0 °C (104.0 °F)",
       "39.0 °C (102.2 °F)",
       "35.0 °C (95.0 °F)",
-      "40.0 °C (104.0 °F)"
+      "37.0 °C (98.6 °F)"
     ],
     "answer": "37.0 °C (98.6 °F)",
     "explanation": "Normal oral temperature is roughly 36.5 to 37.5 °C. 39 °C is fever and 35 °C is hypothermia."
@@ -357,8 +357,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which pulse site is used most often for routine adult assessment?",
     "options": [
-      "Radial",
       "Carotid",
+      "Radial",
       "Popliteal",
       "Dorsalis pedis"
     ],
@@ -371,9 +371,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Orthostatic hypotension is a drop of at least what amount within 3 minutes of standing?",
     "options": [
-      "20 mmHg systolic or 10 mmHg diastolic",
-      "10 mmHg systolic or 5 mmHg diastolic",
       "30 mmHg systolic or 15 mmHg diastolic",
+      "10 mmHg systolic or 5 mmHg diastolic",
+      "20 mmHg systolic or 10 mmHg diastolic",
       "5 mmHg systolic or 5 mmHg diastolic"
     ],
     "answer": "20 mmHg systolic or 10 mmHg diastolic",
@@ -385,10 +385,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding is an early sign of hypovolemic shock?",
     "options": [
-      "Tachycardia",
+      "Widened pulse pressure",
       "Bradycardia",
       "Hypertension",
-      "Widened pulse pressure"
+      "Tachycardia"
     ],
     "answer": "Tachycardia",
     "explanation": "Compensatory tachycardia appears early. Hypotension is a late and ominous sign because it means compensation has failed."
@@ -413,8 +413,8 @@ export const questions = [
     "difficulty": 1,
     "question": "A patient's temperature is 38.6 °C (101.5 °F). How is this classified?",
     "options": [
-      "Febrile",
       "Hypothermic",
+      "Febrile",
       "Normal",
       "Afebrile"
     ],
@@ -427,9 +427,9 @@ export const questions = [
     "difficulty": 1,
     "question": "Which route generally produces the fastest onset of action?",
     "options": [
-      "Intravenous",
-      "Oral",
       "Subcutaneous",
+      "Oral",
+      "Intravenous",
       "Topical"
     ],
     "answer": "Intravenous",
@@ -441,10 +441,10 @@ export const questions = [
     "difficulty": 2,
     "question": "The first-pass effect reduces the bioavailability of drugs given by which route?",
     "options": [
-      "Oral",
+      "Intramuscular",
       "Intravenous",
       "Sublingual",
-      "Intramuscular"
+      "Oral"
     ],
     "answer": "Oral",
     "explanation": "Orally absorbed drugs pass through the gut wall and liver before reaching systemic circulation. Sublingual and IV routes bypass this."
@@ -469,8 +469,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which suffix identifies a beta blocker?",
     "options": [
-      "-olol",
       "-pril",
+      "-olol",
       "-azepam",
       "-mycin"
     ],
@@ -483,9 +483,9 @@ export const questions = [
     "difficulty": 1,
     "question": "Which suffix identifies an HMG-CoA reductase inhibitor?",
     "options": [
-      "-statin",
-      "-dipine",
       "-prazole",
+      "-dipine",
+      "-statin",
       "-conazole"
     ],
     "answer": "-statin",
@@ -497,10 +497,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which antibiotic class is known for nephrotoxicity and ototoxicity?",
     "options": [
-      "Aminoglycosides",
+      "Sulfonamides",
       "Macrolides",
       "Penicillins",
-      "Sulfonamides"
+      "Aminoglycosides"
     ],
     "answer": "Aminoglycosides",
     "explanation": "Aminoglycosides such as gentamicin and tobramycin can damage the kidney and the eighth cranial nerve, so levels and renal function are monitored."
@@ -525,8 +525,8 @@ export const questions = [
     "difficulty": 1,
     "question": "What is the antidote for opioid overdose?",
     "options": [
-      "Naloxone",
       "Flumazenil",
+      "Naloxone",
       "Atropine",
       "Glucagon"
     ],
@@ -539,9 +539,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which medication reverses heparin?",
     "options": [
-      "Protamine sulfate",
-      "Vitamin K",
       "Naloxone",
+      "Vitamin K",
+      "Protamine sulfate",
       "Calcium gluconate"
     ],
     "answer": "Protamine sulfate",
@@ -553,10 +553,10 @@ export const questions = [
     "difficulty": 2,
     "question": "What is the antidote for acetaminophen overdose?",
     "options": [
-      "N-acetylcysteine",
+      "Sodium bicarbonate",
       "Naloxone",
       "Flumazenil",
-      "Sodium bicarbonate"
+      "N-acetylcysteine"
     ],
     "answer": "N-acetylcysteine",
     "explanation": "N-acetylcysteine replenishes glutathione and is most effective when started within about 8 to 10 hours of ingestion."
@@ -581,8 +581,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which of these is one of the traditional Five Rights of medication administration?",
     "options": [
-      "Right patient",
       "Right diagnosis",
+      "Right patient",
       "Right insurance",
       "Right pharmacy"
     ],
@@ -595,9 +595,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which visual disturbance is classically linked to digoxin toxicity?",
     "options": [
-      "Yellow-green halos around lights",
-      "Blue tinted vision",
       "Loss of peripheral vision",
+      "Blue tinted vision",
+      "Yellow-green halos around lights",
       "Total loss of color vision"
     ],
     "answer": "Yellow-green halos around lights",
@@ -609,10 +609,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which insulin is rapid acting?",
     "options": [
-      "Insulin lispro",
+      "Regular insulin",
       "Insulin glargine",
       "NPH insulin",
-      "Regular insulin"
+      "Insulin lispro"
     ],
     "answer": "Insulin lispro",
     "explanation": "Lispro, aspart, and glulisine are rapid acting and given with meals. Glargine is long acting and NPH is intermediate."
@@ -637,8 +637,8 @@ export const questions = [
     "difficulty": 3,
     "question": "Which monitoring is essential after starting an ACE inhibitor?",
     "options": [
-      "Serum potassium and creatinine",
       "INR",
+      "Serum potassium and creatinine",
       "Platelet count",
       "Thyroid function"
     ],
@@ -651,9 +651,9 @@ export const questions = [
     "difficulty": 1,
     "question": "What is the single most effective way to prevent healthcare-associated infection?",
     "options": [
-      "Hand hygiene",
-      "Wearing gloves at all times",
       "Antibiotic prophylaxis",
+      "Wearing gloves at all times",
+      "Hand hygiene",
       "Isolating every patient"
     ],
     "answer": "Hand hygiene",
@@ -665,10 +665,10 @@ export const questions = [
     "difficulty": 1,
     "question": "Which piece of PPE is removed first when doffing?",
     "options": [
-      "Gloves",
+      "Goggles",
       "Mask",
       "Gown",
-      "Goggles"
+      "Gloves"
     ],
     "answer": "Gloves",
     "explanation": "Gloves are the most contaminated item and come off first. The mask or respirator is removed last, after leaving the room."
@@ -693,8 +693,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which precautions apply to a patient with Clostridioides difficile infection?",
     "options": [
-      "Contact, with soap and water handwashing",
       "Airborne",
+      "Contact, with soap and water handwashing",
       "Droplet",
       "Standard only"
     ],
@@ -707,9 +707,9 @@ export const questions = [
     "difficulty": 1,
     "question": "Standard precautions should be used for which patients?",
     "options": [
-      "All patients",
-      "Only patients with a known infection",
       "Only postoperative patients",
+      "Only patients with a known infection",
+      "All patients",
       "Only patients with a fever"
     ],
     "answer": "All patients",
@@ -721,10 +721,10 @@ export const questions = [
     "difficulty": 2,
     "question": "What is the first step after a needlestick injury?",
     "options": [
-      "Wash the site with soap and water, then report it immediately",
+      "Scrub the wound with bleach",
       "Apply a tight tourniquet above the site",
       "Cover it and wait for symptoms",
-      "Scrub the wound with bleach"
+      "Wash the site with soap and water, then report it immediately"
     ],
     "answer": "Wash the site with soap and water, then report it immediately",
     "explanation": "Wash with soap and water, then report at once so source testing and post-exposure prophylaxis can be evaluated quickly."
@@ -749,8 +749,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which sodium level is within the normal adult range?",
     "options": [
-      "140 mEq/L",
       "120 mEq/L",
+      "140 mEq/L",
       "155 mEq/L",
       "165 mEq/L"
     ],
@@ -763,9 +763,9 @@ export const questions = [
     "difficulty": 1,
     "question": "What is the normal arterial blood pH range?",
     "options": [
-      "7.35 to 7.45",
-      "7.25 to 7.35",
       "7.45 to 7.55",
+      "7.25 to 7.35",
+      "7.35 to 7.45",
       "7.00 to 7.20"
     ],
     "answer": "7.35 to 7.45",
@@ -777,10 +777,10 @@ export const questions = [
     "difficulty": 2,
     "question": "What is the usual therapeutic INR range for patients on warfarin?",
     "options": [
-      "2.0 to 3.0",
+      "1.0 to 1.5",
       "0.8 to 1.2",
       "4.0 to 5.0",
-      "1.0 to 1.5"
+      "2.0 to 3.0"
     ],
     "answer": "2.0 to 3.0",
     "explanation": "Most warfarin indications target an INR of 2.0 to 3.0. Some mechanical valves target 2.5 to 3.5."
@@ -805,8 +805,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which hemoglobin value is within the normal range for an adult male?",
     "options": [
-      "15 g/dL",
       "9 g/dL",
+      "15 g/dL",
       "11 g/dL",
       "19 g/dL"
     ],
@@ -819,9 +819,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which creatinine value is above the typical adult reference range?",
     "options": [
-      "1.8 mg/dL",
-      "0.9 mg/dL",
       "0.6 mg/dL",
+      "0.9 mg/dL",
+      "1.8 mg/dL",
       "1.1 mg/dL"
     ],
     "answer": "1.8 mg/dL",
@@ -833,10 +833,10 @@ export const questions = [
     "difficulty": 3,
     "question": "An arterial blood gas shows pH 7.28 and PaCO2 55 mmHg. Which imbalance is this?",
     "options": [
-      "Respiratory acidosis",
+      "Metabolic alkalosis",
       "Respiratory alkalosis",
       "Metabolic acidosis",
-      "Metabolic alkalosis"
+      "Respiratory acidosis"
     ],
     "answer": "Respiratory acidosis",
     "explanation": "Low pH with a high carbon dioxide level means hypoventilation, which is respiratory acidosis."
@@ -861,8 +861,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which action best reduces fall risk for an older adult?",
     "options": [
-      "Keep the bed low and locked with the call light in reach",
       "Apply restraints routinely",
+      "Keep the bed low and locked with the call light in reach",
       "Keep the room dark at night",
       "Encourage unassisted ambulation without aid"
     ],
@@ -875,9 +875,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which of these is considered a never event?",
     "options": [
-      "Surgery on the wrong site",
-      "Postoperative nausea",
       "A stage 2 pressure injury",
+      "Postoperative nausea",
+      "Surgery on the wrong site",
       "A catheter associated urinary infection"
     ],
     "answer": "Surgery on the wrong site",
@@ -889,10 +889,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which heart chamber pumps blood into the systemic circulation?",
     "options": [
-      "Left ventricle",
+      "Right atrium",
       "Right ventricle",
       "Left atrium",
-      "Right atrium"
+      "Left ventricle"
     ],
     "answer": "Left ventricle",
     "explanation": "The left ventricle has the thickest wall and ejects blood into the aorta to drive systemic circulation. The right ventricle pumps to the lungs."
@@ -917,8 +917,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which part of the nephron reabsorbs water under the control of ADH?",
     "options": [
-      "Collecting duct",
       "Glomerulus",
+      "Collecting duct",
       "Proximal convoluted tubule",
       "Bowman's capsule"
     ],
@@ -931,9 +931,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which cranial nerve provides most parasympathetic supply to the thoracic and abdominal organs?",
     "options": [
-      "Vagus nerve (CN X)",
-      "Trigeminal nerve (CN V)",
       "Facial nerve (CN VII)",
+      "Trigeminal nerve (CN V)",
+      "Vagus nerve (CN X)",
       "Hypoglossal nerve (CN XII)"
     ],
     "answer": "Vagus nerve (CN X)",
@@ -945,10 +945,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which blood cells release histamine during an allergic response?",
     "options": [
-      "Basophils",
+      "Platelets",
       "Neutrophils",
       "Erythrocytes",
-      "Platelets"
+      "Basophils"
     ],
     "answer": "Basophils",
     "explanation": "Basophils and mast cells release histamine and other mediators, producing vasodilation, itching, and bronchoconstriction."
@@ -973,8 +973,8 @@ export const questions = [
     "difficulty": 2,
     "question": "A patient with an anterior myocardial infarction develops crackles, dyspnea, and an S3 gallop. Which complication is most likely?",
     "options": [
-      "Heart failure",
       "Pericarditis",
+      "Heart failure",
       "Aortic dissection",
       "Pneumothorax"
     ],
@@ -987,9 +987,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding is characteristic of a tension pneumothorax?",
     "options": [
-      "Tracheal deviation away from the affected side",
-      "Tracheal deviation toward the affected side",
       "Bilateral equal breath sounds",
+      "Tracheal deviation toward the affected side",
+      "Tracheal deviation away from the affected side",
       "Isolated bradycardia"
     ],
     "answer": "Tracheal deviation away from the affected side",
@@ -1001,10 +1001,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which laboratory finding is most specific for acute pancreatitis?",
     "options": [
-      "Elevated lipase",
+      "Elevated alkaline phosphatase",
       "Elevated troponin",
       "Elevated BNP",
-      "Elevated alkaline phosphatase"
+      "Elevated lipase"
     ],
     "answer": "Elevated lipase",
     "explanation": "Lipase rises within hours of pancreatitis onset and stays elevated longer than amylase, making it more specific."
@@ -1029,8 +1029,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which assessment finding is the earliest sign of compartment syndrome?",
     "options": [
-      "Pain that worsens with passive stretch",
       "Warm pink toes with strong pulses",
+      "Pain that worsens with passive stretch",
       "Pain relieved by elevation",
       "Gradual loss of fine touch only"
     ],
@@ -1043,9 +1043,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which finding is the earliest indicator of increased intracranial pressure?",
     "options": [
-      "A declining level of consciousness",
-      "Widening pulse pressure",
       "Fixed dilated pupils",
+      "Widening pulse pressure",
+      "A declining level of consciousness",
       "Decerebrate posturing"
     ],
     "answer": "A declining level of consciousness",
@@ -1057,10 +1057,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which type of shock results from massive histamine release and widespread vasodilation?",
     "options": [
-      "Anaphylactic shock",
+      "Obstructive shock",
       "Cardiogenic shock",
       "Hypovolemic shock",
-      "Obstructive shock"
+      "Anaphylactic shock"
     ],
     "answer": "Anaphylactic shock",
     "explanation": "Anaphylaxis causes vasodilation and capillary leak, producing distributive shock with hypotension and airway swelling."
@@ -1085,8 +1085,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which position best supports breathing for a patient with severe orthopnea from heart failure?",
     "options": [
-      "High Fowler's position",
       "Trendelenburg position",
+      "High Fowler's position",
       "Prone position",
       "Supine with legs flat"
     ],
@@ -1099,9 +1099,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Continuous bubbling in the water-seal chamber of a chest tube system indicates what?",
     "options": [
-      "An air leak in the system",
-      "Normal tidaling with breathing",
       "That the lung has fully re-expanded",
+      "Normal tidaling with breathing",
+      "An air leak in the system",
       "That the tube should be clamped"
     ],
     "answer": "An air leak in the system",
@@ -1113,10 +1113,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which cluster of findings suggests hypoglycemia in an adult?",
     "options": [
-      "Sweating, tremor, and confusion",
+      "Bradycardia with hypertension",
       "Flushed dry skin with deep rapid breathing",
       "Polyuria with excessive thirst",
-      "Bradycardia with hypertension"
+      "Sweating, tremor, and confusion"
     ],
     "answer": "Sweating, tremor, and confusion",
     "explanation": "Adrenergic symptoms such as sweating and tremor appear early, followed by neuroglycopenia with confusion. Deep rapid breathing with dry skin suggests DKA."
@@ -1141,8 +1141,8 @@ export const questions = [
     "difficulty": 3,
     "question": "Which ECG change is most characteristic of hyperkalemia?",
     "options": [
-      "Tall, peaked T waves",
       "Prominent U waves",
+      "Tall, peaked T waves",
       "Prolonged QT interval",
       "Atrial fibrillation with a slow ventricular response"
     ],
@@ -1155,9 +1155,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which patient is at highest risk for a pressure injury?",
     "options": [
-      "A malnourished patient who is immobile",
-      "An ambulatory patient with a low fever",
       "A patient with a cast on one forearm",
+      "An ambulatory patient with a low fever",
+      "A malnourished patient who is immobile",
       "A dehydrated patient who walks daily"
     ],
     "answer": "A malnourished patient who is immobile",
@@ -1169,10 +1169,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which adverse effect is most closely associated with furosemide?",
     "options": [
-      "Hypokalemia",
+      "Hypercalcemia",
       "Hyperkalemia",
       "Hypernatremia",
-      "Hypercalcemia"
+      "Hypokalemia"
     ],
     "answer": "Hypokalemia",
     "explanation": "Loop diuretics increase potassium excretion. Potassium is monitored and dysrhythmias are a key concern."
@@ -1197,8 +1197,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which value should be monitored for a patient taking metformin because of a rare but serious adverse effect?",
     "options": [
-      "Renal function",
       "INR",
+      "Renal function",
       "Thyroid stimulating hormone",
       "Serum amylase"
     ],
@@ -1211,9 +1211,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which side effect is expected with opioid analgesics?",
     "options": [
-      "Constipation",
-      "Diarrhea",
       "Hypertension",
+      "Diarrhea",
+      "Constipation",
       "Tachycardia"
     ],
     "answer": "Constipation",
@@ -1225,10 +1225,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which instruction is correct for a patient taking sublingual nitroglycerin?",
     "options": [
-      "Place it under the tongue and sit down before taking it",
+      "Take it only with a meal",
       "Swallow it whole with water",
       "Chew it and then swallow",
-      "Take it only with a meal"
+      "Place it under the tongue and sit down before taking it"
     ],
     "answer": "Place it under the tongue and sit down before taking it",
     "explanation": "Sublingual absorption avoids first-pass metabolism. Sitting prevents hypotension and falls after vasodilation."
@@ -1253,8 +1253,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which medication is typically held when the apical pulse is 48 beats per minute?",
     "options": [
-      "Digoxin",
       "Acetaminophen",
+      "Digoxin",
       "Ondansetron",
       "Levothyroxine"
     ],
@@ -1267,9 +1267,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which medication can cause a disulfiram-like reaction when combined with alcohol?",
     "options": [
-      "Metronidazole",
-      "Amoxicillin",
       "Lisinopril",
+      "Amoxicillin",
+      "Metronidazole",
       "Atorvastatin"
     ],
     "answer": "Metronidazole",
@@ -1281,10 +1281,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which medication reverses benzodiazepine sedation?",
     "options": [
-      "Flumazenil",
+      "Protamine sulfate",
       "Naloxone",
       "Atropine",
-      "Protamine sulfate"
+      "Flumazenil"
     ],
     "answer": "Flumazenil",
     "explanation": "Flumazenil antagonizes benzodiazepine receptors. It is used cautiously because it can precipitate seizures in dependent patients."
@@ -1309,8 +1309,8 @@ export const questions = [
     "difficulty": 2,
     "question": "What is the normal baseline fetal heart rate in late pregnancy?",
     "options": [
-      "110 to 160 beats per minute",
       "60 to 90 beats per minute",
+      "110 to 160 beats per minute",
       "90 to 110 beats per minute",
       "170 to 200 beats per minute"
     ],
@@ -1323,9 +1323,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding is characteristic of preeclampsia?",
     "options": [
-      "New hypertension with proteinuria after 20 weeks",
-      "Hypotension with glycosuria",
       "Hyperglycemia with ketonuria",
+      "Hypotension with glycosuria",
+      "New hypertension with proteinuria after 20 weeks",
       "Bradycardia with peripheral edema"
     ],
     "answer": "New hypertension with proteinuria after 20 weeks",
@@ -1337,10 +1337,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which medication is given to prevent seizures in severe preeclampsia?",
     "options": [
-      "Magnesium sulfate",
+      "Betamethasone",
       "Oxytocin",
       "Terbutaline",
-      "Betamethasone"
+      "Magnesium sulfate"
     ],
     "answer": "Magnesium sulfate",
     "explanation": "Magnesium sulfate prevents and treats eclamptic seizures. Reflexes, respiratory rate, and urine output are monitored for toxicity."
@@ -1365,8 +1365,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding suggests placenta previa rather than placental abruption?",
     "options": [
-      "Painless bright red vaginal bleeding",
       "Painful dark bleeding with a rigid uterus",
+      "Painless bright red vaginal bleeding",
       "Uterine tenderness with fetal distress",
       "A board-like abdomen"
     ],
@@ -1379,9 +1379,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which action is the priority immediately after birth to prevent postpartum hemorrhage?",
     "options": [
-      "Massage the fundus and give oxytocin as ordered",
-      "Encourage early ambulation",
       "Restrict oral fluids",
+      "Encourage early ambulation",
+      "Massage the fundus and give oxytocin as ordered",
       "Place the patient in Trendelenburg position"
     ],
     "answer": "Massage the fundus and give oxytocin as ordered",
@@ -1393,10 +1393,10 @@ export const questions = [
     "difficulty": 2,
     "question": "A patient at 34 weeks reports a gush of clear fluid. Which action is appropriate?",
     "options": [
-      "Assess for cord prolapse and notify the provider",
+      "Tell her to wait for contractions",
       "Perform a sterile vaginal exam immediately",
       "Advise her to return in 24 hours",
-      "Tell her to wait for contractions"
+      "Assess for cord prolapse and notify the provider"
     ],
     "answer": "Assess for cord prolapse and notify the provider",
     "explanation": "Rupture of membranes risks cord prolapse and infection. Digital exams are avoided until the presenting part is known."
@@ -1421,8 +1421,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding indicates true labor rather than false labor?",
     "options": [
-      "Progressive cervical dilation with regular contractions",
       "Irregular contractions relieved by walking",
+      "Progressive cervical dilation with regular contractions",
       "Contractions that stop after hydration",
       "Constant back pain without cervical change"
     ],
@@ -1435,9 +1435,9 @@ export const questions = [
     "difficulty": 3,
     "question": "A postpartum patient develops sudden dyspnea, chest pain, and tachycardia. Which condition is most likely?",
     "options": [
-      "Pulmonary embolism",
-      "Postpartum endometritis",
       "Mastitis",
+      "Postpartum endometritis",
+      "Pulmonary embolism",
       "Retained placenta"
     ],
     "answer": "Pulmonary embolism",
@@ -1449,10 +1449,10 @@ export const questions = [
     "difficulty": 1,
     "question": "What is the normal resting heart rate for a healthy infant?",
     "options": [
-      "100 to 160 beats per minute",
+      "180 to 220 beats per minute",
       "60 to 100 beats per minute",
       "40 to 60 beats per minute",
-      "180 to 220 beats per minute"
+      "100 to 160 beats per minute"
     ],
     "answer": "100 to 160 beats per minute",
     "explanation": "Infants normally have faster heart rates than adults. Normal ranges narrow with age as the cardiovascular system matures."
@@ -1477,8 +1477,8 @@ export const questions = [
     "difficulty": 2,
     "question": "At what age does an infant typically double their birth weight?",
     "options": [
-      "5 to 6 months",
       "2 months",
+      "5 to 6 months",
       "12 months",
       "18 months"
     ],
@@ -1491,9 +1491,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which vaccine is typically given shortly after birth?",
     "options": [
-      "Hepatitis B",
-      "Measles, mumps, and rubella",
       "Varicella",
+      "Measles, mumps, and rubella",
+      "Hepatitis B",
       "Tetanus, diphtheria, and pertussis"
     ],
     "answer": "Hepatitis B",
@@ -1505,10 +1505,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding indicates severe dehydration in a child?",
     "options": [
-      "Capillary refill longer than 3 seconds",
+      "Steady weight gain",
       "Moist mucous membranes",
       "Brisk capillary refill",
-      "Steady weight gain"
+      "Capillary refill longer than 3 seconds"
     ],
     "answer": "Capillary refill longer than 3 seconds",
     "explanation": "Prolonged capillary refill, sunken eyes, absent tears, and lethargy suggest severe dehydration needing urgent fluids."
@@ -1533,8 +1533,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding is characteristic of intussusception in a toddler?",
     "options": [
-      "Intermittent colicky pain with currant-jelly stool",
       "Painless rectal bleeding with a hard mass",
+      "Intermittent colicky pain with currant-jelly stool",
       "Projectile vomiting after every feeding",
       "Bilious vomiting with a scaphoid abdomen"
     ],
@@ -1547,9 +1547,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which action is correct during a febrile seizure in a child?",
     "options": [
-      "Place the child on the side and do not restrain the limbs",
-      "Hold the limbs firmly to stop the shaking",
       "Place a spoon between the teeth",
+      "Hold the limbs firmly to stop the shaking",
+      "Place the child on the side and do not restrain the limbs",
       "Immerse the child in ice water"
     ],
     "answer": "Place the child on the side and do not restrain the limbs",
@@ -1561,10 +1561,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which rehydration approach is recommended for mild dehydration in a child?",
     "options": [
-      "Frequent small amounts of oral rehydration solution",
+      "Only sports drinks",
       "Large volumes of plain water",
       "Withholding all fluids for 24 hours",
-      "Only sports drinks"
+      "Frequent small amounts of oral rehydration solution"
     ],
     "answer": "Frequent small amounts of oral rehydration solution",
     "explanation": "Oral rehydration solution replaces water and electrolytes. Small frequent amounts are better tolerated than large boluses."
@@ -1589,8 +1589,8 @@ export const questions = [
     "difficulty": 3,
     "question": "Which congenital heart defect causes cyanosis from right-to-left shunting?",
     "options": [
-      "Tetralogy of Fallot",
       "Ventricular septal defect",
+      "Tetralogy of Fallot",
       "Patent ductus arteriosus",
       "Coarctation of the aorta"
     ],
@@ -1603,9 +1603,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which position supports breathing in an infant with severe respiratory distress?",
     "options": [
-      "Upright and supported in a position of comfort",
-      "Flat supine",
       "Prone while unattended",
+      "Flat supine",
+      "Upright and supported in a position of comfort",
       "Trendelenburg"
     ],
     "answer": "Upright and supported in a position of comfort",
@@ -1617,10 +1617,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding is a positive symptom of schizophrenia?",
     "options": [
-      "Hallucinations",
+      "Apathy",
       "Flat affect",
       "Social withdrawal",
-      "Apathy"
+      "Hallucinations"
     ],
     "answer": "Hallucinations",
     "explanation": "Positive symptoms add to the person's experience, such as hallucinations and delusions. Flat affect and withdrawal are negative symptoms."
@@ -1645,8 +1645,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which cluster of findings suggests serotonin syndrome?",
     "options": [
-      "Agitation, hyperreflexia, and fever",
       "Bradycardia and hypothermia",
+      "Agitation, hyperreflexia, and fever",
       "Pinpoint pupils and slow speech",
       "Dry skin and constipation"
     ],
@@ -1659,9 +1659,9 @@ export const questions = [
     "difficulty": 2,
     "question": "What is the priority action for a patient expressing suicidal ideation with a plan?",
     "options": [
-      "Maintain constant observation and remove means of harm",
-      "Allow the patient to rest alone",
       "Discuss the plan in a group session",
+      "Allow the patient to rest alone",
+      "Maintain constant observation and remove means of harm",
       "Document and reassess in 24 hours"
     ],
     "answer": "Maintain constant observation and remove means of harm",
@@ -1673,10 +1673,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which electrolyte disturbance commonly accompanies anorexia nervosa with purging?",
     "options": [
-      "Hypokalemia",
+      "Hypercalcemia",
       "Hyperkalemia",
       "Hypernatremia",
-      "Hypercalcemia"
+      "Hypokalemia"
     ],
     "answer": "Hypokalemia",
     "explanation": "Vomiting and laxative use cause potassium loss, which raises the risk of cardiac dysrhythmias."
@@ -1701,8 +1701,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which findings suggest alcohol withdrawal delirium?",
     "options": [
-      "Tremor, agitation, and visual hallucinations",
       "Improved appetite and sleep",
+      "Tremor, agitation, and visual hallucinations",
       "Bradycardia and hypothermia",
       "Constricted pupils and sedation"
     ],
@@ -1715,9 +1715,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which intervention best supports an agitated patient with dementia?",
     "options": [
-      "Redirect to a familiar activity in a calm environment",
-      "Confront the patient with the facts",
       "Apply restraints immediately",
+      "Confront the patient with the facts",
+      "Redirect to a familiar activity in a calm environment",
       "Turn up the television volume"
     ],
     "answer": "Redirect to a familiar activity in a calm environment",
@@ -1729,10 +1729,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which eating disorder involves recurrent binges followed by purging?",
     "options": [
-      "Bulimia nervosa",
+      "Avoidant restrictive food intake disorder",
       "Anorexia nervosa, restricting type",
       "Binge eating disorder",
-      "Avoidant restrictive food intake disorder"
+      "Bulimia nervosa"
     ],
     "answer": "Bulimia nervosa",
     "explanation": "Bulimia involves binge eating followed by compensatory behaviors such as vomiting. Binge eating disorder involves binges without purging."
@@ -1757,8 +1757,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which acid-base imbalance is likely with prolonged vomiting?",
     "options": [
-      "Metabolic alkalosis",
       "Metabolic acidosis",
+      "Metabolic alkalosis",
       "Respiratory acidosis",
       "Respiratory alkalosis"
     ],
@@ -1771,9 +1771,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which findings suggest acute respiratory distress syndrome?",
     "options": [
-      "Refractory hypoxemia with bilateral infiltrates",
-      "Unilateral wheeze with a clear chest x-ray",
       "High urine output with normal oxygenation",
+      "Unilateral wheeze with a clear chest x-ray",
+      "Refractory hypoxemia with bilateral infiltrates",
       "Sudden hypertension with pink frothy sputum"
     ],
     "answer": "Refractory hypoxemia with bilateral infiltrates",
@@ -1785,10 +1785,10 @@ export const questions = [
     "difficulty": 2,
     "question": "What is the priority action when the cardiac monitor shows ventricular fibrillation?",
     "options": [
-      "Start cardiopulmonary resuscitation and defibrillate",
+      "Document the rhythm and recheck in five minutes",
       "Administer a beta blocker",
       "Obtain a 12-lead ECG first",
-      "Document the rhythm and recheck in five minutes"
+      "Start cardiopulmonary resuscitation and defibrillate"
     ],
     "answer": "Start cardiopulmonary resuscitation and defibrillate",
     "explanation": "Ventricular fibrillation is a pulseless arrest rhythm. Immediate high-quality CPR and defibrillation are the only effective treatments."
@@ -1813,8 +1813,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which measure reduces the risk of ventilator-associated pneumonia?",
     "options": [
-      "Elevate the head of the bed to 30 to 45 degrees",
       "Keep the patient supine continuously",
+      "Elevate the head of the bed to 30 to 45 degrees",
       "Suction routinely every 15 minutes",
       "Change the ventilator circuit daily without indication"
     ],
@@ -1827,9 +1827,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which assessment findings occur early in sepsis?",
     "options": [
-      "Tachycardia with warm flushed skin",
-      "Bradycardia with cool extremities",
       "Hypertension with a narrowing pulse pressure",
+      "Bradycardia with cool extremities",
+      "Tachycardia with warm flushed skin",
       "Immediate loss of consciousness"
     ],
     "answer": "Tachycardia with warm flushed skin",
@@ -1841,10 +1841,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which findings suggest cardiac tamponade?",
     "options": [
-      "Muffled heart sounds with hypotension and distended neck veins",
+      "Tracheal deviation with absent breath sounds",
       "Loud heart sounds with hypertension",
       "Crackles with a bounding pulse",
-      "Tracheal deviation with absent breath sounds"
+      "Muffled heart sounds with hypotension and distended neck veins"
     ],
     "answer": "Muffled heart sounds with hypotension and distended neck veins",
     "explanation": "Beck's triad is hypotension, muffled heart sounds, and jugular venous distension. Pulsus paradoxus may also be present."
@@ -1869,8 +1869,8 @@ export const questions = [
     "difficulty": 3,
     "question": "An arterial blood gas shows pH 7.50, PaCO2 30 mmHg, and bicarbonate 24 mEq/L. Which imbalance is this?",
     "options": [
-      "Respiratory alkalosis",
       "Respiratory acidosis",
+      "Respiratory alkalosis",
       "Metabolic alkalosis",
       "Metabolic acidosis"
     ],
@@ -1883,9 +1883,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which tidal volume strategy is recommended for lung-protective ventilation in acute respiratory distress syndrome?",
     "options": [
-      "6 mL/kg of predicted body weight",
-      "12 mL/kg of predicted body weight",
       "20 mL/kg of actual body weight",
+      "12 mL/kg of predicted body weight",
+      "6 mL/kg of predicted body weight",
       "No tidal volume limit"
     ],
     "answer": "6 mL/kg of predicted body weight",
@@ -1897,10 +1897,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which action is the priority for a patient with a new tracheostomy and copious secretions?",
     "options": [
-      "Suction the airway while monitoring oxygen saturation",
+      "Suction continuously for 45 seconds per pass",
       "Instill 10 mL of saline before every pass",
       "Deflate the cuff for each suction pass",
-      "Suction continuously for 45 seconds per pass"
+      "Suction the airway while monitoring oxygen saturation"
     ],
     "answer": "Suction the airway while monitoring oxygen saturation",
     "explanation": "Suction only as needed, keep each pass brief, and watch for hypoxemia and bradycardia. Routine saline instillation is not recommended."
@@ -1925,8 +1925,8 @@ export const questions = [
     "difficulty": 1,
     "question": "An order is for 500 mg. The tablets available are 250 mg each. How many tablets do you give?",
     "options": [
-      "2 tablets",
       "0.5 tablet",
+      "2 tablets",
       "1 tablet",
       "4 tablets"
     ],
@@ -1939,9 +1939,9 @@ export const questions = [
     "difficulty": 2,
     "question": "A vial contains 1 g in 10 mL. How many mL are needed to give 250 mg?",
     "options": [
-      "2.5 mL",
-      "0.25 mL",
       "25 mL",
+      "0.25 mL",
+      "2.5 mL",
       "4 mL"
     ],
     "answer": "2.5 mL",
@@ -1953,10 +1953,10 @@ export const questions = [
     "difficulty": 2,
     "question": "An infusion runs at 100 mL per hour. How many mL infuse in 30 minutes?",
     "options": [
-      "50 mL",
+      "25 mL",
       "100 mL",
       "200 mL",
-      "25 mL"
+      "50 mL"
     ],
     "answer": "50 mL",
     "explanation": "Thirty minutes is half an hour, so half of 100 mL, or 50 mL, infuses."
@@ -1981,8 +1981,8 @@ export const questions = [
     "difficulty": 3,
     "question": "An IV of 1000 mL is to infuse over 8 hours. What is the rate in mL per hour?",
     "options": [
-      "125 mL/hr",
       "80 mL/hr",
+      "125 mL/hr",
       "100 mL/hr",
       "200 mL/hr"
     ],
@@ -1995,9 +1995,9 @@ export const questions = [
     "difficulty": 3,
     "question": "A 500 mL bag contains 20,000 units of heparin. How many units are in each mL?",
     "options": [
-      "40 units/mL",
-      "4 units/mL",
       "400 units/mL",
+      "4 units/mL",
+      "40 units/mL",
       "20 units/mL"
     ],
     "answer": "40 units/mL",
@@ -2009,10 +2009,10 @@ export const questions = [
     "difficulty": 2,
     "question": "The order is 0.5 g. Available tablets are 250 mg. How many tablets do you give?",
     "options": [
-      "2 tablets",
+      "4 tablets",
       "1 tablet",
       "0.5 tablet",
-      "4 tablets"
+      "2 tablets"
     ],
     "answer": "2 tablets",
     "explanation": "Convert grams to milligrams first: 0.5 g equals 500 mg, which is two 250 mg tablets."
@@ -2037,8 +2037,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which patient should the nurse assess first?",
     "options": [
-      "A patient with new confusion and a heart rate of 120",
       "A patient requesting a snack",
+      "A patient with new confusion and a heart rate of 120",
       "A patient with a scheduled dressing change",
       "A patient asking about discharge papers"
     ],
@@ -2051,9 +2051,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which task is appropriate to delegate to unlicensed assistive personnel?",
     "options": [
-      "Measuring and recording vital signs on a stable patient",
-      "Teaching a patient to use an inhaler",
       "Assessing a new wound",
+      "Teaching a patient to use an inhaler",
+      "Measuring and recording vital signs on a stable patient",
       "Administering oral medications"
     ],
     "answer": "Measuring and recording vital signs on a stable patient",
@@ -2065,10 +2065,10 @@ export const questions = [
     "difficulty": 1,
     "question": "Using the airway, breathing, circulation framework, which action comes first for an unresponsive patient?",
     "options": [
-      "Open the airway",
+      "Document the event",
       "Obtain a blood pressure",
       "Start an IV line",
-      "Document the event"
+      "Open the airway"
     ],
     "answer": "Open the airway",
     "explanation": "Airway always precedes breathing, circulation, and documentation in an emergency assessment."
@@ -2093,8 +2093,8 @@ export const questions = [
     "difficulty": 3,
     "question": "Which finding must be reported to the provider immediately?",
     "options": [
-      "A new systolic murmur with hypotension",
       "An oral temperature of 37.2 degrees Celsius",
+      "A new systolic murmur with hypotension",
       "A heart rate of 88 beats per minute",
       "A blood pressure of 118/76 mmHg"
     ],
@@ -2107,9 +2107,9 @@ export const questions = [
     "difficulty": 2,
     "question": "During a mass casualty event, which patient is tagged immediate?",
     "options": [
-      "A patient with a sucking chest wound and labored breathing",
-      "A patient with a sprained ankle who can walk",
       "A patient with a small laceration",
+      "A patient with a sprained ankle who can walk",
+      "A patient with a sucking chest wound and labored breathing",
       "A patient requesting pain medication for a bruise"
     ],
     "answer": "A patient with a sucking chest wound and labored breathing",
@@ -2121,10 +2121,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which action is appropriate when a competent patient refuses a medication?",
     "options": [
-      "Respect the refusal, document it, and notify the provider",
+      "Omit documentation of the refusal",
       "Hide the medication in food",
       "Give it anyway because it was ordered",
-      "Omit documentation of the refusal"
+      "Respect the refusal, document it, and notify the provider"
     ],
     "answer": "Respect the refusal, document it, and notify the provider",
     "explanation": "A competent patient can refuse treatment. Document the refusal, the teaching provided, and the provider notification."
@@ -2149,8 +2149,8 @@ export const questions = [
     "difficulty": 2,
     "question": "How often should a patient in restraints be assessed for circulation and basic needs?",
     "options": [
-      "Every 15 minutes",
       "Every 2 hours",
+      "Every 15 minutes",
       "Once per shift",
       "Only when the patient requests it"
     ],
@@ -2163,9 +2163,9 @@ export const questions = [
     "difficulty": 1,
     "question": "Which action helps prevent wrong-site surgery?",
     "options": [
-      "Conduct a time-out with the team before the incision",
-      "Mark the site after the incision",
       "Verify identity by room number only",
+      "Mark the site after the incision",
+      "Conduct a time-out with the team before the incision",
       "Start before the consent is signed"
     ],
     "answer": "Conduct a time-out with the team before the incision",
@@ -2177,10 +2177,10 @@ export const questions = [
     "difficulty": 1,
     "question": "Which two identifiers should be used before giving a medication?",
     "options": [
-      "Full name and date of birth",
+      "Bed position and physician name",
       "Room number and bed position",
       "Diagnosis and room number",
-      "Bed position and physician name"
+      "Full name and date of birth"
     ],
     "answer": "Full name and date of birth",
     "explanation": "Two independent identifiers are required. Room or bed numbers are not acceptable identifiers."
@@ -2205,8 +2205,8 @@ export const questions = [
     "difficulty": 1,
     "question": "What is the first action when a fire is discovered in a patient room?",
     "options": [
-      "Rescue anyone in immediate danger",
       "Open windows to clear smoke",
+      "Rescue anyone in immediate danger",
       "Finish charting first",
       "Wait for the alarm to sound"
     ],
@@ -2219,9 +2219,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which medication requires an independent double check before administration?",
     "options": [
-      "IV insulin infusion",
-      "Acetaminophen tablet",
       "Saline eye drops",
+      "Acetaminophen tablet",
+      "IV insulin infusion",
       "Topical moisturizer"
     ],
     "answer": "IV insulin infusion",
@@ -2233,10 +2233,10 @@ export const questions = [
     "difficulty": 2,
     "question": "A patient develops chills and flank pain during a blood transfusion. What is the priority action?",
     "options": [
-      "Stop the transfusion and keep the IV line open",
+      "Document and continue the current unit",
       "Slow the transfusion and reassess in 30 minutes",
       "Give the next unit as ordered",
-      "Document and continue the current unit"
+      "Stop the transfusion and keep the IV line open"
     ],
     "answer": "Stop the transfusion and keep the IV line open",
     "explanation": "Stop the transfusion immediately, maintain IV access with normal saline, and report a suspected reaction."
@@ -2261,8 +2261,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which documentation is completed after a medication error?",
     "options": [
-      "An incident report",
       "The patient's bill",
+      "An incident report",
       "A public log of errors",
       "The pharmacy inventory sheet"
     ],
@@ -2275,9 +2275,9 @@ export const questions = [
     "difficulty": 1,
     "question": "Which PPE is required before entering the room of a patient on contact precautions for MRSA?",
     "options": [
-      "Gown and gloves",
-      "Mask and eye shield only",
       "Gloves only",
+      "Mask and eye shield only",
+      "Gown and gloves",
       "No PPE is needed"
     ],
     "answer": "Gown and gloves",
@@ -2289,10 +2289,10 @@ export const questions = [
     "difficulty": 2,
     "question": "How should a patient on airborne precautions be transported to a test?",
     "options": [
-      "Place a surgical mask on the patient",
+      "Open the room door before transport",
       "Remove all precautions during transport",
       "Have the patient walk unassisted",
-      "Open the room door before transport"
+      "Place a surgical mask on the patient"
     ],
     "answer": "Place a surgical mask on the patient",
     "explanation": "A mask on the patient contains droplet nuclei during transport, and staff wear fitted respirators as indicated."
@@ -2317,8 +2317,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which item requires disinfection rather than sterilization?",
     "options": [
-      "A blood pressure cuff",
       "A surgical scalpel",
+      "A blood pressure cuff",
       "An intravenous catheter",
       "A sterile implant"
     ],
@@ -2331,9 +2331,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which patient needs a private room with negative-pressure airflow?",
     "options": [
-      "A patient with active pulmonary tuberculosis",
-      "A patient with a healing surgical incision",
       "A patient with a sprained ankle",
+      "A patient with a healing surgical incision",
+      "A patient with active pulmonary tuberculosis",
       "A patient with seasonal allergies"
     ],
     "answer": "A patient with active pulmonary tuberculosis",
@@ -2345,10 +2345,10 @@ export const questions = [
     "difficulty": 1,
     "question": "Which action helps prevent catheter-associated urinary tract infection?",
     "options": [
-      "Keep the drainage bag below the level of the bladder",
+      "Change the catheter every day regardless of need",
       "Disconnect the tubing to check urine color",
       "Routinely clamp the tubing for long periods",
-      "Change the catheter every day regardless of need"
+      "Keep the drainage bag below the level of the bladder"
     ],
     "answer": "Keep the drainage bag below the level of the bladder",
     "explanation": "A closed system with the bag below the bladder prevents backflow of bacteria that cause infection."
@@ -2373,8 +2373,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which serum calcium value suggests hypocalcemia?",
     "options": [
-      "7.8 mg/dL",
       "9.5 mg/dL",
+      "7.8 mg/dL",
       "10.2 mg/dL",
       "11.0 mg/dL"
     ],
@@ -2387,9 +2387,9 @@ export const questions = [
     "difficulty": 2,
     "question": "An arterial blood gas shows pH 7.30, PaCO2 38 mmHg, and bicarbonate 18 mEq/L. Which imbalance is this?",
     "options": [
-      "Metabolic acidosis",
-      "Respiratory acidosis",
       "Metabolic alkalosis",
+      "Respiratory acidosis",
+      "Metabolic acidosis",
       "Respiratory alkalosis"
     ],
     "answer": "Metabolic acidosis",
@@ -2401,10 +2401,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which serum digoxin level suggests toxicity?",
     "options": [
-      "2.8 ng/mL",
+      "1.2 ng/mL",
       "0.4 ng/mL",
       "0.9 ng/mL",
-      "1.2 ng/mL"
+      "2.8 ng/mL"
     ],
     "answer": "2.8 ng/mL",
     "explanation": "The usual therapeutic range is 0.8 to 2 ng/mL. Levels above 2 ng/mL raise concern for toxicity."
@@ -2429,8 +2429,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which lab finding supports iron-deficiency anemia?",
     "options": [
-      "Low ferritin with low hemoglobin",
       "Normal ferritin with high hemoglobin",
+      "Low ferritin with low hemoglobin",
       "High ferritin with high hemoglobin",
       "Low platelets with high hemoglobin"
     ],
@@ -2443,9 +2443,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Four patients call at once. Which one needs immediate assessment?",
     "options": [
-      "A patient with sudden facial droop and slurred speech",
-      "A patient requesting a snack",
       "A patient asking for a blanket",
+      "A patient requesting a snack",
+      "A patient with sudden facial droop and slurred speech",
       "A patient with mild constipation"
     ],
     "answer": "A patient with sudden facial droop and slurred speech",
@@ -2457,10 +2457,10 @@ export const questions = [
     "difficulty": 2,
     "question": "A patient is found unresponsive and not breathing. What is the priority action?",
     "options": [
-      "Call for help and begin CPR",
+      "Move the patient to a chair",
       "Check the blood pressure",
       "Get a full history from the family",
-      "Move the patient to a chair"
+      "Call for help and begin CPR"
     ],
     "answer": "Call for help and begin CPR",
     "explanation": "Unresponsiveness with no breathing requires immediate CPR and activation of the emergency response system."
@@ -2485,8 +2485,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which patient should be triaged as emergent?",
     "options": [
-      "An adult with crushing chest pain and sweating",
       "An adult with a two day old rash",
+      "An adult with crushing chest pain and sweating",
       "An adult asking for a work note",
       "An adult with mild knee pain"
     ],
@@ -2499,9 +2499,9 @@ export const questions = [
     "difficulty": 1,
     "question": "The order is 0.25 mg. Available tablets are 0.125 mg each. How many tablets do you give?",
     "options": [
-      "2",
-      "1",
       "0.5",
+      "1",
+      "2",
       "4"
     ],
     "answer": "2",
@@ -2513,10 +2513,10 @@ export const questions = [
     "difficulty": 2,
     "question": "A child weighs 15 kg. The order is 30 mg/kg. What dose do you give?",
     "options": [
-      "450 mg",
+      "600 mg",
       "150 mg",
       "300 mg",
-      "600 mg"
+      "450 mg"
     ],
     "answer": "450 mg",
     "explanation": "Multiply weight by dose per kilogram: 15 kg times 30 mg/kg equals 450 mg."
@@ -2541,8 +2541,8 @@ export const questions = [
     "difficulty": 1,
     "question": "An IV of 1,000 mL is to infuse over 10 hours by pump. What rate do you set?",
     "options": [
-      "100 mL/hr",
       "10 mL/hr",
+      "100 mL/hr",
       "200 mL/hr",
       "500 mL/hr"
     ],
@@ -2555,9 +2555,9 @@ export const questions = [
     "difficulty": 2,
     "question": "The order is 0.15 g. The vial is 50 mg/mL. How many mL do you draw up?",
     "options": [
-      "3",
-      "1.5",
       "0.3",
+      "1.5",
+      "3",
       "6"
     ],
     "answer": "3",
@@ -2569,10 +2569,10 @@ export const questions = [
     "difficulty": 3,
     "question": "A patient weighs 66 lb. The order is 10 mg/kg/day divided every 12 hours. What is each dose?",
     "options": [
-      "150 mg",
+      "75 mg",
       "66 mg",
       "300 mg",
-      "75 mg"
+      "150 mg"
     ],
     "answer": "150 mg",
     "explanation": "Convert weight: 66 lb is 30 kg. The daily dose is 300 mg, so each 12 hour dose is 150 mg."
@@ -2597,8 +2597,8 @@ export const questions = [
     "difficulty": 2,
     "question": "A patient has an apical rate of 110 and a radial rate of 88. What does this indicate?",
     "options": [
-      "A pulse deficit",
       "Atrial fibrillation has stopped",
+      "A pulse deficit",
       "A normal finding",
       "An inaccurate radial count only"
     ],
@@ -2611,9 +2611,9 @@ export const questions = [
     "difficulty": 1,
     "question": "Which systolic pressure is generally considered hypotension in an adult?",
     "options": [
-      "88 mmHg",
-      "118 mmHg",
       "128 mmHg",
+      "118 mmHg",
+      "88 mmHg",
       "138 mmHg"
     ],
     "answer": "88 mmHg",
@@ -2625,10 +2625,10 @@ export const questions = [
     "difficulty": 2,
     "question": "A patient's respiratory rate is 8 per minute and shallow. What is the priority?",
     "options": [
-      "Support the airway and breathing",
+      "Ambulate the patient",
       "Document the rate and recheck in an hour",
       "Give oral fluids",
-      "Ambulate the patient"
+      "Support the airway and breathing"
     ],
     "answer": "Support the airway and breathing",
     "explanation": "A rate of 8 with shallow breathing signals inadequate ventilation, so airway and breathing come first."
@@ -2653,8 +2653,8 @@ export const questions = [
     "difficulty": 1,
     "question": "What does the prefix olig- mean?",
     "options": [
-      "Scanty or few",
       "Many",
+      "Scanty or few",
       "Before",
       "Against"
     ],
@@ -2667,9 +2667,9 @@ export const questions = [
     "difficulty": 1,
     "question": "Which artery is the preferred site for an arterial blood gas sample?",
     "options": [
-      "Radial artery",
-      "Carotid artery",
       "Femoral vein",
+      "Carotid artery",
+      "Radial artery",
       "Brachial vein"
     ],
     "answer": "Radial artery",
@@ -2681,10 +2681,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which structure prevents backflow from the pulmonary artery into the right ventricle?",
     "options": [
-      "Pulmonary valve",
+      "Tricuspid valve",
       "Aortic valve",
       "Mitral valve",
-      "Tricuspid valve"
+      "Pulmonary valve"
     ],
     "answer": "Pulmonary valve",
     "explanation": "The pulmonary valve sits between the right ventricle and pulmonary artery and prevents backflow during diastole."
@@ -2709,8 +2709,8 @@ export const questions = [
     "difficulty": 3,
     "question": "Which pattern suggests hyperosmolar hyperglycemic state rather than diabetic ketoacidosis?",
     "options": [
-      "Glucose 900 mg/dL with minimal ketones",
       "Glucose 250 mg/dL with deep ketosis",
+      "Glucose 900 mg/dL with minimal ketones",
       "Glucose 90 mg/dL with seizures",
       "Glucose 400 mg/dL with pH 7.10"
     ],
@@ -2723,9 +2723,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which instruction is correct for a patient with a new ileostomy?",
     "options": [
-      "Empty the pouch when it is one third to one half full",
-      "Change the pouch every day on a fixed schedule",
       "Irrigate the stoma daily to control output",
+      "Change the pouch every day on a fixed schedule",
+      "Empty the pouch when it is one third to one half full",
       "Apply powder to intact skin around the stoma"
     ],
     "answer": "Empty the pouch when it is one third to one half full",
@@ -2737,10 +2737,10 @@ export const questions = [
     "difficulty": 2,
     "question": "A patient reports tingling around the mouth after a thyroidectomy. Which complication is most likely?",
     "options": [
-      "Hypocalcemia",
+      "Fluid overload",
       "Typical postoperative drowsiness",
       "Hyperkalemia",
-      "Fluid overload"
+      "Hypocalcemia"
     ],
     "answer": "Hypocalcemia",
     "explanation": "Tingling and muscle cramps after thyroid surgery suggest parathyroid injury with hypocalcemia. Report it promptly."
@@ -2765,8 +2765,8 @@ export const questions = [
     "difficulty": 3,
     "question": "An arterial line waveform looks dampened. What is the appropriate first action?",
     "options": [
-      "Check the tubing for kinks and clot",
       "Ignore the waveform",
+      "Check the tubing for kinks and clot",
       "Increase the infusion rate",
       "Remove the line immediately"
     ],
@@ -2779,9 +2779,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which finding suggests an endotracheal tube has slipped into the right mainstem bronchus?",
     "options": [
-      "Absent breath sounds on the left",
-      "Equal breath sounds bilaterally",
       "A rising oxygen saturation",
+      "Equal breath sounds bilaterally",
+      "Absent breath sounds on the left",
       "Clear secretions on suction"
     ],
     "answer": "Absent breath sounds on the left",
@@ -2793,10 +2793,10 @@ export const questions = [
     "difficulty": 2,
     "question": "A patient on a ventilator triggers a high pressure alarm. What is the priority?",
     "options": [
-      "Assess for secretions and suction as needed",
+      "Disconnect the ventilator briefly",
       "Silence the alarm and document",
       "Increase the tidal volume",
-      "Disconnect the ventilator briefly"
+      "Assess for secretions and suction as needed"
     ],
     "answer": "Assess for secretions and suction as needed",
     "explanation": "High pressure alarms often mean obstruction from secretions, biting, or kinking. Assess and suction first."
@@ -2821,8 +2821,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which antibiotic class requires warning patients about tendon rupture?",
     "options": [
-      "Fluoroquinolones",
       "Penicillins",
+      "Fluoroquinolones",
       "Macrolides",
       "Sulfonamides"
     ],
@@ -2835,9 +2835,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which assessment finding suggests uterine atony after birth?",
     "options": [
-      "A boggy uterus with heavy lochia",
-      "A firm uterus with scant lochia",
       "Normal lochia with a contracted fundus",
+      "A firm uterus with scant lochia",
+      "A boggy uterus with heavy lochia",
       "Bright red bleeding with a firm fundus"
     ],
     "answer": "A boggy uterus with heavy lochia",
@@ -2849,10 +2849,10 @@ export const questions = [
     "difficulty": 1,
     "question": "Which chamber of the heart receives oxygenated blood from the pulmonary veins?",
     "options": [
-      "Left atrium",
+      "Right ventricle",
       "Right atrium",
       "Left ventricle",
-      "Right ventricle"
+      "Left atrium"
     ],
     "answer": "Left atrium",
     "explanation": "The pulmonary veins empty into the left atrium, which sends blood through the mitral valve into the left ventricle."
@@ -2877,8 +2877,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which blood type is the universal donor for packed red blood cells?",
     "options": [
-      "O negative",
       "AB positive",
+      "O negative",
       "A positive",
       "B negative"
     ],
@@ -2891,9 +2891,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which hormone is released from the posterior pituitary?",
     "options": [
-      "Antidiuretic hormone",
-      "Adrenocorticotropic hormone",
       "Thyroid stimulating hormone",
+      "Adrenocorticotropic hormone",
+      "Antidiuretic hormone",
       "Prolactin"
     ],
     "answer": "Antidiuretic hormone",
@@ -2905,10 +2905,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which heart chamber receives blood from the superior vena cava?",
     "options": [
-      "Right atrium",
+      "Left ventricle",
       "Left atrium",
       "Right ventricle",
-      "Left ventricle"
+      "Right atrium"
     ],
     "answer": "Right atrium",
     "explanation": "The superior and inferior vena cavae drain deoxygenated blood into the right atrium."
@@ -2933,8 +2933,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which cranial nerve controls muscles of facial expression?",
     "options": [
-      "Facial nerve",
       "Trigeminal nerve",
+      "Facial nerve",
       "Glossopharyngeal nerve",
       "Hypoglossal nerve"
     ],
@@ -2947,9 +2947,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which organ produces bile?",
     "options": [
-      "Liver",
-      "Gallbladder",
       "Pancreas",
+      "Gallbladder",
+      "Liver",
       "Spleen"
     ],
     "answer": "Liver",
@@ -2961,10 +2961,10 @@ export const questions = [
     "difficulty": 1,
     "question": "What does the suffix -ostomy mean?",
     "options": [
-      "A surgical opening",
+      "Joint fusion",
       "Removal of an organ",
       "Inflammation",
-      "Joint fusion"
+      "A surgical opening"
     ],
     "answer": "A surgical opening",
     "explanation": "The suffix -ostomy means a surgically created opening, as in colostomy or tracheostomy."
@@ -2989,8 +2989,8 @@ export const questions = [
     "difficulty": 2,
     "question": "What does the suffix -megaly mean?",
     "options": [
-      "Enlargement",
       "Shrinking",
+      "Enlargement",
       "Pain",
       "Bleeding"
     ],
@@ -3003,9 +3003,9 @@ export const questions = [
     "difficulty": 2,
     "question": "What does idiopathic mean?",
     "options": [
-      "Of unknown cause",
-      "Caused by infection",
       "Inherited",
+      "Caused by infection",
+      "Of unknown cause",
       "Caused by medication"
     ],
     "answer": "Of unknown cause",
@@ -3017,10 +3017,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which pulse site is checked first during adult CPR?",
     "options": [
-      "Carotid",
+      "Popliteal",
       "Radial",
       "Brachial",
-      "Popliteal"
+      "Carotid"
     ],
     "answer": "Carotid",
     "explanation": "Bystanders check the carotid pulse in an unresponsive adult because it is central and easy to locate."
@@ -3045,8 +3045,8 @@ export const questions = [
     "difficulty": 2,
     "question": "A patient's blood pressure is 150/96 mmHg. How is this classified?",
     "options": [
-      "Stage 2 hypertension",
       "Stage 1 hypertension",
+      "Stage 2 hypertension",
       "Elevated",
       "Normal"
     ],
@@ -3059,9 +3059,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which finding defines pulsus paradoxus?",
     "options": [
-      "A systolic drop greater than 10 mmHg during inspiration",
-      "A systolic rise during inspiration",
       "A diastolic drop during expiration",
+      "A systolic rise during inspiration",
+      "A systolic drop greater than 10 mmHg during inspiration",
       "A widened pulse pressure during exercise"
     ],
     "answer": "A systolic drop greater than 10 mmHg during inspiration",
@@ -3073,10 +3073,10 @@ export const questions = [
     "difficulty": 1,
     "question": "Which value is a normal adult pulse pressure?",
     "options": [
-      "40 mmHg",
+      "120 mmHg",
       "10 mmHg",
       "90 mmHg",
-      "120 mmHg"
+      "40 mmHg"
     ],
     "answer": "40 mmHg",
     "explanation": "Pulse pressure is systolic minus diastolic. A value around 40 mmHg is typical in healthy adults."
@@ -3101,8 +3101,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which medication is a proton pump inhibitor?",
     "options": [
-      "Omeprazole",
       "Ondansetron",
+      "Omeprazole",
       "Famotidine",
       "Aluminum hydroxide"
     ],
@@ -3115,9 +3115,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which medication requires serum level monitoring because of its narrow therapeutic index?",
     "options": [
-      "Phenytoin",
-      "Acetaminophen",
       "Amoxicillin",
+      "Acetaminophen",
+      "Phenytoin",
       "Metformin"
     ],
     "answer": "Phenytoin",
@@ -3129,10 +3129,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which vitamin is given with isoniazid to prevent peripheral neuropathy?",
     "options": [
-      "Pyridoxine",
+      "Folic acid",
       "Thiamine",
       "Cyanocobalamin",
-      "Folic acid"
+      "Pyridoxine"
     ],
     "answer": "Pyridoxine",
     "explanation": "Isoniazid interferes with pyridoxine metabolism, so vitamin B6 is given to prevent neuropathy."
@@ -3157,8 +3157,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which adverse effect is characteristic of ACE inhibitors?",
     "options": [
-      "Dry cough",
       "Bradycardia",
+      "Dry cough",
       "Hyperglycemia",
       "Constipation"
     ],
@@ -3171,9 +3171,9 @@ export const questions = [
     "difficulty": 1,
     "question": "Which insulin is intermediate acting?",
     "options": [
-      "NPH insulin",
-      "Lispro insulin",
       "Glargine insulin",
+      "Lispro insulin",
+      "NPH insulin",
       "Aspart insulin"
     ],
     "answer": "NPH insulin",
@@ -3185,10 +3185,10 @@ export const questions = [
     "difficulty": 3,
     "question": "Which medication class should be avoided during pregnancy because of fetal renal toxicity?",
     "options": [
-      "ACE inhibitors",
+      "Acetaminophen",
       "Penicillins",
       "Insulin",
-      "Acetaminophen"
+      "ACE inhibitors"
     ],
     "answer": "ACE inhibitors",
     "explanation": "ACE inhibitors can damage the developing fetal kidneys, especially in the second and third trimesters."
@@ -3213,8 +3213,8 @@ export const questions = [
     "difficulty": 2,
     "question": "What should be done when a sterile field becomes wet?",
     "options": [
-      "Consider it contaminated and replace it",
       "Continue if the wet area is small",
+      "Consider it contaminated and replace it",
       "Blot the area with sterile gauze",
       "Add a sterile towel on top"
     ],
@@ -3227,9 +3227,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which vaccine is recommended every year for health care workers?",
     "options": [
-      "Influenza vaccine",
-      "Measles vaccine",
       "Varicella vaccine",
+      "Measles vaccine",
+      "Influenza vaccine",
       "HPV vaccine"
     ],
     "answer": "Influenza vaccine",
@@ -3241,10 +3241,10 @@ export const questions = [
     "difficulty": 3,
     "question": "Which precautions are required for a patient with disseminated herpes zoster?",
     "options": [
-      "Airborne and contact precautions",
+      "Contact precautions only",
       "Droplet precautions only",
       "Standard precautions only",
-      "Contact precautions only"
+      "Airborne and contact precautions"
     ],
     "answer": "Airborne and contact precautions",
     "explanation": "Disseminated zoster spreads by airborne droplet nuclei and by contact with lesions, so both precautions apply."
@@ -3269,8 +3269,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which urine output meets the criteria for oliguria in an adult?",
     "options": [
-      "Less than 0.5 mL/kg per hour",
       "Less than 2 mL/kg per hour",
+      "Less than 0.5 mL/kg per hour",
       "Less than 30 mL per day",
       "Less than 1 mL/kg per minute"
     ],
@@ -3283,9 +3283,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which hemoglobin A1c value is consistent with diabetes?",
     "options": [
-      "7.2 percent",
-      "5.2 percent",
       "5.6 percent",
+      "5.2 percent",
+      "7.2 percent",
       "6.0 percent"
     ],
     "answer": "7.2 percent",
@@ -3297,10 +3297,10 @@ export const questions = [
     "difficulty": 3,
     "question": "Which arterial blood gas finding indicates respiratory alkalosis?",
     "options": [
-      "pH 7.48 with PaCO2 28 mmHg",
+      "pH 7.50 with bicarbonate 34 mEq/L",
       "pH 7.28 with PaCO2 55 mmHg",
       "pH 7.30 with bicarbonate 18 mEq/L",
-      "pH 7.50 with bicarbonate 34 mEq/L"
+      "pH 7.48 with PaCO2 28 mmHg"
     ],
     "answer": "pH 7.48 with PaCO2 28 mmHg",
     "explanation": "A high pH with a low PaCO2 reflects hyperventilation and respiratory alkalosis."
@@ -3325,8 +3325,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which white blood cell count is within the normal adult range?",
     "options": [
-      "7,500 per microliter",
       "1,500 per microliter",
+      "7,500 per microliter",
       "18,000 per microliter",
       "25,000 per microliter"
     ],
@@ -3339,9 +3339,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which laboratory finding suggests rhabdomyolysis?",
     "options": [
-      "Elevated creatine kinase",
-      "Low creatine kinase",
       "High serum albumin",
+      "Low creatine kinase",
+      "Elevated creatine kinase",
       "Low lactate"
     ],
     "answer": "Elevated creatine kinase",
@@ -3353,10 +3353,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which check is required before using a mechanical lift?",
     "options": [
-      "Confirm the sling is rated for the patient's weight",
+      "Have one staff member operate alone",
       "Ask the patient to hold the bar",
       "Use the lift without a sling",
-      "Have one staff member operate alone"
+      "Confirm the sling is rated for the patient's weight"
     ],
     "answer": "Confirm the sling is rated for the patient's weight",
     "explanation": "Lifts fail when the sling is the wrong size or exceeds its weight rating, so verify both before lifting."
@@ -3381,8 +3381,8 @@ export const questions = [
     "difficulty": 1,
     "question": "What is the correct way to handle a used scalpel?",
     "options": [
-      "Activate the safety device and place it in a sharps container",
       "Recap it with two hands",
+      "Activate the safety device and place it in a sharps container",
       "Place it in the trash",
       "Leave it on the tray"
     ],
@@ -3395,9 +3395,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which patient needs elopement precautions?",
     "options": [
-      "A patient with dementia who repeatedly asks to leave",
-      "A patient waiting for discharge papers",
       "A patient with a stable fracture",
+      "A patient waiting for discharge papers",
+      "A patient with dementia who repeatedly asks to leave",
       "A patient requesting a chaplain"
     ],
     "answer": "A patient with dementia who repeatedly asks to leave",
@@ -3409,10 +3409,10 @@ export const questions = [
     "difficulty": 1,
     "question": "Which finding suggests dehydration in an older adult?",
     "options": [
-      "Poor skin turgor with dry mucous membranes",
+      "Polyuria with clear urine",
       "Bounding pulses with moist skin",
       "Weight gain with edema",
-      "Polyuria with clear urine"
+      "Poor skin turgor with dry mucous membranes"
     ],
     "answer": "Poor skin turgor with dry mucous membranes",
     "explanation": "Decreased skin turgor, dry mucous membranes, and orthostatic changes point to volume depletion."
@@ -3437,8 +3437,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding suggests a pulmonary embolism after surgery?",
     "options": [
-      "Sudden dyspnea with pleuritic chest pain",
       "Gradual ankle swelling",
+      "Sudden dyspnea with pleuritic chest pain",
       "Bradycardia with hypertension",
       "Productive cough with fever"
     ],
@@ -3451,9 +3451,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which instruction is appropriate for a patient with GERD?",
     "options": [
-      "Avoid meals close to bedtime and raise the head of the bed",
-      "Eat a large meal before lying down",
       "Drink coffee right before sleep",
+      "Eat a large meal before lying down",
+      "Avoid meals close to bedtime and raise the head of the bed",
       "Lie flat after eating"
     ],
     "answer": "Avoid meals close to bedtime and raise the head of the bed",
@@ -3465,10 +3465,10 @@ export const questions = [
     "difficulty": 3,
     "question": "Which cluster of findings suggests acute arterial occlusion?",
     "options": [
-      "Pain, pallor, and pulselessness",
+      "Itching with a rash",
       "Edema, erythema, and warmth",
       "Gradual swelling with intact pulses",
-      "Itching with a rash"
+      "Pain, pallor, and pulselessness"
     ],
     "answer": "Pain, pallor, and pulselessness",
     "explanation": "Acute arterial occlusion causes the six Ps: pain, pallor, pulselessness, paresthesia, paralysis, and poikilothermia."
@@ -3493,8 +3493,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which type of incontinence responds to pelvic floor muscle training?",
     "options": [
-      "Stress incontinence",
       "Overflow incontinence",
+      "Stress incontinence",
       "Functional incontinence",
       "Reflex incontinence"
     ],
@@ -3507,9 +3507,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which finding suggests diabetes insipidus?",
     "options": [
-      "Large volumes of dilute urine",
-      "Concentrated urine with low output",
       "Hyponatremia with edema",
+      "Concentrated urine with low output",
+      "Large volumes of dilute urine",
       "Weight gain with hypertension"
     ],
     "answer": "Large volumes of dilute urine",
@@ -3521,10 +3521,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which assessment is the priority after a lumbar puncture?",
     "options": [
-      "Monitor neurologic status and keep the patient flat",
+      "Give oral fluids only",
       "Ambulate immediately",
       "Sit the patient upright for an hour",
-      "Give oral fluids only"
+      "Monitor neurologic status and keep the patient flat"
     ],
     "answer": "Monitor neurologic status and keep the patient flat",
     "explanation": "Lying flat reduces post puncture headache, and neurologic checks detect bleeding or herniation early."
@@ -3549,8 +3549,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding suggests a deep vein thrombosis in the leg?",
     "options": [
-      "Unilateral calf swelling with warmth",
       "Bilateral ankle edema that improves with elevation",
+      "Unilateral calf swelling with warmth",
       "Cold pale feet with absent hair growth",
       "Itching with a diffuse rash"
     ],
@@ -3563,9 +3563,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which complication can result from correcting hyponatremia too quickly?",
     "options": [
-      "Osmotic demyelination syndrome",
-      "Hyperkalemia",
       "Pulmonary fibrosis",
+      "Hyperkalemia",
+      "Osmotic demyelination syndrome",
       "Hyperglycemia"
     ],
     "answer": "Osmotic demyelination syndrome",
@@ -3577,10 +3577,10 @@ export const questions = [
     "difficulty": 1,
     "question": "Which hormone is detected by a standard pregnancy test?",
     "options": [
-      "Human chorionic gonadotropin",
+      "Oxytocin",
       "Progesterone",
       "Estrogen",
-      "Oxytocin"
+      "Human chorionic gonadotropin"
     ],
     "answer": "Human chorionic gonadotropin",
     "explanation": "Pregnancy tests detect human chorionic gonadotropin, which rises after implantation."
@@ -3605,8 +3605,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding suggests placental abruption?",
     "options": [
-      "Painful vaginal bleeding with a firm uterus",
       "Painless bright red bleeding with a soft uterus",
+      "Painful vaginal bleeding with a firm uterus",
       "Clear fluid leaking without contractions",
       "Gradual back pain with a relaxed uterus"
     ],
@@ -3619,9 +3619,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which vaccine is recommended during pregnancy to protect the newborn?",
     "options": [
-      "Tdap",
-      "MMR",
       "Varicella",
+      "MMR",
+      "Tdap",
       "HPV"
     ],
     "answer": "Tdap",
@@ -3633,10 +3633,10 @@ export const questions = [
     "difficulty": 1,
     "question": "Which lochia type is expected in the first 24 hours after birth?",
     "options": [
-      "Lochia rubra",
+      "Yellow watery discharge",
       "Lochia serosa",
       "Lochia alba",
-      "Yellow watery discharge"
+      "Lochia rubra"
     ],
     "answer": "Lochia rubra",
     "explanation": "Lochia rubra is dark red and lasts a few days, then changes to serosa and later alba."
@@ -3661,8 +3661,8 @@ export const questions = [
     "difficulty": 3,
     "question": "Which finding suggests severe features of preeclampsia?",
     "options": [
-      "Platelets of 90,000 per microliter",
       "Blood pressure of 128/78 mmHg",
+      "Platelets of 90,000 per microliter",
       "Proteinuria with normal platelets",
       "Normal liver enzymes"
     ],
@@ -3675,9 +3675,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which finding suggests uterine rupture during labor?",
     "options": [
-      "Sudden tearing pain with loss of fetal station",
-      "Gradual increase in contraction strength",
       "Continuous clear fluid leakage",
+      "Gradual increase in contraction strength",
+      "Sudden tearing pain with loss of fetal station",
       "Normal fetal heart rate variability"
     ],
     "answer": "Sudden tearing pain with loss of fetal station",
@@ -3689,10 +3689,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding suggests a urinary tract infection during pregnancy?",
     "options": [
-      "Dysuria and urinary frequency",
+      "Painless vaginal bleeding",
       "Clear urine with no symptoms",
       "Hypertension with edema",
-      "Painless vaginal bleeding"
+      "Dysuria and urinary frequency"
     ],
     "answer": "Dysuria and urinary frequency",
     "explanation": "Dysuria, frequency, and urgency suggest infection, which is common in pregnancy and must be treated promptly."
@@ -3717,8 +3717,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which action is the priority for a newborn immediately after delivery?",
     "options": [
-      "Dry and stimulate while assessing breathing",
       "Give a bath immediately",
+      "Dry and stimulate while assessing breathing",
       "Weigh and measure before drying",
       "Place the newborn on the back uncovered"
     ],
@@ -3731,9 +3731,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding is normal in a newborn during the first hours of life?",
     "options": [
-      "Acrocyanosis of the hands and feet",
-      "Cyanosis of the tongue and trunk",
       "Absent Moro reflex",
+      "Cyanosis of the tongue and trunk",
+      "Acrocyanosis of the hands and feet",
       "Respiratory rate of 80"
     ],
     "answer": "Acrocyanosis of the hands and feet",
@@ -3745,10 +3745,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding indicates increased work of breathing in a child?",
     "options": [
-      "Intercostal retractions",
+      "Strong cry",
       "Regular breathing at rest",
       "Warm dry skin",
-      "Strong cry"
+      "Intercostal retractions"
     ],
     "answer": "Intercostal retractions",
     "explanation": "Retractions show that accessory muscles are being used because of increased respiratory effort."
@@ -3773,8 +3773,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding suggests croup?",
     "options": [
-      "A barking cough with inspiratory stridor",
       "A harsh cough with a whoop",
+      "A barking cough with inspiratory stridor",
       "Stridor only on expiration",
       "Rapid breathing with no cough"
     ],
@@ -3787,9 +3787,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding suggests pyloric stenosis in an infant?",
     "options": [
-      "Projectile vomiting after feeding",
-      "Frequent watery stools",
       "Green bilious vomiting on day one",
+      "Frequent watery stools",
+      "Projectile vomiting after feeding",
       "No interest in feeding with lethargy"
     ],
     "answer": "Projectile vomiting after feeding",
@@ -3801,10 +3801,10 @@ export const questions = [
     "difficulty": 3,
     "question": "Which finding suggests Kawasaki disease?",
     "options": [
-      "Prolonged fever with conjunctivitis and a strawberry tongue",
+      "Parotid swelling with ear pain",
       "A single day of fever with a rash",
       "Vesicles on the palms and soles",
-      "Parotid swelling with ear pain"
+      "Prolonged fever with conjunctivitis and a strawberry tongue"
     ],
     "answer": "Prolonged fever with conjunctivitis and a strawberry tongue",
     "explanation": "Kawasaki disease causes at least five days of fever with conjunctival injection, rash, and mucosal changes."
@@ -3829,8 +3829,8 @@ export const questions = [
     "difficulty": 1,
     "question": "Which milestone is expected around 12 months of age?",
     "options": [
-      "Cruising while holding furniture",
       "Sitting without support at 12 months",
+      "Cruising while holding furniture",
       "Running steadily",
       "Using two word sentences"
     ],
@@ -3843,9 +3843,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which congenital heart defect commonly produces a holosystolic murmur?",
     "options": [
-      "Ventricular septal defect",
-      "Atrial septal defect",
       "Patent ductus arteriosus",
+      "Atrial septal defect",
+      "Ventricular septal defect",
       "Tetralogy of Fallot"
     ],
     "answer": "Ventricular septal defect",
@@ -3857,10 +3857,10 @@ export const questions = [
     "difficulty": 2,
     "question": "What is the correct action when a choking child is coughing forcefully?",
     "options": [
-      "Encourage the child to keep coughing",
+      "Place the child supine and start CPR",
       "Perform abdominal thrusts immediately",
       "Give water to wash down the object",
-      "Place the child supine and start CPR"
+      "Encourage the child to keep coughing"
     ],
     "answer": "Encourage the child to keep coughing",
     "explanation": "A forceful cough moves air and is effective. Abdominal thrusts are for an ineffective cough."
@@ -3885,8 +3885,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which medication class commonly causes tardive dyskinesia?",
     "options": [
-      "Typical antipsychotics",
       "SSRIs",
+      "Typical antipsychotics",
       "Benzodiazepines",
       "Beta blockers"
     ],
@@ -3899,9 +3899,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding suggests delirium rather than dementia?",
     "options": [
-      "Acute onset with fluctuating attention",
-      "Gradual decline over years",
       "Stable memory with normal attention",
+      "Gradual decline over years",
+      "Acute onset with fluctuating attention",
       "No change in sleep pattern"
     ],
     "answer": "Acute onset with fluctuating attention",
@@ -3913,10 +3913,10 @@ export const questions = [
     "difficulty": 3,
     "question": "Which assessment is the priority for a patient with severe anorexia nervosa?",
     "options": [
-      "Cardiac rhythm and refeeding risk",
+      "Family conflict history",
       "Calorie count alone",
       "Body image discussion",
-      "Family conflict history"
+      "Cardiac rhythm and refeeding risk"
     ],
     "answer": "Cardiac rhythm and refeeding risk",
     "explanation": "Severe malnutrition causes bradycardia, arrhythmias, and refeeding syndrome, so cardiac monitoring comes first."
@@ -3941,8 +3941,8 @@ export const questions = [
     "difficulty": 3,
     "question": "Which medication requires monitoring for agranulocytosis?",
     "options": [
-      "Clozapine",
       "Lithium",
+      "Clozapine",
       "Haloperidol",
       "Sertraline"
     ],
@@ -3955,9 +3955,9 @@ export const questions = [
     "difficulty": 2,
     "question": "Which intervention is expected during alcohol withdrawal?",
     "options": [
-      "Benzodiazepines with thiamine",
-      "Opioids with naloxone",
       "Stimulants with caffeine",
+      "Opioids with naloxone",
+      "Benzodiazepines with thiamine",
       "Antihistamines alone"
     ],
     "answer": "Benzodiazepines with thiamine",
@@ -3969,10 +3969,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which technique reflects a patient's feelings back to them in therapeutic communication?",
     "options": [
-      "Reflection",
+      "False reassurance",
       "Changing the subject",
       "Giving advice",
-      "False reassurance"
+      "Reflection"
     ],
     "answer": "Reflection",
     "explanation": "Reflection restates the patient's feeling so they feel heard and can explore it further."
@@ -3997,8 +3997,8 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding suggests a failed endotracheal intubation?",
     "options": [
-      "No chest rise with absent breath sounds",
       "Equal chest rise with bilateral breath sounds",
+      "No chest rise with absent breath sounds",
       "Rising oxygen saturation",
       "Warm dry skin"
     ],
@@ -4011,9 +4011,9 @@ export const questions = [
     "difficulty": 2,
     "question": "What should be done if a chest tube is accidentally pulled out?",
     "options": [
-      "Cover the site with an occlusive dressing",
-      "Reinsert the tube immediately",
       "Clamp the site with hemostats",
+      "Reinsert the tube immediately",
+      "Cover the site with an occlusive dressing",
       "Leave it open to air"
     ],
     "answer": "Cover the site with an occlusive dressing",
@@ -4025,10 +4025,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which action is part of the one hour sepsis bundle?",
     "options": [
-      "Obtain cultures and give antibiotics",
+      "Delay antibiotics until results return",
       "Wait for the next shift",
       "Give oral fluids only",
-      "Delay antibiotics until results return"
+      "Obtain cultures and give antibiotics"
     ],
     "answer": "Obtain cultures and give antibiotics",
     "explanation": "The bundle includes cultures, broad spectrum antibiotics, fluids, and lactate measurement without delay."
@@ -4053,8 +4053,8 @@ export const questions = [
     "difficulty": 3,
     "question": "What is the first action for an obstructed tracheostomy?",
     "options": [
-      "Remove the inner cannula and suction",
       "Deflate the cuff and wait",
+      "Remove the inner cannula and suction",
       "Give a nebulizer treatment",
       "Clamp the tube"
     ],
@@ -4067,9 +4067,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which finding suggests neurogenic shock?",
     "options": [
-      "Hypotension with bradycardia",
-      "Hypertension with tachycardia",
       "Hypotension with tachycardia",
+      "Hypertension with tachycardia",
+      "Hypotension with bradycardia",
       "Warm dry skin with hypertension"
     ],
     "answer": "Hypotension with bradycardia",
@@ -4081,10 +4081,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which finding indicates acute hypoxemic respiratory failure?",
     "options": [
-      "PaO2 of 50 mmHg on room air",
+      "SpO2 of 98 percent",
       "PaO2 of 95 mmHg on room air",
       "PaCO2 of 38 mmHg",
-      "SpO2 of 98 percent"
+      "PaO2 of 50 mmHg on room air"
     ],
     "answer": "PaO2 of 50 mmHg on room air",
     "explanation": "A PaO2 below 60 mmHg on room air defines hypoxemic respiratory failure."
@@ -4109,8 +4109,8 @@ export const questions = [
     "difficulty": 2,
     "question": "An IV of 600 mL is to infuse over 4 hours with a drop factor of 15 gtt/mL. What is the flow rate?",
     "options": [
-      "38 gtt/min",
       "25 gtt/min",
+      "38 gtt/min",
       "60 gtt/min",
       "150 gtt/min"
     ],
@@ -4123,9 +4123,9 @@ export const questions = [
     "difficulty": 3,
     "question": "The order is 0.2 mg/kg for a patient who weighs 22 kg. The vial contains 4 mg/mL. How many mL do you give?",
     "options": [
-      "1.1",
-      "0.9",
       "2.2",
+      "0.9",
+      "1.1",
       "4.4"
     ],
     "answer": "1.1",
@@ -4137,10 +4137,10 @@ export const questions = [
     "difficulty": 3,
     "question": "An infusion is ordered at 2 mg per minute. The bag contains 1 g in 250 mL. What rate do you set?",
     "options": [
-      "30 mL/hr",
+      "8 mL/hr",
       "15 mL/hr",
       "60 mL/hr",
-      "8 mL/hr"
+      "30 mL/hr"
     ],
     "answer": "30 mL/hr",
     "explanation": "2 mg per minute is 120 mg per hour. The concentration is 4 mg/mL, so 120 divided by 4 equals 30 mL/hr."
@@ -4165,8 +4165,8 @@ export const questions = [
     "difficulty": 1,
     "question": "What is the first action after a patient falls and hits their head?",
     "options": [
-      "Do not move the patient and assess airway and neurologic status",
       "Help the patient stand up quickly",
+      "Do not move the patient and assess airway and neurologic status",
       "Move the patient back to bed immediately",
       "Document the fall before assessing"
     ],
@@ -4179,9 +4179,9 @@ export const questions = [
     "difficulty": 3,
     "question": "Which patient has the highest immediate suicide risk?",
     "options": [
-      "A patient with a specific plan and access to a firearm",
-      "A patient who reports feeling lonely",
       "A patient who sleeps poorly",
+      "A patient who reports feeling lonely",
+      "A patient with a specific plan and access to a firearm",
       "A patient who asks for sleeping medication"
     ],
     "answer": "A patient with a specific plan and access to a firearm",
@@ -4193,10 +4193,10 @@ export const questions = [
     "difficulty": 2,
     "question": "Which task can be delegated to unlicensed assistive personnel?",
     "options": [
-      "Ambulating a stable patient who is at baseline",
+      "Deciding when to hold a medication",
       "Teaching insulin injection technique",
       "Performing the initial admission assessment",
-      "Deciding when to hold a medication"
+      "Ambulating a stable patient who is at baseline"
     ],
     "answer": "Ambulating a stable patient who is at baseline",
     "explanation": "Stable ambulation is within assistive personnel scope. Teaching, assessment, and medication decisions remain with the nurse."

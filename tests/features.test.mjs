@@ -240,6 +240,19 @@ test("getDailyMissions is deterministic and picks 3 unique missions", () => {
   assert.deepEqual(missions, again);
 });
 
+test("shipped deck spreads correct answers across all four option positions", () => {
+  const counts = { A: 0, B: 0, C: 0, D: 0 };
+  questions.forEach((item) => {
+    const index = item.options.indexOf(item.answer);
+    assert.notEqual(index, -1, `question "${item.id}" answer is not in its options`);
+    counts["ABCD"[index]] += 1;
+  });
+  Object.entries(counts).forEach(([letter, count]) => {
+    assert.ok(count > 0, `option ${letter} never holds a correct answer`);
+    assert.ok(count / questions.length <= 0.4, `option ${letter} holds ${count}/${questions.length} answers`);
+  });
+});
+
 test("updateMissionProgress accumulates and pays 50 XP on completion", () => {
   const fresh = emptyProfile();
   const day = dayKey(new Date());
