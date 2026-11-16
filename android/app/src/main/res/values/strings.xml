@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MedMyst</string>
+    <string name="title_activity_main">MedMyst</string>
+    <string name="package_name">com.medmyst.app</string>
+    <string name="custom_url_scheme">com.medmyst.app</string>
+</resources>

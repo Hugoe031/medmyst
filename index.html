@@ -1,0 +1,474 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#060a13" />
+    <meta name="description" content="MedMyst: five clinical cases a day, plus practice and Word Hunt. Keep your streak alive." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>MedMyst — clinical case arcade</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png" />
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="loading-overlay" class="loading-overlay is-hidden" aria-hidden="true">
+      <div class="spinner"></div>
+    </div>
+
+    <div id="splash" class="splash" aria-hidden="true">
+      <img src="assets/splash.png" alt="MedMyst" width="380" height="380" />
+    </div>
+    
+    <div class="backdrop" aria-hidden="true">
+      <span class="orb orb-a"></span>
+      <span class="orb orb-b"></span>
+      <span class="orb orb-c"></span>
+      <span class="grain"></span>
+    </div>
+
+    <div id="confetti" class="confetti" aria-hidden="true"></div>
+    <div id="toasts" class="toasts" aria-live="polite"></div>
+
+    <main class="app">
+      <header class="topbar">
+        <div class="brand">
+          <img src="./assets/apple-touch-icon.png" class="brand-mark" alt="" aria-hidden="true" />
+          <span class="brand-name">MedMyst</span>
+        </div>
+        <div class="topbar-actions">
+          <button id="profile-btn" class="profile-pill" aria-label="Profile" type="button">
+            <span class="pill-avatar" id="head-avatar">🩺</span>
+            <span class="pill-name" id="head-name">Clinician</span>
+          </button>
+          <button id="settings-btn" class="icon-btn" aria-label="Settings" type="button">⚙️</button>
+          <div class="streak-badge" id="streak-badge">
+            <span aria-hidden="true">🔥</span>
+            <span id="streak-count">0</span>
+          </div>
+        </div>
+      </header>
+
+      <section id="screen-home" class="screen" aria-label="Home">
+        <div class="hero-panel staggered-item" style="--delay: 0ms">
+          <div class="hero-top">
+            <p class="eyebrow" id="home-date"></p>
+            <span class="case-chip">Case <b>#<span id="home-number">1</span></b></span>
+          </div>
+          <h1>Sharpen your<br /><span class="gradient-text">clinical instinct</span></h1>
+          <p class="lede">
+            Five cases a day. One shared case. Read the reasoning, keep the streak,
+            climb the ranks.
+          </p>
+        </div>
+
+        <div class="rank-card staggered-item" style="--delay: 50ms">
+          <div class="rank-top">
+            <span class="rank-name" id="rank-label">Intern</span>
+            <span class="rank-xp" id="rank-xp">0 XP</span>
+          </div>
+          <div class="rank-track"><span id="rank-fill"></span></div>
+          <p class="rank-hint" id="rank-hint">400 XP to Resident</p>
+        </div>
+
+        <div class="mode-stack">
+          <button id="start-btn" class="mode-card is-daily staggered-item" style="--delay: 100ms" type="button">
+            <span class="mode-glyph" aria-hidden="true">5</span>
+            <span class="mode-copy">
+              <span class="mode-label">Daily Rounds</span>
+              <span class="mode-title" id="start-label">Play today's rounds</span>
+              <span class="mode-meta" id="home-status"></span>
+            </span>
+            <span class="mode-go" aria-hidden="true">→</span>
+          </button>
+
+          <div class="mode-row">
+            <button id="practice-btn" class="mode-card mode-compact is-practice staggered-item" style="--delay: 200ms" type="button">
+              <span class="mode-glyph" aria-hidden="true">∞</span>
+              <span class="mode-copy">
+                <span class="mode-title">Practice</span>
+                <span class="mode-meta">5 random cases</span>
+              </span>
+            </button>
+            <button id="hunt-btn" class="mode-card mode-compact is-hunt staggered-item" style="--delay: 300ms" type="button">
+              <span class="mode-glyph" aria-hidden="true">◈</span>
+              <span class="mode-copy">
+                <span class="mode-title">Word Hunt</span>
+                <span class="mode-meta">Find the term</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="mode-row">
+            <button id="specialties-btn" class="mode-card mode-compact is-specialty staggered-item" style="--delay: 350ms" type="button">
+              <span class="mode-glyph" aria-hidden="true">◈</span>
+              <span class="mode-copy">
+                <span class="mode-title">Specialties</span>
+                <span class="mode-meta">Targeted mastery</span>
+              </span>
+            </button>
+            <button id="time-attack-btn" class="mode-card mode-compact is-urgent staggered-item" style="--delay: 400ms" type="button">
+              <span class="mode-glyph" aria-hidden="true">⚡</span>
+              <span class="mode-copy">
+                <span class="mode-title">Time Attack</span>
+                <span class="mode-meta">60s rapid round</span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stats staggered-item" style="--delay: 400ms">
+          <div class="stat">
+            <b id="stat-streak">0</b>
+            <span>streak</span>
+          </div>
+          <div class="stat">
+            <b id="stat-best">0</b>
+            <span>best</span>
+          </div>
+          <div class="stat">
+            <b id="stat-accuracy">—</b>
+            <span>accuracy</span>
+          </div>
+        </div>
+
+        <div class="week-card staggered-item" style="--delay: 500ms">
+          <div class="week-head">
+            <span>Last 7 days</span>
+            <span id="week-note">0 of 7</span>
+          </div>
+          <div class="week-days" id="week-days"></div>
+        </div>
+
+        <p class="footnote">
+          Educational practice only. Not medical advice.
+          <button id="sources-btn" class="link-btn" type="button">Sources</button>
+          <span class="sep" aria-hidden="true">·</span>
+          <button id="privacy-btn" class="link-btn" type="button">Privacy</button>
+        </p>
+      </section>
+
+      <section id="screen-play" class="screen" aria-label="Clinical Rounds" hidden>
+        <div class="timer-wrap" aria-hidden="true">
+          <div id="timer-bar" class="timer-bar"></div>
+        </div>
+        <div class="play-head">
+          <div class="dots" id="progress" aria-hidden="true"></div>
+          <div class="play-tools">
+            <span class="combo-tag" id="combo-tag" hidden>x1.5</span>
+            <span class="mode-chip" id="mode-chip" hidden>Practice</span>
+            <button id="hint-btn" class="pill-btn" type="button">
+              <span id="hint-label">50/50</span>
+              <span class="hint-sep" aria-hidden="true">·</span>
+              <span id="hints-left">1</span>
+            </button>
+          </div>
+        </div>
+
+        <article class="card question-card">
+          <div class="card-top">
+            <span class="chip" id="category">Anatomy</span>
+            <span class="counter" id="counter">1 / 5</span>
+          </div>
+          <h2 id="question-text"></h2>
+          <div id="options" class="options"></div>
+          <div id="feedback" class="feedback" hidden aria-live="polite">
+            <p id="feedback-verdict" class="verdict"></p>
+            <p id="feedback-explanation" class="explanation"></p>
+          </div>
+          <button id="next-btn" class="btn btn-primary" type="button" hidden>Next</button>
+        </article>
+      </section>
+
+      <section id="screen-hunt" class="screen" aria-label="Word Hunt" hidden>
+        <div class="hunt-top">
+          <div class="hunt-hud">
+            <span class="hearts" id="hunt-hearts" aria-label="Lives left"></span>
+            <span class="hunt-score"><b id="hunt-score">0</b><span>pts</span></span>
+            <span class="hunt-combo" id="hunt-combo" hidden></span>
+          </div>
+          <button id="hunt-quit" class="icon-btn" type="button" aria-label="Quit Word Hunt">✕</button>
+        </div>
+
+        <article class="card hunt-card">
+          <div class="card-top">
+            <span class="chip" id="hunt-category">Terminology</span>
+            <div class="hunt-meta">
+              <span class="counter" id="hunt-counter">1 / 5</span>
+              <button id="hunt-hint" class="icon-btn is-hint" type="button" aria-label="Reveal the first letter">✦</button>
+            </div>
+          </div>
+          <h2 id="hunt-question"></h2>
+
+          <div class="board-wrap">
+            <div id="hunt-grid" class="hunt-grid" role="grid" aria-label="Letter grid"></div>
+          </div>
+
+          <p class="hunt-tip" id="hunt-tip">Drag from the first letter to the last, or tap both.</p>
+          <p class="hunt-preview" id="hunt-preview" aria-live="polite"></p>
+
+          <ul id="hunt-bank" class="hunt-bank" aria-label="Words to find"></ul>
+
+          <div id="hunt-feedback" class="feedback" hidden aria-live="polite">
+            <p id="hunt-verdict" class="verdict"></p>
+            <p id="hunt-explanation" class="explanation"></p>
+          </div>
+          <button id="hunt-next" class="btn btn-primary" type="button" hidden>Next case</button>
+        </article>
+      </section>
+
+      <section id="screen-result" class="screen" aria-label="Result" hidden>
+        <div class="hero">
+          <p class="eyebrow" id="result-eyebrow">Case 1</p>
+          <h2 id="result-verdict" class="verdict-heading">Clinical Verdict</h2>
+          <h1 id="result-score" class="score">0/5</h1>
+          <p class="grid-glyph" id="result-grid"></p>
+          <div id="perfect-badge" class="perfect-badge" hidden>
+            <span class="badge-icon">✨</span>
+            <div class="badge-body">
+              <b>Perfect Round</b>
+              <span>Flawless diagnosis +25 XP bonus</span>
+            </div>
+          </div>
+          <p class="status" id="result-streak"></p>
+          <div class="card result-summary">
+            <div class="summary-cell">
+              <b id="sum-1v">0</b>
+              <span id="sum-1l">points</span>
+            </div>
+            <div class="summary-cell">
+              <b id="sum-2v">0</b>
+              <span id="sum-2l">XP</span>
+            </div>
+            <div class="summary-cell">
+              <b id="sum-3v">0</b>
+              <span id="sum-3l">streak</span>
+            </div>
+          </div>
+          <div class="btn-stack">
+            <button id="share-btn" class="btn btn-primary" type="button">Share result</button>
+            <button id="review-btn" class="btn btn-ghost" type="button">Review answers</button>
+            <button id="home-btn" class="btn btn-ghost" type="button">Back to home</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screen-review" class="screen" aria-label="Review" hidden>
+        <div class="play-head">
+          <h1 class="screen-title" id="review-title">Review</h1>
+          <button id="review-back" class="btn btn-ghost btn-small" type="button">Back</button>
+        </div>
+        <div id="review-list" class="review-list"></div>
+      </section>
+
+      <section id="screen-profile" class="screen" aria-label="Profile" hidden>
+        <div class="play-head">
+          <h1 class="screen-title">Clinical Profile</h1>
+          <button id="profile-back" class="btn btn-ghost btn-small" type="button">Back</button>
+        </div>
+        
+        <div class="card staggered-item" style="--delay: 0ms">
+          <h3>Clinical Identity</h3>
+          <div class="identity-edit">
+            <div class="avatar-selection">
+              <span id="current-avatar" class="large-avatar">🩺</span>
+              <div class="avatar-grid">
+                <button type="button" class="avatar-opt" data-avatar="🩺">🩺</button>
+                <button type="button" class="avatar-opt" data-avatar="🫀">🫀</button>
+                <button type="button" class="avatar-opt" data-avatar="🧪">🧪</button>
+                <button type="button" class="avatar-opt" data-avatar="🏥">🏥</button>
+                <button type="button" class="avatar-opt" data-avatar="💊">💊</button>
+                <button type="button" class="avatar-opt" data-avatar="🧬">🧬</button>
+                <button type="button" class="avatar-opt" data-avatar="⚕️">⚕️</button>
+                <button type="button" class="avatar-opt" data-avatar="🧠">🧠</button>
+              </div>
+            </div>
+            <div class="nickname-field">
+              <label for="nickname-input">Clinician Nickname</label>
+              <input type="text" id="nickname-input" maxlength="15" placeholder="Enter name..." />
+            </div>
+          </div>
+        </div>
+
+        <div class="card staggered-item" style="--delay: 100ms">
+          <h3>Category Mastery</h3>
+          <p class="explanation">Performance across clinical domains.</p>
+          <div id="category-stats" class="category-list"></div>
+        </div>
+
+        <div class="card staggered-item" style="--delay: 200ms">
+          <h3>Trophy Room</h3>
+          <p class="explanation">Earned clinical milestones.</p>
+          <div id="badge-gallery" class="badge-gallery"></div>
+        </div>
+
+        <div class="card staggered-item" style="--delay: 300ms">
+          <h3>Hall of Fame</h3>
+          <p class="explanation">Your personal high scores.</p>
+          <div id="hall-of-fame" class="leaderboard-list">
+            <div class="leader-item">
+              <span>Time Attack Best</span>
+              <b id="best-time-attack">0 pts</b>
+            </div>
+            <div class="leader-item">
+              <span>Word Hunt Best</span>
+              <b id="best-hunt-score">0 pts</b>
+            </div>
+            <div class="leader-item">
+              <span>Max Combo</span>
+              <b id="best-global-combo">0</b>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="screen-specialties" class="screen" aria-label="Clinical Specialties" hidden>
+        <div class="play-head">
+          <h1 class="screen-title">Specialties</h1>
+          <button id="specialties-back" class="btn btn-ghost btn-small" type="button">Back</button>
+        </div>
+        <p class="lede">Choose a domain to focus your practice. Higher ranks unlock advanced specialties.</p>
+        <div id="specialties-list" class="specialty-grid"></div>
+      </section>
+
+      <section id="screen-time-attack" class="screen" aria-label="Time Attack" hidden>
+        <div class="play-head">
+          <div class="time-attack-hud">
+            <span class="timer-big" id="attack-timer">60</span>
+            <span class="score-big" id="attack-score">0</span>
+          </div>
+          <button id="attack-quit" class="icon-btn" type="button">✕</button>
+        </div>
+        <div id="attack-question-wrap" class="attack-wrap">
+          <article class="card attack-card">
+            <h2 id="attack-question"></h2>
+            <div id="attack-options" class="options"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="screen-settings" class="screen" aria-label="Settings" hidden>
+        <div class="play-head">
+          <h1 class="screen-title">Settings</h1>
+          <button id="settings-back" class="btn btn-ghost btn-small" type="button">Back</button>
+        </div>
+
+        <div class="card staggered-item" style="--delay: 0ms">
+          <h3>Audio</h3>
+          <div class="setting-row">
+            <label for="vol-success">Success Chime</label>
+            <input type="range" id="vol-success" min="0" max="100" value="50" />
+          </div>
+          <div class="setting-row">
+            <label for="vol-explosion">Explosion Boom</label>
+            <input type="range" id="vol-explosion" min="0" max="100" value="70" />
+          </div>
+          <div class="setting-row">
+            <label for="ambience-toggle">Clinical Ambience</label>
+            <label class="toggle">
+              <input type="checkbox" id="ambience-toggle" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="card staggered-item" style="--delay: 100ms">
+          <h3>Feedback</h3>
+          <div class="setting-row">
+            <label for="haptic-strength">Haptic Strength</label>
+            <select id="haptic-strength">
+              <option value="off">Off</option>
+              <option value="light">Soft</option>
+              <option value="medium">Medium</option>
+              <option value="heavy">Heavy</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <label for="screenshot-mode">Screenshot Mode</label>
+            <label class="toggle">
+              <input type="checkbox" id="screenshot-mode" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <button id="privacy-options-btn" class="btn btn-ghost btn-small" type="button">Privacy Settings</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screen-sources" class="screen" aria-label="Sources" hidden>
+        <div class="play-head">
+          <h1 class="screen-title">Sources</h1>
+          <button id="sources-back" class="btn btn-ghost btn-small" type="button">Back</button>
+        </div>
+        <article class="card">
+          <p class="explanation">
+            Questions follow standard nursing and medical education content and are
+            cross-checked against the guidelines below. Clinical practice changes, so
+            always confirm against current local policy before acting on anything here.
+          </p>
+        </article>
+        <article class="card sources">
+          <ul>
+            <li>
+              <a href="https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-figure.html" target="_blank" rel="noopener">CDC: Isolation Precautions, PPE donning and doffing</a>
+              <span>Infection control and hand hygiene items.</span>
+            </li>
+            <li>
+              <a href="https://www.acog.org/clinical/guidance/practice-bulletin/2020/06/gestational-hypertension-and-preeclampsia/" target="_blank" rel="noopener">ACOG Practice Bulletin 222: Gestational Hypertension and Preeclampsia</a>
+              <span>Preeclampsia diagnosis and severe features.</span>
+            </li>
+            <li>
+              <a href="https://www.acr.org/Clinical-Resources/Clinical-Tools-and-Reference/Contrast-Manual" target="_blank" rel="noopener">ACR Manual on Contrast Media</a>
+              <span>Metformin and iodinated contrast guidance.</span>
+            </li>
+            <li>
+              <a href="https://www.healthychildren.org/English/health-issues/conditions/seizures/Pages/Seizure-First-Aid-for-Children.aspx" target="_blank" rel="noopener">AAP HealthyChildren: Seizure First Aid for Children</a>
+              <span>Febrile seizure first aid.</span>
+            </li>
+            <li>
+              <a href="https://www.ncbi.nlm.nih.gov/books/NBK448123/" target="_blank" rel="noopener">StatPearls: Febrile Seizure</a>
+              <span>Supporting evidence for febrile seizure management.</span>
+            </li>
+            <li>
+              <a href="https://www.neurology.org/doi/10.1212/WNL.46.5.1470" target="_blank" rel="noopener">AAS and AAN consensus: Definition of orthostatic hypotension</a>
+              <span>Orthostatic hypotension criteria.</span>
+            </li>
+          </ul>
+          <p class="explanation">
+            Additional guidance referenced by name: ACC/AHA hypertension guideline,
+            AHA advanced cardiovascular life support, ARDSNet ventilation protocol,
+            Surviving Sepsis Campaign, and standard texts in medical-surgical nursing
+            and pharmacology.
+          </p>
+        </article>
+      </section>
+
+      <section id="screen-privacy" class="screen" aria-label="Privacy Policy" hidden>
+        <div class="play-head">
+          <h1 class="screen-title">Privacy</h1>
+          <button id="privacy-back" class="btn btn-ghost btn-small" type="button">Back</button>
+        </div>
+        <article class="card">
+          <h3>Your Data</h3>
+          <p class="explanation">
+            MedMyst stores your progress, stats, and settings locally on your device. We do not have accounts or cloud storage, so your data stays with you.
+          </p>
+          <h3>Ads & Privacy</h3>
+          <p class="explanation">
+            We use Google AdMob for rewarded ads. You can manage your ad consent and tracking preferences in the app settings.
+          </p>
+          <p class="explanation" style="margin-top: 12px; font-size: 0.85em; opacity: 0.8;">
+            For the full policy, visit: <a href="https://medmyst.app/privacy" target="_blank" id="privacy-link" style="color: var(--accent);">medmyst.app/privacy</a>
+          </p>
+        </article>
+      </section>
+    </main>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

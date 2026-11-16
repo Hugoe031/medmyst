@@ -1,0 +1,30 @@
+{
+    "name": "medmyst",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "description": "Daily clinical rounds for nursing and medical learners.",
+    "scripts": {
+        "dev": "node scripts/dev-server.mjs",
+        "build:deck": "node scripts/build-deck.mjs",
+        "validate": "node scripts/validate-deck.mjs && node scripts/build-wordhunt.mjs --check",
+        "export:csv": "node scripts/export-csv.mjs",
+        "test": "node --test",
+        "check": "node scripts/validate-deck.mjs && node scripts/build-wordhunt.mjs --check && node --test",
+        "build:web": "node scripts/build-web.mjs",
+        "android:sync": "node scripts/build-web.mjs && npx cap sync android",
+        "android:apk": "node scripts/build-web.mjs && npx cap sync android && cd android && .\\gradlew.bat assembleDebug",
+        "android:release": "node scripts/build-web.mjs && npx cap sync android && cd android && .\\gradlew.bat bundleRelease",
+        "build:wordhunt": "node scripts/build-wordhunt.mjs"
+    },
+    "devDependencies": {
+        "@capacitor/cli": "^7.6.9"
+    },
+    "dependencies": {
+        "@capacitor-community/admob": "^7.2.0",
+        "@capacitor/android": "^7.6.9",
+        "@capacitor/app": "^7.1.2",
+        "@capacitor/core": "^7.6.9",
+        "@capacitor/haptics": "^7.0.5"
+    }
+}

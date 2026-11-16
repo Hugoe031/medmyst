@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark mode: matches the dark background used by the web splash -->
+    <color name="splash_background">#060A13</color>
+</resources>
