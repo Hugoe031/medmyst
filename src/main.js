@@ -145,6 +145,35 @@ const SFX = {
 
 const AMBIENCE_VOLUME = 0.35;
 const BACKGROUND_LOOPS = ["ambience", "music"];
+let awaitingAudioGesture = false;
+
+// Browsers block autoplay after a reload until the player interacts with the
+// page. When that happens, retry on the next tap/keypress instead of leaving
+// an enabled music/ambience toggle silent for the rest of the session.
+function playBackgroundLoop(name) {
+  const audio = SFX[name];
+  if (!audio || !audio.paused) return;
+  const attempt = audio.play();
+  if (attempt && typeof attempt.catch === "function") {
+    attempt.catch((error) => {
+      if (error?.name === "NotAllowedError" || error?.name === "PlaybackInterruptedError") {
+        resumeAudioOnGesture();
+      }
+    });
+  }
+}
+
+function resumeAudioOnGesture() {
+  if (awaitingAudioGesture) return;
+  awaitingAudioGesture = true;
+  const events = ["pointerdown", "touchstart", "keydown"];
+  const resume = () => {
+    events.forEach((event) => document.removeEventListener(event, resume, true));
+    awaitingAudioGesture = false;
+    applySettings();
+  };
+  events.forEach((event) => document.addEventListener(event, resume, { capture: true, once: true }));
+}
 
 // Preload audio
 Object.values(SFX).forEach(audio => {
@@ -175,7 +204,7 @@ function applySettings() {
       // play() on an already-playing loop is a no-op, so this is safe to call
       // from every render without restarting the track.
       if (SFX[name].paused) {
-        SFX[name].play().catch(() => {});
+        playBackgroundLoop(name);
       }
     } else if (!SFX[name].paused) {
       SFX[name].pause();

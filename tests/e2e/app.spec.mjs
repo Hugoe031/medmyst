@@ -347,6 +347,38 @@ test("audio and haptic settings survive a reload", async ({ page }) => {
   await expect(page.locator("#haptic-strength")).toHaveValue("light");
 });
 
+test("blocked autoplay retries on the first tap when music is enabled", async ({ page }) => {
+  await page.addInitScript(() => {
+    window.__musicAttempts = [];
+    window.__autoplayBlocked = true;
+    const originalPlay = HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play = function (...args) {
+      if (!this.src.includes("music.mp3")) return originalPlay.apply(this, args);
+      if (window.__autoplayBlocked) {
+        window.__musicAttempts.push("blocked");
+        return Promise.reject(Object.assign(new Error("blocked"), { name: "NotAllowedError" }));
+      }
+      const result = originalPlay.apply(this, args);
+      result?.then(
+        () => window.__musicAttempts.push("ok"),
+        () => window.__musicAttempts.push("failed")
+      );
+      return result;
+    };
+    document.addEventListener("pointerdown", () => { window.__autoplayBlocked = false; }, true);
+  });
+
+  await freshPage(page);
+  await page.locator("#settings-btn").click();
+  await setCheckbox(page, "music-toggle", true);
+  await page.reload();
+
+  await expect.poll(() => page.evaluate(() => window.__musicAttempts)).toContain("blocked");
+  await page.locator("#start-btn").click();
+  await expect.poll(() => page.evaluate(() => window.__musicAttempts)).toContain("ok");
+  expect((await readProfile(page)).settings.music).toBe(true);
+});
+
 test("reminders stay opt-in and explain web limitations", async ({ page }) => {
   await freshPage(page);
   await expect(page.locator("#reminder-prompt")).toBeHidden();
