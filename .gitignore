@@ -14,3 +14,8 @@ Thumbs.db
 
 # AI editor share artifacts
 .trae-html-share-packages/
+
+# Playwright output
+playwright-report/
+test-results/
+blob-report/

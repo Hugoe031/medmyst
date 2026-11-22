@@ -19,7 +19,6 @@ import {
   calculateXp,
   readProfile,
   recordAdWatch,
-  recordHighScore,
   recordHunt,
   recordPractice,
   recordQuiz,
@@ -45,6 +44,7 @@ import {
 import { lineCells } from "./core/wordgrid.js";
 import {
   BADGES,
+  RANKS,
   badgeById,
   freshBadges,
   isBadgeEarned,
@@ -58,6 +58,7 @@ import { shuffle } from "./core/rng.js";
 import { requestRewardedHint } from "./rewarded-overlay.js";
 import { initializeAdMob, showPrivacyOptions } from "./core/rewarded.js";
 import { getDailyMissions, updateMissionProgress } from "./core/missions.js";
+import { setupUpdateBanner } from "./core/update.js";
 const App = globalThis.Capacitor?.Plugins?.App;
 
 // Global UI helpers
@@ -76,16 +77,42 @@ window.addEventListener('error', (event) => {
   showLoading(false);
 });
 
-const SPECIALTIES = [
-  { id: "Terminology", minLevel: 0, icon: "📖" },
-  { id: "Safety", minLevel: 0, icon: "🛡️" },
-  { id: "Anatomy", minLevel: 1, icon: "🫀" },
-  { id: "Vitals", minLevel: 1, icon: "🩺" },
-  { id: "Pharmacology", minLevel: 2, icon: "💊" },
-  { id: "Infection Control", minLevel: 2, icon: "🧼" },
-  { id: "Labs", minLevel: 3, icon: "🧪" },
-  { id: "Med-Surg", minLevel: 3, icon: "🏥" }
-];
+const SPECIALTY_META = {
+  Terminology: { minLevel: 0, icon: "📖" },
+  Safety: { minLevel: 0, icon: "🛡️" },
+  Anatomy: { minLevel: 1, icon: "🫀" },
+  Vitals: { minLevel: 1, icon: "🩺" },
+  "Dosage Calc": { minLevel: 1, icon: "🧮" },
+  Pharmacology: { minLevel: 2, icon: "💊" },
+  "Infection Control": { minLevel: 2, icon: "🧼" },
+  Pediatrics: { minLevel: 2, icon: "🧒" },
+  Maternal: { minLevel: 2, icon: "🤰" },
+  "Mental Health": { minLevel: 2, icon: "🧠" },
+  Prioritization: { minLevel: 2, icon: "🎯" },
+  Labs: { minLevel: 3, icon: "🧪" },
+  "Med-Surg": { minLevel: 3, icon: "🏥" },
+  "Critical Care": { minLevel: 3, icon: "🫁" }
+};
+
+// Derive the playable specialties from the shipped deck so a category can
+// never be missing from this screen just because the list went stale.
+function buildSpecialties() {
+  const present = new Set(questions.map((question) => question.category));
+  const list = [];
+  Object.entries(SPECIALTY_META).forEach(([id, meta]) => {
+    if (present.has(id)) {
+      list.push({ id, ...meta });
+    }
+  });
+  present.forEach((id) => {
+    if (!SPECIALTY_META[id]) {
+      list.push({ id, minLevel: 1, icon: "◈" });
+    }
+  });
+  return list;
+}
+
+const SPECIALTIES = buildSpecialties();
 
 function triggerHaptic(style = "MEDIUM") {
   const level = profile.settings?.haptics || "medium";
@@ -104,10 +131,12 @@ function triggerHaptic(style = "MEDIUM") {
 const SFX = {
   success: new Audio("./assets/audio/success.mp3"),
   explosion: new Audio("./assets/audio/explosion.mp3"),
-  ambience: new Audio("./assets/audio/ambience.mp3"),
+  ambience: new Audio("./assets/ambience.mp3"),
   applause: new Audio("./assets/audio/applause.mp3"),
   disappointment: new Audio("./assets/audio/disappointment.mp3")
 };
+
+const AMBIENCE_VOLUME = 0.35;
 
 // Preload audio
 Object.values(SFX).forEach(audio => {
@@ -124,10 +153,16 @@ function applySettings() {
   SFX.explosion.volume = Number.isFinite(vExplosion) ? Math.max(0, Math.min(1, vExplosion)) : 0.7;
   
   if (ui.ambienceToggle) {
-    ui.ambienceToggle.checked = !!profile.settings?.ambience;
-    if (ui.ambienceToggle.checked) {
-      SFX.ambience.play().catch(() => {});
-    } else {
+    const ambienceOn = !!profile.settings?.ambience;
+    ui.ambienceToggle.checked = ambienceOn;
+    SFX.ambience.volume = AMBIENCE_VOLUME;
+    if (ambienceOn && !isMuted) {
+      // play() on an already-playing loop is a no-op, so this is safe to call
+      // from every render without restarting the track.
+      if (SFX.ambience.paused) {
+        SFX.ambience.play().catch(() => {});
+      }
+    } else if (!SFX.ambience.paused) {
       SFX.ambience.pause();
     }
   }
@@ -162,7 +197,9 @@ function playSound(name, duration = 0) {
 function stopSounds() {
   activeTimers.forEach(clearTimeout);
   activeTimers = [];
-  Object.values(SFX).forEach(sound => {
+  Object.entries(SFX).forEach(([name, sound]) => {
+    // Ambience is a background loop; keep it running across screen changes.
+    if (name === "ambience") return;
     sound.pause();
     sound.currentTime = 0;
   });
@@ -170,8 +207,15 @@ function stopSounds() {
 
 function toggleMute() {
   isMuted = !isMuted;
-  ui.muteBtn.textContent = isMuted ? "🔇" : "🔊";
-  ui.muteBtn.setAttribute("aria-label", isMuted ? "Unmute sound" : "Mute sound");
+  if (isMuted) {
+    SFX.ambience.pause();
+  } else if (profile.settings?.ambience) {
+    SFX.ambience.play().catch(() => {});
+  }
+  if (ui.muteBtn) {
+    ui.muteBtn.textContent = isMuted ? "🔇" : "🔊";
+    ui.muteBtn.setAttribute("aria-label", isMuted ? "Unmute sound" : "Mute sound");
+  }
 }
 
 function triggerExplosion() {
@@ -219,10 +263,12 @@ function refreshDateContext() {
 }
 
 let profile = readProfile(storage);
+let lastCelebratedStreak = profile.streak;
 let game = null;
 let hunt = null;
 let huntStart = null;
 let huntHintUsed = false;
+let huntEnded = false;
 let lastLives = HUNT_LIVES;
 let drag = null;
 let mode = "daily";
@@ -237,6 +283,9 @@ let timerPausedMs = 0;   // ms remaining when the timer was paused
 function showScreen(name) {
   if (name === "home") {
     refreshDateContext();
+  }
+  if (name !== "time-attack") {
+    stopTimeAttack();
   }
   stopSounds();
   if (name !== "play") {
@@ -256,32 +305,36 @@ function showScreen(name) {
   const target = document.getElementById(targetId);
   if (!target) return;
 
-  const allScreens = document.querySelectorAll(".screen");
-  allScreens.forEach((s) => {
-    if (!s.hidden && s.id !== targetId) {
-      s.classList.add("is-leaving");
-      setTimeout(() => {
-        s.hidden = true;
-        s.classList.remove("is-leaving");
-      }, 280);
+  // Switch immediately: the incoming screen animates itself in, so leaving the
+  // old one on screen for a timeout only makes navigation feel sluggish and
+  // leaves two screens "visible" to the back-button handler.
+  document.querySelectorAll(".screen").forEach((screen) => {
+    if (screen.id !== targetId) {
+      screen.hidden = true;
+      screen.classList.remove("is-leaving", "is-entering");
     }
   });
 
-  setTimeout(() => {
-    target.hidden = false;
-    target.classList.add("is-entering");
-    setTimeout(() => {
-      target.classList.remove("is-entering");
-    }, 400);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, 280);
+  target.hidden = false;
+  target.classList.add("is-entering");
+  setTimeout(() => target.classList.remove("is-entering"), 400);
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function freezeTimerBar() {
   const computed = window.getComputedStyle(ui.timerBar);
-  const matrix = new (window.DOMMatrix || window.WebKitCSSMatrix)(computed.transform);
+  const raw = computed.transform;
+  let scale = 1;
+  if (raw && raw !== "none") {
+    try {
+      const Matrix = window.DOMMatrix || window.WebKitCSSMatrix;
+      scale = new Matrix(raw).a;
+    } catch {
+      scale = 1;
+    }
+  }
   ui.timerBar.style.transition = "none";
-  ui.timerBar.style.transform = `scaleX(${matrix.a})`;
+  ui.timerBar.style.transform = `scaleX(${scale})`;
 }
 
 function tickTimer() {
@@ -368,7 +421,19 @@ document.addEventListener("visibilitychange", handleVisibilityChange);
 
 const byId = (id) => document.getElementById(id);
 
-const screens = ["home", "play", "hunt", "result", "review", "profile", "settings", "sources", "privacy"];
+const screens = [
+  "home",
+  "play",
+  "hunt",
+  "result",
+  "review",
+  "profile",
+  "settings",
+  "sources",
+  "privacy",
+  "specialties",
+  "time-attack"
+];
 
 const ui = {
   loadingOverlay: byId("loading-overlay"),
@@ -637,17 +702,23 @@ function renderWeek() {
 }
 
 function celebrateStreak(streak) {
+  if (streak < lastCelebratedStreak) {
+    // Streak was reset; allow the next milestone to celebrate again.
+    lastCelebratedStreak = streak;
+    return;
+  }
+  if (streak === lastCelebratedStreak) {
+    return;
+  }
+  const previous = lastCelebratedStreak;
+  lastCelebratedStreak = streak;
   const milestones = [3, 7, 14, 30];
-  const milestone = milestones.find((m) => streak >= m);
+  const milestone = milestones.find((m) => streak >= m && previous < m);
   if (!milestone) {
     return;
   }
-  // Show brief badge pulse and small confetti
-  const badgeNames = { 3: "combo", 7: "week", 14: "detective", 30: "scholar" };
-  const badge = badgeById(badgeNames[milestone]);
-  if (badge) {
-    toast("🏅", badge.name, badge.hint);
-  }
+  // Celebrate the milestone itself (badges are awarded separately by commitProfile).
+  toast("🔥", `${milestone} day streak!`, "Keep the momentum going.");
   burst(24);
 }
 
@@ -909,6 +980,12 @@ function revealOptions(chosen) {
   });
 }
 
+function optionButton(option) {
+  return [...ui.options.querySelectorAll(".option")].find(
+    (button) => button.dataset.option === option
+  ) ?? null;
+}
+
 function handleAnswer(option) {
   if (game.revealed || game.phase !== "playing") {
     return;
@@ -921,14 +998,14 @@ function handleAnswer(option) {
   persistSession();
   const result = game.results[game.results.length - 1];
   const question = currentQuestion(game);
-  if (elapsed > 0 && (fastestThisRound === null || elapsed < fastestThisRound)) {
+  if (result.ok && elapsed > 0 && (fastestThisRound === null || elapsed < fastestThisRound)) {
     fastestThisRound = elapsed;
   }
 
   if (result.ok) {
     playSound("success");
     triggerHaptic("LIGHT");
-    const correctBtn = ui.options.querySelector(`[data-option="${question.answer}"]`);
+    const correctBtn = optionButton(question.answer);
     if (correctBtn) {
       correctBtn.classList.add("is-correct-pop");
       showXpFloat(correctBtn, "+15 XP");
@@ -955,13 +1032,6 @@ function handleAnswer(option) {
   ui.next.textContent = isLastQuestion(game) ? "Results" : "Next";
   ui.hint.disabled = true;
   renderDots();
-  
-  if (isLastQuestion(game)) {
-    const score = scoreOf(game);
-    if (score === game.puzzle.length) {
-      trackMission("perfect_count");
-    }
-  }
 }
 
 function handleTimeout() {
@@ -1010,6 +1080,10 @@ async function handleHint() {
   ui.hintLabel.textContent = "Loading";
   ui.hintsLeft.textContent = "";
   const earned = await requestRewardedHint();
+  if (!game || game.phase !== "playing") {
+    // The player left the round while the ad was playing.
+    return;
+  }
   if (earned) {
     game = grantHint(game);
     persistSession();
@@ -1028,17 +1102,31 @@ function renderSpecialties() {
 
   SPECIALTIES.forEach((spec) => {
     const card = document.createElement("button");
+    card.type = "button";
     card.className = "specialty-card";
     const isLocked = rank.level < spec.minLevel;
     if (isLocked) card.classList.add("is-locked");
 
-    card.innerHTML = `
-      <span class="spec-name">${spec.icon} ${spec.id}</span>
-      <span class="spec-meta">${isLocked ? `Unlocks at ${rankInfo(spec.minLevel * 400).name}` : "Available"}</span>
-      ${isLocked ? '<span class="lock-icon">🔒</span>' : ""}
-    `;
+    const name = document.createElement("span");
+    name.className = "spec-name";
+    name.textContent = `${spec.icon} ${spec.id}`;
 
-    if (!isLocked) {
+    const meta = document.createElement("span");
+    meta.className = "spec-meta";
+    const unlockRank = RANKS[Math.max(0, spec.minLevel - 1)];
+    meta.textContent = isLocked ? `Unlocks at ${unlockRank?.name ?? "Intern"}` : "Available";
+
+    card.append(name, meta);
+
+    if (isLocked) {
+      const lock = document.createElement("span");
+      lock.className = "lock-icon";
+      lock.textContent = "🔒";
+      lock.setAttribute("aria-hidden", "true");
+      card.append(lock);
+      card.disabled = true;
+      card.setAttribute("aria-label", `${spec.id}, unlocks at ${unlockRank?.name ?? "Intern"}`);
+    } else {
       card.addEventListener("click", () => startSpecialtyRound(spec.id));
     }
     ui.specialtiesList.appendChild(card);
@@ -1066,21 +1154,44 @@ function startSpecialtyRound(category) {
 let attackTimer = null;
 let attackSeconds = 60;
 let attackScore = 0;
+let attackActive = false;
+let attackAnswered = 0;
+let attackCorrect = 0;
+let attackResults = [];
+let attackCombo = 0;
+let attackBestCombo = 0;
+let lastAttackId = null;
+
+function stopTimeAttack() {
+  if (attackTimer) {
+    clearInterval(attackTimer);
+    attackTimer = null;
+  }
+  attackActive = false;
+}
 
 function startTimeAttack() {
+  stopTimeAttack();
   lastSpecialty = null;
   mode = "attack";
   attackSeconds = 60;
   attackScore = 0;
+  attackAnswered = 0;
+  attackCorrect = 0;
+  attackResults = [];
+  attackCombo = 0;
+  attackBestCombo = 0;
+  lastAttackId = null;
+  attackActive = true;
   ui.attackTimer.textContent = String(attackSeconds);
   ui.attackScore.textContent = String(attackScore);
   showScreen("time-attack");
   
   nextAttackQuestion();
   
-  if (attackTimer) clearInterval(attackTimer);
   attackTimer = setInterval(() => {
-    attackSeconds--;
+    if (!attackActive) return;
+    attackSeconds = Math.max(0, attackSeconds - 1);
     ui.attackTimer.textContent = String(attackSeconds);
     if (attackSeconds <= 0) {
       finishTimeAttack();
@@ -1089,25 +1200,43 @@ function startTimeAttack() {
 }
 
 function nextAttackQuestion() {
-  if (attackSeconds <= 0) return;
-  const q = questions[Math.floor(Math.random() * questions.length)];
+  if (!attackActive || attackSeconds <= 0) return;
+  let q = questions[Math.floor(Math.random() * questions.length)];
+  // Avoid showing the same case twice in a row.
+  for (let attempt = 0; q.id === lastAttackId && attempt < 12; attempt += 1) {
+    q = questions[Math.floor(Math.random() * questions.length)];
+  }
+  lastAttackId = q.id;
   ui.attackQuestion.textContent = q.question;
   ui.attackOptions.replaceChildren();
   
   shuffle(q.options).forEach((opt) => {
     const btn = document.createElement("button");
+    btn.type = "button";
     btn.className = "btn btn-option";
     btn.textContent = opt;
     btn.addEventListener("click", () => {
-      if (attackSeconds <= 0) return;
+      if (!attackActive || attackSeconds <= 0) return;
       const correct = opt === q.answer;
+      attackAnswered += 1;
+      attackResults.push({ category: q.category, ok: correct });
       if (correct) {
+        attackCorrect += 1;
+        attackCombo += 1;
+        attackBestCombo = Math.max(attackBestCombo, attackCombo);
         attackScore += 100;
         playSound("success");
       } else {
-        attackSeconds -= 5; // Penalty
+        attackCombo = 0;
+        attackSeconds = Math.max(0, attackSeconds - 5); // Penalty
+        ui.attackTimer.textContent = String(attackSeconds);
         playSound("explosion");
         triggerHaptic("HEAVY");
+        if (attackSeconds <= 0) {
+          ui.attackScore.textContent = String(attackScore);
+          finishTimeAttack();
+          return;
+        }
       }
       ui.attackScore.textContent = String(attackScore);
       nextAttackQuestion();
@@ -1117,22 +1246,31 @@ function nextAttackQuestion() {
 }
 
 function finishTimeAttack() {
+  if (!attackActive) return;
+  attackActive = false;
   if (attackTimer) clearInterval(attackTimer);
   attackTimer = null;
-  
-  const xpGained = calculateXp({ mode: "attack", points: attackScore });
-  const updatedProfile = {
-    ...profile,
-    xp: profile.xp + xpGained
-  };
-  
-  commitProfile(recordHighScore(updatedProfile, "attack", attackScore));
+  attackSeconds = Math.max(0, attackSeconds);
+  ui.attackTimer.textContent = String(attackSeconds);
+  ui.attackOptions.replaceChildren();
+
+  // Route Time Attack through the same recorder as other rounds so it counts
+  // toward accuracy stats, category mastery, leaderboards and XP.
+  commitProfile(
+    recordQuiz(profile, {
+      score: attackScore,
+      total: attackAnswered,
+      results: attackResults,
+      type: "attack",
+      bestCombo: attackBestCombo
+    })
+  );
   
   activeRound = {
     mode: "attack",
     score: attackScore,
-    total: 1,
-    results: [{ ok: true }],
+    total: Math.max(1, attackAnswered),
+    results: attackResults,
     points: attackScore,
     eyebrow: "Time Attack"
   };
@@ -1510,7 +1648,7 @@ function handleHuntHint() {
 
 function handleHuntNext() {
   stopSounds();
-  if (!hunt || !isRoundOver(currentRound(hunt))) {
+  if (!hunt || hunt.phase !== "playing" || !isRoundOver(currentRound(hunt))) {
     return;
   }
   hunt = nextRound(hunt);
@@ -1524,6 +1662,7 @@ function handleHuntNext() {
 
 function startHunt() {
   lastSpecialty = null;
+  huntEnded = false;
   hunt = buildHunt(`${today}:${Date.now()}`);
   persistSession();
   huntStart = null;
@@ -1531,10 +1670,14 @@ function startHunt() {
   lastLives = HUNT_LIVES;
   renderHunt();
   showScreen("hunt");
-  trackMission("hunt_count");
 }
 
 function endHunt() {
+  if (!hunt || huntEnded) {
+    return;
+  }
+  huntEnded = true;
+  ui.huntNext.hidden = true;
   const stats = summary(hunt);
   commitProfile(
     recordHunt(profile, {
@@ -1542,9 +1685,11 @@ function endHunt() {
       solved: stats.solved,
       cases: stats.cases,
       flawless: stats.lives === HUNT_LIVES,
-      results: stats.results
+      results: stats.results,
+      bestCombo: stats.bestCombo
     })
   );
+  trackMission("hunt_count");
 
   activeRound = {
     mode: "hunt",
@@ -1593,8 +1738,17 @@ function endRound() {
     total, 
     fastestMs: fastestThisRound, 
     results: game.results,
-    bestCombo: game.bestCombo
+    bestCombo: game.bestCombo,
+    type: mode
   }));
+  if (mode === "daily") {
+    trackMission("daily_count");
+  } else {
+    trackMission("practice_count");
+  }
+  if (total > 0 && score === total) {
+    trackMission("perfect_count");
+  }
 
   activeRound = {
     mode,
@@ -1821,11 +1975,10 @@ function startRound(nextMode) {
     }
     game = createGame(puzzle);
     persistSession();
-    trackMission("daily_count");
   } else {
     game = createGame(buildPractice(questions, Date.now()));
     persistSession();
-    trackMission("practice_count");
+    ui.modeChip.textContent = "Practice";
   }
 
   renderQuestion();
@@ -1833,7 +1986,7 @@ function startRound(nextMode) {
 }
 
 function highlightOption(option) {
-  const button = ui.options.querySelector(`[data-option="${option}"]`);
+  const button = optionButton(option);
   if (!button) {
     return;
   }
@@ -1876,22 +2029,30 @@ ui.specialtiesBtn.addEventListener("click", () => showScreen("specialties"));
 ui.specialtiesBack.addEventListener("click", () => showScreen("home"));
 ui.timeAttackBtn.addEventListener("click", startTimeAttack);
 ui.attackQuit.addEventListener("click", () => {
-  clearInterval(attackTimer);
+  stopTimeAttack();
+  renderHome();
   showScreen("home");
 });
 ui.ambienceToggle.addEventListener("change", updateSettings);
 ui.screenshotMode.addEventListener("change", updateSettings);
-  const privacyBtn = document.getElementById("privacy-options-btn");
-  if (privacyBtn) {
-    privacyBtn.addEventListener("click", showPrivacyOptions);
-  }
-  ui.huntBtn.addEventListener("click", startHunt);
+const privacyBtn = document.getElementById("privacy-options-btn");
+if (privacyBtn) {
+  privacyBtn.addEventListener("click", async () => {
+    const opened = await showPrivacyOptions();
+    if (!opened) {
+      toast("🔒", "Privacy settings", "Ad consent controls are available in the Android app.");
+    }
+  });
+}
+ui.huntBtn.addEventListener("click", startHunt);
 ui.huntNext.addEventListener("click", handleHuntNext);
 ui.huntHint.addEventListener("click", handleHuntHint);
 ui.huntQuit.addEventListener("click", () => {
   hunt = null;
   huntStart = null;
   drag = null;
+  // Clear the saved session, otherwise a quit hunt resumes on the next launch.
+  persistSession();
   renderHome();
   showScreen("home");
 });
@@ -1933,8 +2094,12 @@ document.addEventListener("keydown", (event) => {
   if (byId("screen-play").hidden || game === null) {
     return;
   }
-  if (event.key >= "1" && event.key <= "4" && !game.revealed) {
-    const button = ui.options.querySelector(`[data-key="${event.key}"]`);
+  const letterKey = "ABCD".indexOf(event.key.toUpperCase());
+  const numberKey = event.key >= "1" && event.key <= "4" ? Number(event.key) - 1 : -1;
+  const optionIndex = letterKey >= 0 ? letterKey : numberKey;
+  if (optionIndex >= 0 && !game.revealed) {
+    // Options are labelled A-D; accept both letters and 1-4.
+    const button = ui.options.querySelector(`[data-key="${optionIndex + 1}"]`);
     if (button && !button.disabled) {
       button.click();
     }
@@ -2117,6 +2282,13 @@ if (
   !window.Capacitor?.isNativePlatform?.()
 ) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
+    setupUpdateBanner({
+      serviceWorker: navigator.serviceWorker,
+      banner: byId("update-banner"),
+      reloadButton: byId("update-reload"),
+      dismissButton: byId("update-dismiss"),
+      register: () => navigator.serviceWorker.register("./sw.js"),
+      reload: () => location.reload()
+    });
   });
 }

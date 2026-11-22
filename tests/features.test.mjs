@@ -228,12 +228,69 @@ test("readProfile fills in hunt and stats defaults for older saves", () => {
     flawless: 0,
     bestCombo: 0,
     bestTimeAttack: 0,
+    bestHuntScore: 0,
     fastestMs: null,
     answered: 0,
-    categories: {}
+    categories: {},
+    leaderboards: { daily: [], practice: [], hunt: [], attack: [] }
   });
   assert.deepEqual(profile.badges, []);
   assert.deepEqual(profile.mystery, { solved: 0 });
+});
+
+test("readProfile keeps leaderboards, hunt bests, and audio settings", () => {
+  const memory = new Map();
+  const storage = {
+    getItem: (key) => memory.get(key) ?? null,
+    setItem: (key, value) => memory.set(key, value)
+  };
+
+  let profile = emptyProfile();
+  profile = recordHunt(profile, { score: 900, solved: 5, cases: 5, bestCombo: 5 });
+  profile.stats.bestTimeAttack = 1400;
+  profile.settings.ambience = true;
+  writeProfile(storage, profile);
+
+  const restored = readProfile(storage);
+  assert.equal(restored.stats.bestHuntScore, 900);
+  assert.equal(restored.stats.bestTimeAttack, 1400);
+  assert.equal(restored.settings.ambience, true);
+  assert.equal(restored.stats.leaderboards.hunt[0].score, 900);
+  assert.equal(restored.stats.leaderboards.attack.length, 0);
+});
+
+test("readProfile discards malformed leaderboard entries", () => {
+  const storage = {
+    getItem: () =>
+      JSON.stringify({
+        stats: {
+          leaderboards: {
+            hunt: [{ score: "nope" }, { score: 120, date: "2026-01-01" }],
+            attack: "broken"
+          }
+        }
+      })
+  };
+  const profile = readProfile(storage);
+  assert.deepEqual(profile.stats.leaderboards.hunt, [{ score: 120, date: "2026-01-01" }]);
+  assert.deepEqual(profile.stats.leaderboards.attack, []);
+});
+
+test("recordHunt prefers the real combo over the solved count", () => {
+  const profile = recordHunt(emptyProfile(), {
+    score: 300,
+    solved: 5,
+    cases: 5,
+    bestCombo: 2
+  });
+  assert.equal(profile.stats.bestCombo, 5);
+  const lower = recordHunt(emptyProfile(), {
+    score: 300,
+    solved: 2,
+    cases: 5,
+    bestCombo: 4
+  });
+  assert.equal(lower.stats.bestCombo, 4);
 });
 
 test("getDailyMissions is deterministic and picks 3 unique missions", () => {

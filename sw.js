@@ -1,12 +1,15 @@
-const CACHE = "medmyst-v5";
+const CACHE = "medmyst-v7";
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
   "./manifest.webmanifest",
+  "./favicon.ico",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
+  "./assets/icon-maskable-512.png",
   "./assets/apple-touch-icon.png",
+  "./assets/splash.webp",
   "./src/main.js",
   "./src/data/questions.js",
   "./src/data/wordhunt.js",
@@ -22,7 +25,9 @@ const ASSETS = [
   "./src/core/wordgrid.js",
   "./src/core/hunt.js",
   "./src/core/missions.js",
+  "./src/core/update.js",
   "./src/rewarded-overlay.js",
+  "./assets/ambience.mp3",
   "./assets/audio/success.mp3",
   "./assets/audio/explosion.mp3",
   "./assets/audio/applause.mp3",

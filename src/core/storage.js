@@ -9,6 +9,7 @@ export function emptyStats() {
     flawless: 0,
     bestCombo: 0,
     bestTimeAttack: 0,
+    bestHuntScore: 0,
     fastestMs: null,
     answered: 0,
     categories: {},
@@ -84,6 +85,7 @@ export function emptyProfile() {
       volSuccess: 50,
       volExplosion: 70,
       haptics: "medium",
+      ambience: false,
       screenshotMode: false
     }
   };
@@ -171,11 +173,12 @@ export function recordQuiz(profile, { score = 0, total = 0, fastestMs = null, re
   return recordHighScore(updatedProfile, type, score);
 }
 
-export function recordHunt(profile, { score = 0, solved = 0, cases = 0, flawless = false, results = [] } = {}) {
+export function recordHunt(profile, { score = 0, solved = 0, cases = 0, flawless = false, results = [], bestCombo = 0 } = {}) {
   const hunt = profile.hunt ?? { rounds: 0, solved: 0, cases: 0, best: 0 };
   const stats = profile.stats ?? emptyStats();
   const clean = cases > 0 && solved === cases;
   const mystery = profile.mystery ?? { solved: 0 };
+  const combo = Math.max(Number(bestCombo) || 0, solved);
   
   const xpGained = calculateXp({ mode: "hunt", points: score });
 
@@ -187,7 +190,7 @@ export function recordHunt(profile, { score = 0, solved = 0, cases = 0, flawless
       rounds: (stats.rounds ?? 0) + 1,
       perfect: (stats.perfect ?? 0) + (clean ? 1 : 0),
       flawless: (stats.flawless ?? 0) + (clean && flawless ? 1 : 0),
-      bestCombo: Math.max(stats.bestCombo ?? 0, solved),
+      bestCombo: Math.max(stats.bestCombo ?? 0, combo),
       fastestMs: stats.fastestMs ?? null,
       answered: (stats.answered ?? 0) + Math.max(0, cases),
       categories: updateCategoryStats(stats.categories ?? {}, results)
@@ -214,6 +217,26 @@ export function accuracy(profile) {
     return null;
   }
   return Math.round((correct / answered) * 100);
+}
+
+function sanitizeLeaderboards(value) {
+  const empty = { daily: [], practice: [], hunt: [], attack: [] };
+  if (!value || typeof value !== "object") {
+    return empty;
+  }
+  const clean = { ...empty };
+  Object.keys(empty).forEach((type) => {
+    const list = Array.isArray(value[type]) ? value[type] : [];
+    clean[type] = list
+      .filter((entry) => entry && Number.isFinite(Number(entry.score)))
+      .map((entry) => ({
+        score: Number(entry.score),
+        date: typeof entry.date === "string" ? entry.date : null
+      }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5);
+  });
+  return clean;
 }
 
 function sanitizeHistory(value) {
@@ -277,9 +300,11 @@ export function readProfile(storage) {
         flawless: Number(stats.flawless) || 0,
         bestCombo: Number(stats.bestCombo) || 0,
         bestTimeAttack: Number(stats.bestTimeAttack) || 0,
+        bestHuntScore: Number(stats.bestHuntScore) || 0,
         fastestMs: Number.isFinite(fastest) && fastest > 0 ? fastest : null,
         answered: Number(stats.answered) || 0,
-        categories: stats.categories ?? {}
+        categories: stats.categories ?? {},
+        leaderboards: sanitizeLeaderboards(stats.leaderboards)
       },
       hunt: {
         rounds: Number(hunt.rounds) || 0,
@@ -299,6 +324,7 @@ export function readProfile(storage) {
         volSuccess: Number.isFinite(Number(settings.volSuccess)) ? Number(settings.volSuccess) : 50,
         volExplosion: Number.isFinite(Number(settings.volExplosion)) ? Number(settings.volExplosion) : 70,
         haptics: typeof settings.haptics === "string" ? settings.haptics : "medium",
+        ambience: Boolean(settings.ambience),
         screenshotMode: Boolean(settings.screenshotMode)
       }
     };

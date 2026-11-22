@@ -34,8 +34,14 @@ export async function initializeAdMob() {
 
 export async function showPrivacyOptions() {
   const ads = globalThis.Capacitor?.Plugins?.AdMob;
-  if (ads && typeof ads.showPrivacyOptionsForm === "function") {
+  if (!ads || typeof ads.showPrivacyOptionsForm !== "function") {
+    return false;
+  }
+  try {
     await ads.showPrivacyOptionsForm();
+    return true;
+  } catch {
+    return false;
   }
 }
 

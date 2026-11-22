@@ -34,6 +34,12 @@
     <div id="confetti" class="confetti" aria-hidden="true"></div>
     <div id="toasts" class="toasts" aria-live="polite"></div>
 
+    <div id="update-banner" class="update-banner" role="status" aria-live="polite" hidden>
+      <span class="update-text">✨ New version available</span>
+      <button id="update-reload" class="btn btn-primary btn-small" type="button">Reload</button>
+      <button id="update-dismiss" class="icon-btn" type="button" aria-label="Dismiss update notice">✕</button>
+    </div>
+
     <main class="app">
       <header class="topbar">
         <div class="brand">
@@ -41,8 +47,8 @@
           <span class="brand-name">MedMyst</span>
         </div>
         <div class="topbar-actions">
-          <button id="profile-btn" class="profile-pill" aria-label="Profile" type="button">
-            <span class="pill-avatar" id="head-avatar">🩺</span>
+          <button id="profile-btn" class="profile-pill" type="button">
+            <span class="pill-avatar" id="head-avatar" aria-hidden="true">🩺</span>
             <span class="pill-name" id="head-name">Clinician</span>
           </button>
           <button id="settings-btn" class="icon-btn" aria-label="Settings" type="button">⚙️</button>
@@ -217,7 +223,7 @@
           <h2 id="hunt-question"></h2>
 
           <div class="board-wrap">
-            <div id="hunt-grid" class="hunt-grid" role="grid" aria-label="Letter grid"></div>
+            <div id="hunt-grid" class="hunt-grid" role="group" aria-label="Letter grid"></div>
           </div>
 
           <p class="hunt-tip" id="hunt-tip">Drag from the first letter to the last, or tap both.</p>
@@ -243,7 +249,7 @@
             <span class="badge-icon">✨</span>
             <div class="badge-body">
               <b>Perfect Round</b>
-              <span>Flawless diagnosis +25 XP bonus</span>
+              <span>Flawless diagnosis +50 XP bonus</span>
             </div>
           </div>
           <p class="status" id="result-streak"></p>
@@ -353,7 +359,7 @@
             <span class="timer-big" id="attack-timer">60</span>
             <span class="score-big" id="attack-score">0</span>
           </div>
-          <button id="attack-quit" class="icon-btn" type="button">✕</button>
+          <button id="attack-quit" class="icon-btn" type="button" aria-label="Quit Time Attack">✕</button>
         </div>
         <div id="attack-question-wrap" class="attack-wrap">
           <article class="card attack-card">

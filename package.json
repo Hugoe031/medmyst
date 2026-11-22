@@ -10,6 +10,8 @@
         "validate": "node scripts/validate-deck.mjs && node scripts/build-wordhunt.mjs --check",
         "export:csv": "node scripts/export-csv.mjs",
         "test": "node --test",
+        "test:e2e": "playwright test",
+        "test:e2e:install": "playwright install --with-deps chromium",
         "check": "node scripts/validate-deck.mjs && node scripts/build-wordhunt.mjs --check && node --test",
         "build:web": "node scripts/build-web.mjs",
         "android:sync": "node scripts/build-web.mjs && npx cap sync android",
@@ -18,7 +20,8 @@
         "build:wordhunt": "node scripts/build-wordhunt.mjs"
     },
     "devDependencies": {
-        "@capacitor/cli": "^7.6.9"
+        "@capacitor/cli": "^7.6.9",
+        "@playwright/test": "^1.65.1"
     },
     "dependencies": {
         "@capacitor-community/admob": "^7.2.0",
@@ -28,5 +31,3 @@
         "@capacitor/haptics": "^7.0.5"
     }
 }
-
-

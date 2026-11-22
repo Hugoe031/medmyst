@@ -62,7 +62,7 @@ export function isBadgeEarned(profile, id) {
     case "flawless":
       return (stats.flawless ?? 0) >= 1;
     case "combo":
-      return (stats.bestCombo ?? 0) >= 5;
+      return (stats.bestCombo ?? 0) >= 4;
     case "speed":
       return Number.isFinite(stats.fastestMs) && stats.fastestMs <= 5000;
     case "hundred":
