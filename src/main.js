@@ -186,11 +186,11 @@ SFX.music.loop = true;
 function applySettings() {
   const vSuccess = (profile.settings?.volSuccess ?? 50) / 100;
   const vExplosion = (profile.settings?.volExplosion ?? 70) / 100;
-  const vMusic = (profile.settings?.musicVolume ?? 40) / 100;
+  const vMusic = (profile.settings?.musicVolume ?? 30) / 100;
 
   SFX.success.volume = Number.isFinite(vSuccess) ? Math.max(0, Math.min(1, vSuccess)) : 0.5;
   SFX.explosion.volume = Number.isFinite(vExplosion) ? Math.max(0, Math.min(1, vExplosion)) : 0.7;
-  SFX.music.volume = Number.isFinite(vMusic) ? Math.max(0, Math.min(1, vMusic)) : 0.4;
+  SFX.music.volume = Number.isFinite(vMusic) ? Math.max(0, Math.min(1, vMusic)) : 0.3;
 
   const loops = {
     ambience: { enabled: !!profile.settings?.ambience, volume: AMBIENCE_VOLUME, toggle: ui.ambienceToggle },
@@ -1013,7 +1013,7 @@ function renderSettings() {
   const s = profile.settings || {};
   ui.volSuccess.value = s.volSuccess ?? 50;
   ui.volExplosion.value = s.volExplosion ?? 70;
-  ui.volMusic.value = s.musicVolume ?? 40;
+  ui.volMusic.value = s.musicVolume ?? 30;
   ui.musicToggle.checked = s.music ?? false;
   ui.hapticStrength.value = s.haptics || "medium";
   ui.ambienceToggle.checked = s.ambience ?? false;
@@ -1036,7 +1036,7 @@ function updateSettings() {
     ...profile.settings,
     volSuccess: Number.isFinite(volSuccess) ? volSuccess : 50,
     volExplosion: Number.isFinite(volExplosion) ? volExplosion : 70,
-    musicVolume: Number.isFinite(volMusic) ? volMusic : 40,
+    musicVolume: Number.isFinite(volMusic) ? volMusic : 30,
     haptics: ui.hapticStrength.value,
     ambience: ui.ambienceToggle.checked,
     music: ui.musicToggle.checked,

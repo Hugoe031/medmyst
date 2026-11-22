@@ -156,7 +156,7 @@ test("reminder settings have safe defaults and survive storage", () => {
   const restored = readProfile({ getItem: () => null });
   assert.equal(restored.settings.reminders, false);
   assert.equal(restored.settings.music, false);
-  assert.equal(restored.settings.musicVolume, 40);
+  assert.equal(restored.settings.musicVolume, 30);
   assert.equal(restored.settings.reminderTime, "09:00");
 
   const memory = new Map();

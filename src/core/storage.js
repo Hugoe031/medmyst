@@ -91,7 +91,7 @@ export function emptyProfile() {
       haptics: "medium",
       ambience: false,
       music: false,
-      musicVolume: 40,
+      musicVolume: 30,
       reminders: false,
       reminderTime: normalizeReminderTime(),
       reminderPrompted: false,
@@ -341,7 +341,7 @@ export function readProfile(storage) {
         music: Boolean(settings.music),
         musicVolume: Number.isFinite(Number(settings.musicVolume))
           ? Math.max(0, Math.min(100, Number(settings.musicVolume)))
-          : 40,
+          : 30,
         reminders: Boolean(settings.reminders),
         reminderTime: normalizeReminderTime(settings.reminderTime),
         reminderPrompted: Boolean(settings.reminderPrompted),
