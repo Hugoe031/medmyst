@@ -60,6 +60,11 @@ import { requestRewardedHint } from "./rewarded-overlay.js";
 import { initializeAdMob, showPrivacyOptions } from "./core/rewarded.js";
 import { getDailyMissions, updateMissionProgress } from "./core/missions.js";
 import { setupUpdateBanner } from "./core/update.js";
+import {
+  isNativeNotifications,
+  normalizeReminderTime,
+  syncDailyReminder
+} from "./core/notifications.js";
 const App = globalThis.Capacitor?.Plugins?.App;
 
 // Global UI helpers
@@ -133,11 +138,13 @@ const SFX = {
   success: new Audio("./assets/audio/success.mp3"),
   explosion: new Audio("./assets/audio/explosion.mp3"),
   ambience: new Audio("./assets/ambience.mp3"),
+  music: new Audio("./assets/audio/music.mp3"),
   applause: new Audio("./assets/audio/applause.mp3"),
   disappointment: new Audio("./assets/audio/disappointment.mp3")
 };
 
 const AMBIENCE_VOLUME = 0.35;
+const BACKGROUND_LOOPS = ["ambience", "music"];
 
 // Preload audio
 Object.values(SFX).forEach(audio => {
@@ -145,28 +152,35 @@ Object.values(SFX).forEach(audio => {
 });
 
 SFX.ambience.loop = true;
+SFX.music.loop = true;
 
 function applySettings() {
   const vSuccess = (profile.settings?.volSuccess ?? 50) / 100;
   const vExplosion = (profile.settings?.volExplosion ?? 70) / 100;
+  const vMusic = (profile.settings?.musicVolume ?? 40) / 100;
 
   SFX.success.volume = Number.isFinite(vSuccess) ? Math.max(0, Math.min(1, vSuccess)) : 0.5;
   SFX.explosion.volume = Number.isFinite(vExplosion) ? Math.max(0, Math.min(1, vExplosion)) : 0.7;
-  
-  if (ui.ambienceToggle) {
-    const ambienceOn = !!profile.settings?.ambience;
-    ui.ambienceToggle.checked = ambienceOn;
-    SFX.ambience.volume = AMBIENCE_VOLUME;
-    if (ambienceOn && !isMuted) {
+  SFX.music.volume = Number.isFinite(vMusic) ? Math.max(0, Math.min(1, vMusic)) : 0.4;
+
+  const loops = {
+    ambience: { enabled: !!profile.settings?.ambience, volume: AMBIENCE_VOLUME, toggle: ui.ambienceToggle },
+    music: { enabled: !!profile.settings?.music, volume: SFX.music.volume, toggle: ui.musicToggle }
+  };
+  Object.entries(loops).forEach(([name, config]) => {
+    if (!config.toggle) return;
+    config.toggle.checked = config.enabled;
+    SFX[name].volume = config.volume;
+    if (config.enabled && !isMuted && !document.hidden) {
       // play() on an already-playing loop is a no-op, so this is safe to call
       // from every render without restarting the track.
-      if (SFX.ambience.paused) {
-        SFX.ambience.play().catch(() => {});
+      if (SFX[name].paused) {
+        SFX[name].play().catch(() => {});
       }
-    } else if (!SFX.ambience.paused) {
-      SFX.ambience.pause();
+    } else if (!SFX[name].paused) {
+      SFX[name].pause();
     }
-  }
+  });
 
   // Appearance follows the system (prefers-color-scheme); there is no in-app override.
   document.documentElement.classList.remove("theme-dark", "theme-light");
@@ -199,8 +213,8 @@ function stopSounds() {
   activeTimers.forEach(clearTimeout);
   activeTimers = [];
   Object.entries(SFX).forEach(([name, sound]) => {
-    // Ambience is a background loop; keep it running across screen changes.
-    if (name === "ambience") return;
+    // Background loops keep running across screen changes.
+    if (BACKGROUND_LOOPS.includes(name)) return;
     sound.pause();
     sound.currentTime = 0;
   });
@@ -210,8 +224,9 @@ function toggleMute() {
   isMuted = !isMuted;
   if (isMuted) {
     SFX.ambience.pause();
-  } else if (profile.settings?.ambience) {
-    SFX.ambience.play().catch(() => {});
+    SFX.music.pause();
+  } else {
+    applySettings();
   }
   if (ui.muteBtn) {
     ui.muteBtn.textContent = isMuted ? "🔇" : "🔊";
@@ -413,8 +428,10 @@ function handleVisibilityChange() {
   document.body.classList.toggle("is-hidden", document.hidden);
   if (document.hidden) {
     pauseTimer();
+    BACKGROUND_LOOPS.forEach((name) => SFX[name].pause());
   } else {
     resumeTimer();
+    applySettings();
   }
 }
 
@@ -521,6 +538,14 @@ const ui = {
   settingsBack: byId("settings-back"),
   volSuccess: byId("vol-success"),
   volExplosion: byId("vol-explosion"),
+  volMusic: byId("vol-music"),
+  musicToggle: byId("music-toggle"),
+  remindersToggle: byId("reminders-toggle"),
+  reminderTime: byId("reminder-time"),
+  reminderStatus: byId("reminder-status"),
+  reminderPrompt: byId("reminder-prompt"),
+  reminderEnable: byId("reminder-enable"),
+  reminderSkip: byId("reminder-skip"),
   hapticStrength: byId("haptic-strength"),
   sourcesBack: byId("sources-back"),
   comboTag: byId("combo-tag"),
@@ -773,6 +798,56 @@ function shortDayLabel(key) {
   });
 }
 
+function reminderEligible() {
+  const settings = profile.settings ?? {};
+  return (
+    isNativeNotifications() &&
+    !settings.reminders &&
+    !settings.reminderPrompted &&
+    (profile.stats?.rounds ?? 0) >= 1
+  );
+}
+
+function reminderStatusText(status) {
+  if (status === "scheduled") {
+    const time = new Date(`1970-01-01T${normalizeReminderTime(profile.settings?.reminderTime)}:00`);
+    const label = time.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    return `Daily reminder set for ${label}.`;
+  }
+  if (status === "denied") return "Notifications are blocked. Enable them in your device settings.";
+  if (status === "unsupported") return "Daily reminders are available in the installed app.";
+  if (status === "error") return "The reminder could not be scheduled. Please try again.";
+  return "";
+}
+
+let reminderSyncTimer = null;
+function queueReminderSync({ announce = false } = {}) {
+  clearTimeout(reminderSyncTimer);
+  reminderSyncTimer = setTimeout(async () => {
+    const status = await syncDailyReminder(profile, {
+      dueCount: missedSummary(profile.missed, today).due,
+      completedToday: Boolean(todaysEntry())
+    });
+    const wasEnabled = Boolean(profile.settings?.reminders);
+    if (status === "denied" && wasEnabled) {
+      profile.settings = { ...profile.settings, reminders: false };
+      commitProfile(profile);
+    }
+    if (ui.remindersToggle) ui.remindersToggle.checked = !!profile.settings?.reminders;
+    if (ui.reminderStatus) ui.reminderStatus.textContent = reminderStatusText(status);
+    if (ui.reminderPrompt) ui.reminderPrompt.hidden = !reminderEligible();
+    if (announce) {
+      if (status === "scheduled") {
+        toast("🔔", "Reminder enabled", "One gentle nudge a day. Change it in Settings.");
+      } else if (status === "denied") {
+        toast("🔕", "Notifications blocked", "Enable them in your device settings to use reminders.");
+      } else if (status !== "disabled") {
+        toast("ℹ️", "Reminder unavailable", reminderStatusText(status));
+      }
+    }
+  }, 200);
+}
+
 function renderHome() {
   const dateLabel = now.toLocaleDateString(undefined, {
     weekday: "long",
@@ -830,6 +905,7 @@ function renderHome() {
           ? "Review scheduled"
           : "No cases saved yet";
   }
+  if (ui.reminderPrompt) ui.reminderPrompt.hidden = !reminderEligible();
 
   // Celebrate streak milestones
   celebrateStreak(profile.streak);
@@ -908,25 +984,44 @@ function renderSettings() {
   const s = profile.settings || {};
   ui.volSuccess.value = s.volSuccess ?? 50;
   ui.volExplosion.value = s.volExplosion ?? 70;
+  ui.volMusic.value = s.musicVolume ?? 40;
+  ui.musicToggle.checked = s.music ?? false;
   ui.hapticStrength.value = s.haptics || "medium";
   ui.ambienceToggle.checked = s.ambience ?? false;
+  ui.remindersToggle.checked = s.reminders ?? false;
+  ui.reminderTime.value = normalizeReminderTime(s.reminderTime);
+  ui.reminderStatus.textContent = s.reminders
+    ? reminderStatusText("scheduled")
+    : isNativeNotifications()
+      ? ""
+      : reminderStatusText("unsupported");
   ui.screenshotMode.checked = document.body.classList.contains("screenshot-mode");
 }
 
 function updateSettings() {
   const volSuccess = Number(ui.volSuccess.value);
   const volExplosion = Number(ui.volExplosion.value);
+  const volMusic = Number(ui.volMusic.value);
 
   profile.settings = {
+    ...profile.settings,
     volSuccess: Number.isFinite(volSuccess) ? volSuccess : 50,
     volExplosion: Number.isFinite(volExplosion) ? volExplosion : 70,
+    musicVolume: Number.isFinite(volMusic) ? volMusic : 40,
     haptics: ui.hapticStrength.value,
     ambience: ui.ambienceToggle.checked,
+    music: ui.musicToggle.checked,
+    reminders: ui.remindersToggle.checked,
+    reminderTime: normalizeReminderTime(ui.reminderTime.value),
+    reminderPrompted: Boolean(profile.settings?.reminderPrompted) || ui.remindersToggle.checked,
     screenshotMode: ui.screenshotMode.checked
   };
   
+  applySettings();
   document.body.classList.toggle("screenshot-mode", ui.screenshotMode.checked);
   commitProfile(profile);
+  if (ui.reminderPrompt) ui.reminderPrompt.hidden = !reminderEligible();
+  queueReminderSync();
 }
 
 function renderDots() {
@@ -1309,6 +1404,7 @@ function finishTimeAttack() {
       day: today
     })
   );
+  queueReminderSync();
   
   activeRound = {
     mode: "attack",
@@ -1734,6 +1830,7 @@ function endHunt() {
       day: today
     })
   );
+  queueReminderSync();
   trackMission("hunt_count");
 
   activeRound = {
@@ -1787,6 +1884,7 @@ function endRound() {
     type: mode,
     day: today
   }));
+  queueReminderSync();
   if (mode === "daily") {
     trackMission("daily_count");
   } else {
@@ -2120,6 +2218,26 @@ ui.attackQuit.addEventListener("click", () => {
   showScreen("home");
 });
 ui.ambienceToggle.addEventListener("change", updateSettings);
+ui.musicToggle.addEventListener("change", updateSettings);
+ui.volMusic.addEventListener("input", updateSettings);
+ui.remindersToggle.addEventListener("change", updateSettings);
+ui.reminderTime.addEventListener("change", updateSettings);
+ui.reminderEnable.addEventListener("click", () => {
+  profile.settings = {
+    ...profile.settings,
+    reminders: true,
+    reminderPrompted: true
+  };
+  if (ui.remindersToggle) ui.remindersToggle.checked = true;
+  commitProfile(profile);
+  if (ui.reminderPrompt) ui.reminderPrompt.hidden = true;
+  queueReminderSync({ announce: true });
+});
+ui.reminderSkip.addEventListener("click", () => {
+  profile.settings = { ...profile.settings, reminderPrompted: true };
+  commitProfile(profile);
+  if (ui.reminderPrompt) ui.reminderPrompt.hidden = true;
+});
 ui.screenshotMode.addEventListener("change", updateSettings);
 const privacyBtn = document.getElementById("privacy-options-btn");
 if (privacyBtn) {
@@ -2199,6 +2317,7 @@ try {
   renderHome();
   showScreen("home");
   initializeAdMob();
+  if (profile.settings?.reminders) queueReminderSync();
 
   const savedSession = readSession(storage);
   if (savedSession && savedSession.version === deckVersion) {
@@ -2280,8 +2399,12 @@ if (App) {
     document.body.classList.toggle("is-hidden", !isActive);
     if (isActive) {
       resumeTimer();
+      applySettings();
+      // Refresh the daily message in case the app was left open overnight.
+      queueReminderSync();
     } else {
       pauseTimer();
+      BACKGROUND_LOOPS.forEach((name) => SFX[name].pause());
     }
   });
   App.addListener('backButton', () => {

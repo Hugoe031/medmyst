@@ -320,22 +320,49 @@ test("audio and haptic settings survive a reload", async ({ page }) => {
   await page.locator("#settings-btn").click();
   await expect(page.locator("#screen-settings")).toBeVisible();
   await setCheckbox(page, "ambience-toggle", true);
+  await setCheckbox(page, "music-toggle", true);
   await page.locator("#vol-success").evaluate((input) => {
     input.value = "80";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  await page.locator("#vol-music").evaluate((input) => {
+    input.value = "25";
     input.dispatchEvent(new Event("input", { bubbles: true }));
   });
   await page.locator("#haptic-strength").selectOption("light");
 
   const saved = await readProfile(page);
   expect(saved.settings.ambience).toBe(true);
+  expect(saved.settings.music).toBe(true);
   expect(saved.settings.volSuccess).toBe(80);
+  expect(saved.settings.musicVolume).toBe(25);
   expect(saved.settings.haptics).toBe("light");
 
   await page.reload();
   await page.locator("#settings-btn").click();
   await expect(page.locator("#ambience-toggle")).toBeChecked();
+  await expect(page.locator("#music-toggle")).toBeChecked();
   await expect(page.locator("#vol-success")).toHaveValue("80");
+  await expect(page.locator("#vol-music")).toHaveValue("25");
   await expect(page.locator("#haptic-strength")).toHaveValue("light");
+});
+
+test("reminders stay opt-in and explain web limitations", async ({ page }) => {
+  await freshPage(page);
+  await expect(page.locator("#reminder-prompt")).toBeHidden();
+
+  await page.locator("#settings-btn").click();
+  await expect(page.locator("#reminders-toggle")).not.toBeChecked();
+  await expect(page.locator("#reminder-status")).toContainText("installed app");
+
+  await setCheckbox(page, "reminders-toggle", true);
+  await page.locator("#reminder-time").fill("07:15");
+  await page.locator("#reminder-time").dispatchEvent("change");
+  await expect.poll(async () => (await readProfile(page)).settings.reminders).toBe(true);
+  expect((await readProfile(page)).settings.reminderTime).toBe("07:15");
+
+  await page.reload();
+  await expect(page.locator("#reminder-prompt")).toBeHidden();
 });
 
 test("screenshot mode survives a reload", async ({ page }) => {

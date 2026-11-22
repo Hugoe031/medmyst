@@ -1,5 +1,6 @@
 import { dayKey, previousDayKey } from "./scheduler.js";
 import { emptyMissed, recordMissedResults, sanitizeMissed } from "./missed.js";
+import { normalizeReminderTime } from "./notifications.js";
 
 const STORAGE_KEY = "medmyst.v1";
 
@@ -89,6 +90,11 @@ export function emptyProfile() {
       volExplosion: 70,
       haptics: "medium",
       ambience: false,
+      music: false,
+      musicVolume: 40,
+      reminders: false,
+      reminderTime: normalizeReminderTime(),
+      reminderPrompted: false,
       screenshotMode: false
     }
   };
@@ -332,6 +338,13 @@ export function readProfile(storage) {
         volExplosion: Number.isFinite(Number(settings.volExplosion)) ? Number(settings.volExplosion) : 70,
         haptics: typeof settings.haptics === "string" ? settings.haptics : "medium",
         ambience: Boolean(settings.ambience),
+        music: Boolean(settings.music),
+        musicVolume: Number.isFinite(Number(settings.musicVolume))
+          ? Math.max(0, Math.min(100, Number(settings.musicVolume)))
+          : 40,
+        reminders: Boolean(settings.reminders),
+        reminderTime: normalizeReminderTime(settings.reminderTime),
+        reminderPrompted: Boolean(settings.reminderPrompted),
         screenshotMode: Boolean(settings.screenshotMode)
       }
     };

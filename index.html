@@ -136,6 +136,18 @@
           </button>
         </div>
 
+        <div id="reminder-prompt" class="card reminder-prompt staggered-item" style="--delay: 440ms" hidden>
+          <div class="reminder-prompt-icon" aria-hidden="true">🔔</div>
+          <div class="reminder-prompt-copy">
+            <h3>Never miss a streak</h3>
+            <p class="explanation">Get one friendly daily reminder when your cases are ready. You can turn it off anytime.</p>
+            <div class="reminder-prompt-actions">
+              <button id="reminder-enable" class="btn btn-primary btn-small" type="button">Enable reminder</button>
+              <button id="reminder-skip" class="btn btn-ghost btn-small" type="button">Not now</button>
+            </div>
+          </div>
+        </div>
+
         <div class="missions-card staggered-item" style="--delay: 450ms" aria-label="Daily Missions">
           <div class="missions-head">
             <span class="missions-label">Daily Missions</span>
@@ -418,6 +430,17 @@
             <input type="range" id="vol-explosion" min="0" max="100" value="70" />
           </div>
           <div class="setting-row">
+            <label for="music-toggle">Background Music</label>
+            <label class="toggle">
+              <input type="checkbox" id="music-toggle" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <label for="vol-music">Music Volume</label>
+            <input type="range" id="vol-music" min="0" max="100" value="40" />
+          </div>
+          <div class="setting-row">
             <label for="ambience-toggle">Clinical Ambience</label>
             <label class="toggle">
               <input type="checkbox" id="ambience-toggle" />
@@ -427,6 +450,23 @@
         </div>
 
         <div class="card staggered-item" style="--delay: 100ms">
+          <h3>Reminders</h3>
+          <p class="explanation">Available in the installed app. One gentle nudge a day — never more.</p>
+          <div class="setting-row">
+            <label for="reminders-toggle">Daily Case Reminder</label>
+            <label class="toggle">
+              <input type="checkbox" id="reminders-toggle" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <label for="reminder-time">Remind me at</label>
+            <input type="time" id="reminder-time" value="09:00" />
+          </div>
+          <p class="explanation" id="reminder-status" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="card staggered-item" style="--delay: 150ms">
           <h3>Feedback</h3>
           <div class="setting-row">
             <label for="haptic-strength">Haptic Strength</label>
@@ -507,6 +547,10 @@
           <h3>Your Data</h3>
           <p class="explanation">
             MedMyst stores your progress, stats, and settings locally on your device. We do not have accounts or cloud storage, so your data stays with you.
+          </p>
+          <h3>Reminders</h3>
+          <p class="explanation">
+            Daily reminders are optional and scheduled entirely on your device. We never send you notifications from a server, and you can turn them off anytime.
           </p>
           <h3>Ads & Privacy</h3>
           <p class="explanation">

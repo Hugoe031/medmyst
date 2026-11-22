@@ -1,6 +1,6 @@
 # Privacy Policy for MedMyst
 
-**Effective Date:** November 16, 2026 — last updated for the v1.0 Android release.
+**Effective Date:** November 22, 2026 — last updated for the v1.0 Android release.
 
 MedMyst ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we handle information when you use the MedMyst mobile application.
 
@@ -10,6 +10,7 @@ MedMyst is designed with a privacy-first approach.
 *   **Personal Data:** We do **not** collect any personally identifiable information (PII) such as your name, email address, or phone number. We do not require you to create an account.
 *   **Local Storage:** All game progress, including XP, streaks, and category mastery, is stored **locally on your device**. This data is not transmitted to our servers.
 *   **Device Information:** We may collect non-identifying information about the type of device you use and its operating system version to ensure app compatibility.
+*   **Notifications:** If you opt in, MedMyst schedules one local reminder a day at a time you choose. The reminder is created and stored on your device; it is never sent from a server. You can turn it off at any time in Settings or in your device's notification settings.
 
 ## 2. Third-Party Services (Advertising)
 We use **Google AdMob** to display rewarded advertisements, which allow you to earn in-game hints. 
