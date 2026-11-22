@@ -128,7 +128,7 @@ test("an enabled reminder is replaced with a fresh daily schedule", async () => 
   assert.equal(status, "scheduled");
   assert.deepEqual(plugin.calls.map((call) => call[0]), ["permissions", "cancel", "schedule"]);
   assert.deepEqual(plugin.calls[0][1], undefined);
-  assert.deepEqual(plugin.calls[1][1], { ids: [REMINDER_ID] });
+  assert.deepEqual(plugin.calls[1][1], { notifications: [{ id: REMINDER_ID }] });
 
   const scheduled = plugin.calls[2][1].notifications[0];
   assert.equal(scheduled.id, REMINDER_ID);
@@ -146,6 +146,12 @@ test("scheduling errors are reported instead of thrown", async () => {
     native: true
   });
   assert.equal(status, "error");
+});
+
+test("cancelDailyReminder uses the payload the native plugin expects", async () => {
+  const plugin = fakePlugin();
+  assert.equal(await cancelDailyReminder(plugin), true);
+  assert.deepEqual(plugin.calls[0], ["cancel", { notifications: [{ id: REMINDER_ID }] }]);
 });
 
 test("cancelDailyReminder is safe when the plugin is missing", async () => {

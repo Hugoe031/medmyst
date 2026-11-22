@@ -66,7 +66,9 @@ export async function requestReminderPermission(plugin = getNotificationsPlugin(
 export async function cancelDailyReminder(plugin = getNotificationsPlugin()) {
   if (!plugin?.cancel) return false;
   try {
-    await plugin.cancel({ ids: [REMINDER_ID] });
+    // The native plugin expects { notifications: [{ id }] }; passing `ids`
+    // makes its Android implementation dereference a null array and crash.
+    await plugin.cancel({ notifications: [{ id: REMINDER_ID }] });
     return true;
   } catch {
     return false;

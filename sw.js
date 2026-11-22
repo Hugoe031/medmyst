@@ -1,4 +1,4 @@
-const CACHE = "medmyst-v13";
+const CACHE = "medmyst-v14";
 const ASSETS = [
   "./",
   "./index.html",
