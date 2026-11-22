@@ -51,7 +51,8 @@ jobs:
       - run: npm ci
       - run: npm run build:web
       - run: npx cap sync android
-      - run: ./android/gradlew -p android assembleDebug --no-daemon --stacktrace
+      # Invoke via bash: the wrapper is committed from Windows without +x.
+      - run: bash ./android/gradlew -p android assembleDebug --no-daemon --stacktrace
 
   deploy:
     needs: build
