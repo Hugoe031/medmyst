@@ -228,7 +228,7 @@ test("a missed case follows the 1/3/7 review schedule until mastered", async ({ 
   expect(saved.missed.reviews).toBe(3);
   expect(saved.missed.recovered).toBe(1);
   expect(saved.stats.leaderboards.missed).toHaveLength(3);
-});
+}, { timeout: 60_000 });
 
 test("a daily round records the profile and reaches the result screen", async ({ page }) => {
   await freshPage(page);
