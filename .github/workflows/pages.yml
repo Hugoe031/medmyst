@@ -44,6 +44,10 @@ jobs:
           distribution: microsoft
           java-version: 21
       - uses: android-actions/setup-android@v3
+        with:
+          # "tools" (the action's default) was removed from the SDK repository.
+          packages: platform-tools
+          log-accepted-android-sdk-licenses: false
       - run: npm ci
       - run: npm run build:web
       - run: npx cap sync android
