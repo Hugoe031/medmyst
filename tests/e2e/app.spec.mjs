@@ -353,7 +353,7 @@ test("blocked autoplay retries on the first tap when music is enabled", async ({
     window.__autoplayBlocked = true;
     const originalPlay = HTMLMediaElement.prototype.play;
     HTMLMediaElement.prototype.play = function (...args) {
-      if (!this.src.includes("music.mp3")) return originalPlay.apply(this, args);
+      if (!this.src.includes("music-synthwave.mp3")) return originalPlay.apply(this, args);
       if (window.__autoplayBlocked) {
         window.__musicAttempts.push("blocked");
         return Promise.reject(Object.assign(new Error("blocked"), { name: "NotAllowedError" }));

@@ -1,4 +1,4 @@
-const CACHE = "medmyst-v10";
+const CACHE = "medmyst-v11";
 const ASSETS = [
   "./",
   "./index.html",
@@ -31,7 +31,7 @@ const ASSETS = [
   "./src/core/update.js",
   "./src/rewarded-overlay.js",
   "./assets/ambience.mp3",
-  "./assets/audio/music.mp3",
+  "./assets/audio/music-synthwave.mp3",
   "./assets/audio/success.mp3",
   "./assets/audio/explosion.mp3",
   "./assets/audio/applause.mp3",

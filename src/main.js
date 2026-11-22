@@ -138,7 +138,7 @@ const SFX = {
   success: new Audio("./assets/audio/success.mp3"),
   explosion: new Audio("./assets/audio/explosion.mp3"),
   ambience: new Audio("./assets/ambience.mp3"),
-  music: new Audio("./assets/audio/music.mp3"),
+  music: new Audio("./assets/audio/music-synthwave.mp3"),
   applause: new Audio("./assets/audio/applause.mp3"),
   disappointment: new Audio("./assets/audio/disappointment.mp3")
 };
