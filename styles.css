@@ -135,8 +135,8 @@ body {
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.5;
+  filter: blur(64px);
+  opacity: 0.6;
 }
 
 .orb-a {
@@ -145,7 +145,7 @@ body {
   top: -120px;
   left: -100px;
   background: radial-gradient(circle at 30% 30%, rgba(45, 212, 191, 0.55), transparent 65%);
-  animation: drift 18s ease-in-out infinite alternate;
+  animation: drift 14s ease-in-out infinite alternate;
 }
 
 .orb-b {
@@ -154,7 +154,7 @@ body {
   top: 120px;
   right: -120px;
   background: radial-gradient(circle at 60% 40%, rgba(139, 92, 246, 0.5), transparent 65%);
-  animation: drift 22s ease-in-out infinite alternate-reverse;
+  animation: drift 17s ease-in-out infinite alternate-reverse;
 }
 
 .orb-c {
@@ -163,7 +163,7 @@ body {
   bottom: -180px;
   left: 30%;
   background: radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.28), transparent 65%);
-  animation: drift 26s ease-in-out infinite alternate;
+  animation: drift 20s ease-in-out infinite alternate;
 }
 
 .grain {
@@ -180,7 +180,7 @@ body {
     transform: translate3d(0, 0, 0) scale(1);
   }
   to {
-    transform: translate3d(40px, 50px, 0) scale(1.14);
+    transform: translate3d(55px, 65px, 0) scale(1.18);
   }
 }
 
@@ -735,8 +735,29 @@ body.screenshot-mode .mode-go {
 
 .staggered-item {
   opacity: 0;
-  animation: rise 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: rise 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   animation-delay: var(--delay, 0ms);
+}
+
+.mode-card.is-daily.staggered-item {
+  animation:
+    rise 0.24s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms) forwards,
+    dailyGlow 2.8s ease-in-out calc(var(--delay, 0ms) + 240ms) infinite;
+}
+
+@keyframes dailyGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(45, 212, 191, 0);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(45, 212, 191, 0.18);
+  }
+}
+
+#screen-home.no-intro .staggered-item {
+  opacity: 1;
+  animation: none;
 }
 
 .pop-in {
@@ -2436,6 +2457,10 @@ h2 {
   .hunt-cell.is-hint {
     animation: none;
     box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.25);
+  }
+
+  #screen-home .mode-card.is-daily.staggered-item {
+    animation: rise 0.001ms forwards;
   }
 }
 

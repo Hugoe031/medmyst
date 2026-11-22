@@ -163,6 +163,7 @@ test("Missed Cases explains itself when the queue is empty", async ({ page }) =>
 });
 
 test("a missed case follows the 1/3/7 review schedule until mastered", async ({ page }) => {
+  test.setTimeout(60_000);
   await freshPage(page);
   await page.locator("#start-btn").click();
   await expect(page.locator("#screen-play")).toBeVisible();
@@ -228,7 +229,7 @@ test("a missed case follows the 1/3/7 review schedule until mastered", async ({ 
   expect(saved.missed.reviews).toBe(3);
   expect(saved.missed.recovered).toBe(1);
   expect(saved.stats.leaderboards.missed).toHaveLength(3);
-}, { timeout: 60_000 });
+});
 
 test("a daily round records the profile and reaches the result screen", async ({ page }) => {
   await freshPage(page);
@@ -377,6 +378,33 @@ test("blocked autoplay retries on the first tap when music is enabled", async ({
   await page.locator("#start-btn").click();
   await expect.poll(() => page.evaluate(() => window.__musicAttempts)).toContain("ok");
   expect((await readProfile(page)).settings.music).toBe(true);
+});
+
+test("home intro is tight and only plays once per page load", async ({ page }) => {
+  await freshPage(page);
+
+  const intro = await page.evaluate(() => {
+    const items = [...document.querySelectorAll("#screen-home .staggered-item")];
+    const lastFinish = items.reduce((latest, el) => {
+      const style = getComputedStyle(el);
+      const delay = Number.parseFloat(style.animationDelay) || 0;
+      const duration = Number.parseFloat(style.animationDuration) || 0;
+      return Math.max(latest, delay + duration);
+    }, 0);
+    return {
+      lastFinish,
+      dailyAnimations: getComputedStyle(document.getElementById("start-btn")).animationName
+    };
+  });
+  expect(intro.lastFinish).toBeLessThanOrEqual(0.4);
+  expect(intro.dailyAnimations).toContain("dailyGlow");
+
+  await page.locator("#settings-btn").click();
+  await page.locator("#settings-back").click();
+
+  await expect(page.locator("#screen-home")).toHaveClass(/no-intro/);
+  const skipped = await page.evaluate(() => getComputedStyle(document.getElementById("start-btn")).animationName);
+  expect(skipped).toBe("none");
 });
 
 test("reminders stay opt-in and explain web limitations", async ({ page }) => {

@@ -324,6 +324,7 @@ let timer = null;
 let lastSpecialty = null;
 let timerEndsAt = 0;     // absolute ms timestamp when the question runs out
 let timerPausedMs = 0;   // ms remaining when the timer was paused
+let homeIntroShown = false;
 
 function showScreen(name) {
   if (name === "home") {
@@ -349,6 +350,13 @@ function showScreen(name) {
   const targetId = `screen-${name}`;
   const target = document.getElementById(targetId);
   if (!target) return;
+
+  // Play the staggered home intro once per page load. Returning to Home should
+  // feel instant, not like the dashboard is being rebuilt every time.
+  if (name === "home") {
+    if (homeIntroShown) target.classList.add("no-intro");
+    else homeIntroShown = true;
+  }
 
   // Switch immediately: the incoming screen animates itself in, so leaving the
   // old one on screen for a timeout only makes navigation feel sluggish and
