@@ -15,15 +15,24 @@ export function dayNumber(date = new Date()) {
   return Math.floor(utc / 86400000);
 }
 
-export function previousDayKey(key) {
-  const [year, month, day] = key.split("-").map(Number);
-  const stamp = Date.UTC(year, month - 1, day) - 86400000;
-  const previous = new Date(stamp);
+// Adds whole days to a YYYY-MM-DD key using UTC arithmetic, so daylight-saving
+// transitions can never shift a scheduled review by an hour.
+export function shiftDayKey(key, days) {
+  const [year, month, day] = String(key ?? "").split("-").map(Number);
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) {
+    return key;
+  }
+  const stamp = Date.UTC(year, month - 1, day) + Math.round(days) * 86400000;
+  const shifted = new Date(stamp);
   return [
-    previous.getUTCFullYear(),
-    String(previous.getUTCMonth() + 1).padStart(2, "0"),
-    String(previous.getUTCDate()).padStart(2, "0")
+    shifted.getUTCFullYear(),
+    String(shifted.getUTCMonth() + 1).padStart(2, "0"),
+    String(shifted.getUTCDate()).padStart(2, "0")
   ].join("-");
+}
+
+export function previousDayKey(key) {
+  return shiftDayKey(key, -1);
 }
 
 export function puzzleNumber(date = new Date()) {

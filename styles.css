@@ -2725,6 +2725,23 @@ h2 {
 .mode-card.is-specialty { border-color: rgba(126, 231, 216, 0.2); }
 .mode-card.is-urgent { border-color: rgba(251, 191, 36, 0.2); }
 .mode-card.is-urgent .mode-glyph { color: var(--accent-warm); }
+.mode-card.is-missed { border-color: rgba(167, 139, 250, 0.28); }
+.mode-card.is-missed::after {
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.3), transparent 66%);
+}
+.mode-card.is-missed .mode-glyph { color: #c4b5fd; }
+
+.mode-badge {
+  min-width: 24px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--accent-warm);
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}
+.mode-badge[hidden] { display: none; }
 
 .combo-tag {
   padding: 4px 10px;

@@ -199,6 +199,7 @@ export function summary(state) {
     bestCombo: state.bestCombo,
     lives: state.lives,
     results: state.rounds.map((round) => ({
+      id: round.case.id,
       category: round.case.category,
       ok: round.solved
     }))

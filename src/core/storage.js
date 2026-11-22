@@ -1,4 +1,5 @@
-import { previousDayKey } from "./scheduler.js";
+import { dayKey, previousDayKey } from "./scheduler.js";
+import { emptyMissed, recordMissedResults, sanitizeMissed } from "./missed.js";
 
 const STORAGE_KEY = "medmyst.v1";
 
@@ -17,7 +18,8 @@ export function emptyStats() {
       daily: [],
       practice: [],
       hunt: [],
-      attack: []
+      attack: [],
+      missed: []
     }
   };
 }
@@ -32,13 +34,13 @@ export function calculateXp({ mode, score, total, points }) {
     // Time Attack racks up points quickly, so points convert at 10:1
     return Math.round((points ?? score ?? 0) / 10);
   }
-  // For daily and practice, score is the number of correct answers
+  // For daily, practice and missed reviews, score is the number of correct answers
   return (score ?? 0) * 15 + (perfect ? 50 : 0);
 }
 
 export function recordHighScore(profile, type, score) {
   const stats = profile.stats ?? emptyStats();
-  const leaderboards = stats.leaderboards ?? { daily: [], practice: [], hunt: [], attack: [] };
+  const leaderboards = stats.leaderboards ?? { daily: [], practice: [], hunt: [], attack: [], missed: [] };
   const list = leaderboards[type] ?? [];
   
   const entry = { score, date: new Date().toISOString() };
@@ -74,6 +76,7 @@ export function emptyProfile() {
     lastDay: null,
     history: {},
     practice: { rounds: 0, correct: 0, answered: 0 },
+    missed: emptyMissed(),
     ads: { watched: 0 },
     xp: 0,
     stats: emptyStats(),
@@ -145,7 +148,7 @@ function updateCategoryStats(categories, results) {
   return next;
 }
 
-export function recordQuiz(profile, { score = 0, total = 0, fastestMs = null, results = [], type = "practice", bestCombo = 0 } = {}) {
+export function recordQuiz(profile, { score = 0, total = 0, fastestMs = null, results = [], type = "practice", bestCombo = 0, day = dayKey() } = {}) {
   const stats = profile.stats ?? emptyStats();
   const perfect = total > 0 && score === total ? 1 : 0;
   const fastest =
@@ -157,6 +160,7 @@ export function recordQuiz(profile, { score = 0, total = 0, fastestMs = null, re
 
   const updatedProfile = {
     ...profile,
+    missed: recordMissedResults(profile.missed ?? emptyMissed(), results, day),
     xp: (profile.xp ?? 0) + xpGained,
     stats: {
       ...stats,
@@ -173,7 +177,7 @@ export function recordQuiz(profile, { score = 0, total = 0, fastestMs = null, re
   return recordHighScore(updatedProfile, type, score);
 }
 
-export function recordHunt(profile, { score = 0, solved = 0, cases = 0, flawless = false, results = [], bestCombo = 0 } = {}) {
+export function recordHunt(profile, { score = 0, solved = 0, cases = 0, flawless = false, results = [], bestCombo = 0, day = dayKey() } = {}) {
   const hunt = profile.hunt ?? { rounds: 0, solved: 0, cases: 0, best: 0 };
   const stats = profile.stats ?? emptyStats();
   const clean = cases > 0 && solved === cases;
@@ -184,6 +188,7 @@ export function recordHunt(profile, { score = 0, solved = 0, cases = 0, flawless
 
   let updatedProfile = {
     ...profile,
+    missed: recordMissedResults(profile.missed ?? emptyMissed(), results, day),
     xp: (profile.xp ?? 0) + xpGained,
     stats: {
       ...stats,
@@ -220,7 +225,7 @@ export function accuracy(profile) {
 }
 
 function sanitizeLeaderboards(value) {
-  const empty = { daily: [], practice: [], hunt: [], attack: [] };
+  const empty = { daily: [], practice: [], hunt: [], attack: [], missed: [] };
   if (!value || typeof value !== "object") {
     return empty;
   }
@@ -275,6 +280,7 @@ export function readProfile(storage) {
     const practice = parsed.practice ?? {};
     const ads = parsed.ads ?? {};
     const hunt = parsed.hunt ?? {};
+    const missed = parsed.missed ?? {};
     const stats = parsed.stats ?? {};
     const mystery = parsed.mystery ?? {};
     const settings = parsed.settings ?? {};
@@ -292,6 +298,7 @@ export function readProfile(storage) {
         correct: Number(practice.correct) || 0,
         answered: Number(practice.answered) || 0
       },
+      missed: sanitizeMissed(missed, dayKey()),
       ads: { watched: Number(ads.watched) || 0 },
       xp: Number(parsed.xp) || 0,
       stats: {

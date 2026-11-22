@@ -125,6 +125,15 @@
               </span>
             </button>
           </div>
+
+          <button id="missed-btn" class="mode-card mode-compact is-missed staggered-item" style="--delay: 420ms" type="button">
+            <span class="mode-glyph" aria-hidden="true">↻</span>
+            <span class="mode-copy">
+              <span class="mode-title">Missed Cases</span>
+              <span class="mode-meta" id="missed-meta">No cases saved yet</span>
+            </span>
+            <span id="missed-count" class="mode-badge" hidden aria-hidden="true">0</span>
+          </button>
         </div>
 
         <div class="missions-card staggered-item" style="--delay: 450ms" aria-label="Daily Missions">
@@ -322,6 +331,29 @@
           <h3>Trophy Room</h3>
           <p class="explanation">Earned clinical milestones.</p>
           <div id="badge-gallery" class="badge-gallery"></div>
+        </div>
+
+        <div class="card staggered-item" style="--delay: 250ms">
+          <h3>Review Progress</h3>
+          <p class="explanation">Cases you miss return after 1, 3 and 7 days.</p>
+          <div class="leaderboard-list">
+            <div class="leader-item">
+              <span>Due Now</span>
+              <b id="review-due">0</b>
+            </div>
+            <div class="leader-item">
+              <span>In Queue</span>
+              <b id="review-queue">0</b>
+            </div>
+            <div class="leader-item">
+              <span>Reviews Completed</span>
+              <b id="review-reviews">0</b>
+            </div>
+            <div class="leader-item">
+              <span>Cases Mastered</span>
+              <b id="review-mastered">0</b>
+            </div>
+          </div>
         </div>
 
         <div class="card staggered-item" style="--delay: 300ms">

@@ -35,6 +35,24 @@ async function playDailyRound(page) {
   await expect(page.locator("#screen-result")).toBeVisible();
 }
 
+async function answerCurrentQuestion(page, correct) {
+  const clicked = await page.evaluate(async (wantCorrect) => {
+    const { questions } = await import("/src/data/questions.js");
+    const prompt = document.getElementById("question-text").textContent;
+    const question = questions.find((item) => item.question === prompt);
+    if (!question) return false;
+
+    const buttons = [...document.querySelectorAll("#options .option:not(.is-eliminated)")];
+    const target = wantCorrect
+      ? buttons.find((button) => button.dataset.option === question.answer)
+      : buttons.find((button) => button.dataset.option !== question.answer);
+    if (!target) return false;
+    target.click();
+    return true;
+  }, correct);
+  expect(clicked).toBe(true);
+}
+
 // Word Hunt is played by tracing each target word through the letter grid.
 // The geometry here mirrors the validated grid builder used by the app.
 async function solveHuntCases(page) {
@@ -132,6 +150,84 @@ test("the update banner shows and dismisses against the real DOM", async ({ page
     return { shown, hiddenAfterDismiss: banner.hidden, reloaded };
   });
   expect(result).toEqual({ shown: true, hiddenAfterDismiss: true, reloaded: false });
+});
+
+test("Missed Cases explains itself when the queue is empty", async ({ page }) => {
+  await freshPage(page);
+  await expect(page.locator("#missed-meta")).toHaveText("No cases saved yet");
+  await expect(page.locator("#missed-count")).toBeHidden();
+
+  await page.locator("#missed-btn").click();
+  await expect(page.locator("#screen-home")).toBeVisible();
+  await expect(page.locator("#toasts")).toContainText("All caught up");
+});
+
+test("a missed case follows the 1/3/7 review schedule until mastered", async ({ page }) => {
+  await freshPage(page);
+  await page.locator("#start-btn").click();
+  await expect(page.locator("#screen-play")).toBeVisible();
+
+  await answerCurrentQuestion(page, false);
+  await page.locator("#next-btn").click();
+  for (let index = 0; index < 4; index += 1) {
+    await answerCurrentQuestion(page, true);
+    await page.locator("#next-btn").click();
+  }
+  await expect(page.locator("#screen-result")).toBeVisible();
+
+  const today = await page.evaluate(async () => (await import("/src/core/scheduler.js")).dayKey());
+  const dayIn = (offset) => page.evaluate(async ({ day, amount }) => (
+    await import("/src/core/scheduler.js")
+  ).shiftDayKey(day, amount), { day: today, amount: offset });
+
+  let saved = await readProfile(page);
+  const missedIds = Object.keys(saved.missed.cases);
+  expect(missedIds).toHaveLength(1);
+  const missedId = missedIds[0];
+  expect(saved.missed.cases[missedId].due).toBe(await dayIn(1));
+
+  // Force each scheduled date to "today" so the whole ladder can be tested.
+  async function reviewDueCase() {
+    await page.evaluate(({ key, id, day }) => {
+      const profile = JSON.parse(localStorage.getItem(key));
+      profile.missed.cases[id].due = day;
+      localStorage.setItem(key, JSON.stringify(profile));
+    }, { key: PROFILE_KEY, id: missedId, day: today });
+
+    await page.reload();
+    await expect(page.locator("#missed-meta")).toHaveText("1 case due now");
+    await expect(page.locator("#missed-count")).toHaveText("1");
+    await page.locator("#missed-btn").click();
+    await expect(page.locator("#screen-play")).toBeVisible();
+    await expect(page.locator("#mode-chip")).toHaveText("Missed Cases");
+
+    await answerCurrentQuestion(page, true);
+    await expect(page.locator("#next-btn")).toHaveText("Results");
+    await page.locator("#next-btn").click();
+    await expect(page.locator("#result-eyebrow")).toHaveText("Missed Cases");
+    await expect(page.locator("#result-streak")).toContainText("Reviews do not change your streak");
+  }
+
+  await reviewDueCase();
+  saved = await readProfile(page);
+  expect(saved.missed.cases[missedId].stage).toBe(1);
+  expect(saved.missed.cases[missedId].due).toBe(await dayIn(3));
+  expect(saved.missed.reviews).toBe(1);
+  expect(saved.missed.recovered).toBe(0);
+
+  await reviewDueCase();
+  saved = await readProfile(page);
+  expect(saved.missed.cases[missedId].stage).toBe(2);
+  expect(saved.missed.cases[missedId].due).toBe(await dayIn(7));
+  expect(saved.missed.reviews).toBe(2);
+
+  await reviewDueCase();
+  saved = await readProfile(page);
+  expect(saved.missed.cases[missedId]).toBeUndefined();
+  expect(saved.missed.mistakes).toBe(1);
+  expect(saved.missed.reviews).toBe(3);
+  expect(saved.missed.recovered).toBe(1);
+  expect(saved.stats.leaderboards.missed).toHaveLength(3);
 });
 
 test("a daily round records the profile and reaches the result screen", async ({ page }) => {

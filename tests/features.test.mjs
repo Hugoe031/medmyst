@@ -2,6 +2,7 @@
 import assert from "node:assert/strict";
 
 import { buildPractice } from "../src/core/practice.js";
+import { emptyMissed } from "../src/core/missed.js";
 import { buildReview, restorePuzzle } from "../src/core/review.js";
 import {
   accuracy,
@@ -232,8 +233,9 @@ test("readProfile fills in hunt and stats defaults for older saves", () => {
     fastestMs: null,
     answered: 0,
     categories: {},
-    leaderboards: { daily: [], practice: [], hunt: [], attack: [] }
+    leaderboards: { daily: [], practice: [], hunt: [], attack: [], missed: [] }
   });
+  assert.deepEqual(profile.missed, emptyMissed());
   assert.deepEqual(profile.badges, []);
   assert.deepEqual(profile.mystery, { solved: 0 });
 });

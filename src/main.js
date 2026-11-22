@@ -53,6 +53,7 @@ import {
 } from "./core/progress.js";
 import { buildShareText, resultGrid } from "./core/share.js";
 import { buildPractice } from "./core/practice.js";
+import { buildMissedRound, missedSummary, nextDueDay } from "./core/missed.js";
 import { buildReview, restorePuzzle } from "./core/review.js";
 import { shuffle } from "./core/rng.js";
 import { requestRewardedHint } from "./rewarded-overlay.js";
@@ -450,6 +451,9 @@ const ui = {
   rankFill: byId("rank-fill"),
   rankHint: byId("rank-hint"),
   practice: byId("practice-btn"),
+  missedBtn: byId("missed-btn"),
+  missedMeta: byId("missed-meta"),
+  missedCount: byId("missed-count"),
   sourcesBtn: byId("sources-btn"),
   privacyBtn: byId("privacy-btn"),
   privacyBack: byId("privacy-back"),
@@ -510,6 +514,10 @@ const ui = {
   profileBack: byId("profile-back"),
   categoryStats: byId("category-stats"),
   badgeGallery: byId("badge-gallery"),
+  reviewDue: byId("review-due"),
+  reviewQueue: byId("review-queue"),
+  reviewReviews: byId("review-reviews"),
+  reviewMastered: byId("review-mastered"),
   settingsBack: byId("settings-back"),
   volSuccess: byId("vol-success"),
   volExplosion: byId("vol-explosion"),
@@ -755,6 +763,16 @@ function renderMissions() {
   });
 }
 
+function shortDayLabel(key) {
+  if (typeof key !== "string") return "";
+  const [year, month, day] = key.split("-").map(Number);
+  if (!year || !month || !day) return key;
+  return new Date(year, month - 1, day).toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric"
+  });
+}
+
 function renderHome() {
   const dateLabel = now.toLocaleDateString(undefined, {
     weekday: "long",
@@ -795,6 +813,22 @@ function renderHome() {
     ui.startLabel.textContent = "Start today's rounds";
     ui.homeStatus.textContent =
       profile.streak > 0 ? `Don't break your ${profile.streak} day streak.` : "";
+  }
+
+  const review = missedSummary(profile.missed, today);
+  if (ui.missedCount) {
+    ui.missedCount.textContent = String(review.due);
+    ui.missedCount.hidden = review.due === 0;
+  }
+  if (ui.missedMeta) {
+    const next = nextDueDay(profile.missed, today);
+    ui.missedMeta.textContent = review.due > 0
+      ? `${review.due} case${review.due === 1 ? "" : "s"} due now`
+      : review.queued > 0 && next
+        ? `Next review ${shortDayLabel(next)}`
+        : review.queued > 0
+          ? "Review scheduled"
+          : "No cases saved yet";
   }
 
   // Celebrate streak milestones
@@ -838,6 +872,12 @@ function renderProfile() {
     item.append(info, bar);
     ui.categoryStats.append(item);
   });
+
+  const review = missedSummary(profile.missed, today);
+  if (ui.reviewDue) ui.reviewDue.textContent = String(review.due);
+  if (ui.reviewQueue) ui.reviewQueue.textContent = String(review.queued);
+  if (ui.reviewReviews) ui.reviewReviews.textContent = String(review.reviews);
+  if (ui.reviewMastered) ui.reviewMastered.textContent = String(review.recovered);
 
   ui.badgeGallery.replaceChildren();
   BADGES.forEach(badge => {
@@ -922,7 +962,10 @@ function renderQuestion() {
   ui.counter.textContent = `${game.index + 1} / ${game.puzzle.length}`;
   ui.questionText.textContent = question.question;
   renderHint();
-  ui.modeChip.hidden = mode !== "practice";
+  ui.modeChip.hidden = mode !== "practice" && mode !== "missed";
+  if (mode === "missed") {
+    ui.modeChip.textContent = "Missed Cases";
+  }
   
   if (ui.comboTag) {
     const mult = multiplier(game);
@@ -1219,7 +1262,7 @@ function nextAttackQuestion() {
       if (!attackActive || attackSeconds <= 0) return;
       const correct = opt === q.answer;
       attackAnswered += 1;
-      attackResults.push({ category: q.category, ok: correct });
+      attackResults.push({ id: q.id, category: q.category, ok: correct });
       if (correct) {
         attackCorrect += 1;
         attackCombo += 1;
@@ -1262,7 +1305,8 @@ function finishTimeAttack() {
       total: attackAnswered,
       results: attackResults,
       type: "attack",
-      bestCombo: attackBestCombo
+      bestCombo: attackBestCombo,
+      day: today
     })
   );
   
@@ -1686,7 +1730,8 @@ function endHunt() {
       cases: stats.cases,
       flawless: stats.lives === HUNT_LIVES,
       results: stats.results,
-      bestCombo: stats.bestCombo
+      bestCombo: stats.bestCombo,
+      day: today
     })
   );
   trackMission("hunt_count");
@@ -1739,7 +1784,8 @@ function endRound() {
     fastestMs: fastestThisRound, 
     results: game.results,
     bestCombo: game.bestCombo,
-    type: mode
+    type: mode,
+    day: today
   }));
   if (mode === "daily") {
     trackMission("daily_count");
@@ -1780,20 +1826,29 @@ function shareTitle() {
   if (activeRound?.mode === "hunt") {
     return "MedMyst Word Hunt";
   }
+  if (activeRound?.mode === "attack") {
+    return "MedMyst Time Attack";
+  }
+  if (activeRound?.mode === "missed") {
+    return "MedMyst Missed Cases";
+  }
   return activeRound?.mode === "practice" ? "MedMyst Practice Round" : `MedMyst Case #${number}`;
 }
 
 function renderResult(round) {
   const isHunt = round.mode === "hunt";
   const isAttack = round.mode === "attack";
+  const isMissed = round.mode === "missed";
   
   ui.resultEyebrow.textContent = isHunt
     ? "Word Hunt"
     : isAttack
       ? "Time Attack"
-      : round.mode === "practice"
-        ? "Practice round"
-        : `Case ${round.number ?? number}`;
+      : isMissed
+        ? "Missed Cases"
+        : round.mode === "practice"
+          ? "Practice round"
+          : `Case ${round.number ?? number}`;
   
   const isPerfect = round.score === round.total && round.total > 0;
   
@@ -1816,9 +1871,11 @@ function renderResult(round) {
   ui.review.hidden = isHunt || isAttack;
   ui.resultStreak.textContent = isHunt || isAttack
     ? `${round.points} points earned. ${isHunt ? "Word Hunt" : "Time Attack"} never changes your streak.`
-    : round.mode === "practice"
-      ? "Practice rounds do not change your streak."
-      : profile.streak > 1
+    : isMissed
+      ? "Reviews do not change your streak."
+      : round.mode === "practice"
+        ? "Practice rounds do not change your streak."
+        : profile.streak > 1
         ? `🔥 ${profile.streak} day streak`
         : profile.streak === 1
           ? "Streak started."
@@ -1847,7 +1904,11 @@ function openReview() {
   }
   const items = buildReview(activeRound.puzzle, activeRound.results);
   ui.reviewTitle.textContent =
-    activeRound.mode === "practice" ? "Practice review" : `Case ${activeRound.number} review`;
+    activeRound.mode === "missed"
+      ? "Missed Cases review"
+      : activeRound.mode === "practice"
+        ? "Practice review"
+        : `Case ${activeRound.number} review`;
   ui.reviewList.replaceChildren();
 
   items.forEach((item) => {
@@ -1920,7 +1981,7 @@ async function handleShare() {
     score: activeRound.score,
     total: activeRound.total,
     results: activeRound.results,
-    streak: activeRound.mode === "practice" ? 0 : profile.streak,
+    streak: activeRound.mode === "practice" || activeRound.mode === "missed" ? 0 : profile.streak,
     url: location.href
   });
 
@@ -1945,6 +2006,30 @@ async function handleShare() {
     fallback.textContent = text;
     ui.share.after(fallback);
   }
+}
+
+function startMissedRound() {
+  refreshDateContext();
+  const round = buildMissedRound(questions, profile.missed, today, Date.now());
+  if (round.length === 0) {
+    const queued = missedSummary(profile.missed, today).queued;
+    toast(
+      queued > 0 ? "⏳" : "✨",
+      queued > 0 ? "Not due yet" : "All caught up",
+      queued > 0 ? "Your missed cases are still scheduled for later." : "Miss a case and it will return for review."
+    );
+    return;
+  }
+
+  lastSpecialty = null;
+  mode = "missed";
+  fastestThisRound = null;
+  game = createGame(round);
+  persistSession();
+  ui.modeChip.hidden = false;
+  ui.modeChip.textContent = "Missed Cases";
+  renderQuestion();
+  showScreen("play");
 }
 
 function startRound(nextMode) {
@@ -2025,6 +2110,7 @@ ui.profileBtn.addEventListener("click", openProfile);
 ui.settingsBtn.addEventListener("click", () => showScreen("settings"));
 ui.start.addEventListener("click", () => startRound("daily"));
 ui.practice.addEventListener("click", () => startRound("practice"));
+ui.missedBtn?.addEventListener("click", startMissedRound);
 ui.specialtiesBtn.addEventListener("click", () => showScreen("specialties"));
 ui.specialtiesBack.addEventListener("click", () => showScreen("home"));
 ui.timeAttackBtn.addEventListener("click", startTimeAttack);
@@ -2128,7 +2214,11 @@ try {
       lastSpecialty = savedSession.lastSpecialty;
       huntHintUsed = savedSession.huntHintUsed || false;
       
-      const sessionLabel = mode === "daily" ? "Daily Rounds" : mode === "practice" ? "Practice" : "Word Hunt";
+      const sessionLabel =
+        mode === "daily" ? "Daily Rounds"
+        : mode === "missed" ? "Missed Cases"
+        : mode === "practice" ? "Practice"
+        : "Word Hunt";
       toast("⏱️", "Session Resumed", `Continuing your ${sessionLabel} progress`);
 
       if (game && game.phase === "playing") {
