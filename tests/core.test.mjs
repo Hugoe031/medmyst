@@ -23,7 +23,15 @@ import {
 } from "../src/core/game.js";
 import { applyCompletion, emptyProfile } from "../src/core/storage.js";
 import { buildShareText, resultGrid } from "../src/core/share.js";
-import { hasNativeRewarded, nativeAds, showNativeRewarded } from "../src/core/rewarded.js";
+import {
+  getRewardedUnitId,
+  hasNativeRewarded,
+  nativeAds,
+  REWARDED_PROD_UNIT,
+  REWARDED_TEST_UNIT,
+  showNativeRewarded
+} from "../src/core/rewarded.js";
+import { RELEASE_BUILD } from "../src/core/build-config.js";
 import { questions, deckVersion } from "../src/data/questions.js";
 
 const localDate = (year, month, day) => new Date(year, month - 1, day, 12, 0, 0);
@@ -229,5 +237,12 @@ test("rewarded bridge is inert without a native plugin", () => {
 
 test("native rewarded resolves false when the bridge is missing", async () => {
   assert.equal(await showNativeRewarded(), false);
+});
+
+test("rewarded ad unit follows the build configuration", () => {
+  assert.equal(RELEASE_BUILD, false, "source builds must not use live ad IDs");
+  assert.equal(getRewardedUnitId(), REWARDED_TEST_UNIT);
+  assert.equal(getRewardedUnitId(false), REWARDED_TEST_UNIT);
+  assert.equal(getRewardedUnitId(true), REWARDED_PROD_UNIT);
 });
 

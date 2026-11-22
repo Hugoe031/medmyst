@@ -1,10 +1,15 @@
+import { RELEASE_BUILD } from "./build-config.js";
+
 export const REWARDED_PROD_UNIT = "ca-app-pub-9621993493673737/3973696068";
 
 // Google's always-valid test unit. AdMob rejects a production unit ID in a
-// debug build ("Publisher misconfiguration"), which currently breaks every
-// rewarded hint. Use TEST_UNIT in debug builds and switch to
-// REWARDED_PROD_UNIT only after the app is live in the store.
+// debug build ("Publisher misconfiguration"), which breaks rewarded hints.
+// The release build script flips RELEASE_BUILD so only store builds use PROD.
 export const REWARDED_TEST_UNIT = "ca-app-pub-3940256099942544/6300978116";
+
+export function getRewardedUnitId(release = RELEASE_BUILD) {
+  return release ? REWARDED_PROD_UNIT : REWARDED_TEST_UNIT;
+}
 
 export async function initializeAdMob() {
   const ads = globalThis.Capacitor?.Plugins?.AdMob;
@@ -54,7 +59,7 @@ export function nativeAds() {
   return globalThis.Capacitor?.Plugins?.AdMob ?? null;
 }
 
-export async function showNativeRewarded(adId = REWARDED_PROD_UNIT) {
+export async function showNativeRewarded(adId = getRewardedUnitId()) {
   const ads = globalThis.Capacitor?.Plugins?.AdMob;
   if (!ads) return false;
   

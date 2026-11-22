@@ -49,6 +49,6 @@ function run(command, args, cwd) {
   }
 }
 
-run("node", ["scripts/build-web.mjs"]);
+run("node", ["scripts/build-web.mjs", ...(TASK === "bundleRelease" ? ["--release"] : [])]);
 run("npx", ["cap", "sync", "android"]);
 run(process.platform === "win32" ? ".\\gradlew.bat" : "./gradlew", [TASK], "android");

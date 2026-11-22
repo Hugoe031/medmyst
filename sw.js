@@ -1,4 +1,4 @@
-const CACHE = "medmyst-v7";
+const CACHE = "medmyst-v8";
 const ASSETS = [
   "./",
   "./index.html",
@@ -25,6 +25,7 @@ const ASSETS = [
   "./src/core/wordgrid.js",
   "./src/core/hunt.js",
   "./src/core/missions.js",
+  "./src/core/build-config.js",
   "./src/core/update.js",
   "./src/rewarded-overlay.js",
   "./assets/ambience.mp3",
