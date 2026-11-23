@@ -425,13 +425,31 @@ test("reminders stay opt-in and explain web limitations", async ({ page }) => {
   await expect(page.locator("#reminder-prompt")).toBeHidden();
 });
 
-test("screenshot mode survives a reload", async ({ page }) => {
+test("screenshot mode stays navigable and survives a reload", async ({ page }) => {
   await freshPage(page);
   await page.locator("#settings-btn").click();
   await setCheckbox(page, "screenshot-mode", true);
-  await page.reload();
   await expect(page.locator("body")).toHaveClass(/screenshot-mode/);
   expect((await readProfile(page)).settings.screenshotMode).toBe(true);
+
+  // It must never lock scrolling, hide navigation, or disable game controls.
+  const bodyStyles = await page.evaluate(() => ({
+    position: getComputedStyle(document.body).position,
+    overflow: getComputedStyle(document.body).overflow
+  }));
+  expect(bodyStyles.position).not.toBe("fixed");
+  expect(bodyStyles.overflow).not.toBe("hidden");
+  await expect(page.locator("#settings-btn")).toBeVisible();
+  await expect(page.locator("#settings-back")).toBeVisible();
+  await expect(page.locator("#screenshot-mode")).toBeChecked();
+
+  await page.locator("#settings-back").click();
+  await expect(page.locator("#screen-home")).toBeVisible();
+  await page.locator("#start-btn").click();
+  await expect(page.locator("#screen-play")).toBeVisible();
+
+  await page.reload();
+  await expect(page.locator("body")).toHaveClass(/screenshot-mode/);
 });
 
 test("a finished Word Hunt is only recorded once", async ({ page }) => {

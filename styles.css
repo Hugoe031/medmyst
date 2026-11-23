@@ -231,18 +231,10 @@ body.is-hidden .orb {
   }
 }
 
-/* Screenshot Mode - Shrinks everything to fit on one screen */
-body.screenshot-mode {
-  overflow: hidden !important;
-  height: 100vh !important;
-  width: 100vw !important;
-  position: fixed;
-  inset: 0;
-}
-
-body.screenshot-mode .app {
+/* Screenshot Mode - compact the home dashboard for a clean capture.
+   Navigation and controls stay available so the mode can always be exited. */
+body.screenshot-mode:has(#screen-home:not([hidden])) .app {
   max-width: 400px;
-  height: 100%;
   transform: scale(0.78);
   transform-origin: top center;
   gap: 8px;
@@ -250,19 +242,10 @@ body.screenshot-mode .app {
   margin: 0 auto;
 }
 
-/* Hide interactive elements and metadata for clean screenshot */
-body.screenshot-mode .topbar-actions,
-body.screenshot-mode .brand-mark,
-body.screenshot-mode .brand-name,
-body.screenshot-mode .lede,
-body.screenshot-mode .footnote,
-body.screenshot-mode .pill-btn,
-body.screenshot-mode .icon-btn,
-body.screenshot-mode .btn-stack {
-  display: none !important;
-}
-
-body.screenshot-mode .profile-pill {
+/* Hide only decorative details on the home screen. */
+body.screenshot-mode #screen-home .lede,
+body.screenshot-mode #screen-home .footnote,
+body.screenshot-mode #screen-home .mode-go {
   display: none !important;
 }
 
@@ -393,23 +376,8 @@ body.screenshot-mode .profile-pill {
   box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.1);
 }
 
-body.screenshot-mode .topbar {
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-body.screenshot-mode .topbar::after {
-  content: "MedMyst Dashboard";
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--accent);
-}
-
 body.screenshot-mode .mode-card {
   padding: 10px !important;
-  cursor: default;
-  pointer-events: none;
 }
 
 body.screenshot-mode .rank-card {
